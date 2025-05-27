@@ -1,0 +1,37 @@
+server:
+  port: 8090
+
+eureka:
+  client:
+    register-with-eureka: false
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      routes:
+        - id: fastapi
+          uri: http://localhost:8000
+          predicates:
+            - Path=/api/fast/**
+          filters:
+            - StripPrefix=2
+        - id: analyse
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/analyse/**
+          filters:
+            - StripPrefix=2
