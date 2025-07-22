@@ -88,10 +88,6 @@ public class GmailController {
         }
         return gmailService.fetchEmails(client.getAccessToken().getTokenValue());
     }
-    @GetMapping("/hello")
-    public String hello(){
-        return "hi";
-    }
     @GetMapping("/user/authenticated")
     public boolean isAuthenticated(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
@@ -168,46 +164,7 @@ public class GmailController {
 
         return ResponseEntity.ok(result);
     }
-    /* @PostMapping("/emails/{emailId}/attachments/{attachmentId}/process")
-     public ResponseEntity<String> processAttachment(
-             @PathVariable String emailId,
-             @PathVariable String attachmentId,
-             OAuth2AuthenticationToken authentication,
-             @RequestBody EmailAttachment emailAttachment) throws IOException {
 
-         // 1. Authentication check
-         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-                 "google",
-                 authentication.getName()
-         );
-         if (client == null) {
-             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-         }
-
-         // 2. Get attachment data
-         gmailService.loadFileData(
-                 client.getAccessToken().getTokenValue(),
-                 emailId,
-                 emailAttachment
-         );
-
-         // 3. Decode and write file (optional for debugging)
-         byte[] fileBytes = GmailService.decodeUrlSafeBase64(emailAttachment.getFileData());
-         Files.write(Paths.get("test_output.pdf"), fileBytes); // Optional debug write
-
-         // 4. Convert byte[] into MultipartFile
-         MultipartFile multipartFile = new MockMultipartFile(
-                 "file",
-                 emailAttachment.getFileName(),
-                 emailAttachment.getMimeType(),
-                 fileBytes
-         );
-
-         // 5. Send to FastAPI using the working method
-         String result = fastApiClient.sendFileToFastAPI(multipartFile);
-
-         return ResponseEntity.ok(result);
-     }*/
     @PostMapping(value="testsending", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String testsending(@RequestBody MultipartFile file){
         System.out.println(file.getContentType());

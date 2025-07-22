@@ -120,14 +120,14 @@ Hysterosalpingography-cervix:
      - High: 3
      - Undefined: Omit the field
    - Serology:
-       - Negative: 1
+     - Negative: 1
      - Positive: 2
      - Equivoqual: 3
      - Undefined: Omit the field
      - Bacteriology:
-       - Negative: 1
+     - Negative: 1
      - Positive: 2
-          - Undefined: Omit the field
+     - Undefined: Omit the field
    - Radiology:
      - Normal: 1
      - abnormal: 2

@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/Services/discovery/pom.xml" />
         <option value="$PROJECT_DIR$/Services/analyse/pom.xml" />
         <option value="$PROJECT_DIR$/Services/gateaway/pom.xml" />
+        <option value="$PROJECT_DIR$/Services/MedicalReport/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
