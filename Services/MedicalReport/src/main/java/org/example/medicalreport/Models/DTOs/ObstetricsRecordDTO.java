@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.medicalreport.Models.enums.ConceptionType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,9 @@ public class ObstetricsRecordDTO {
     private ConceptionType conceptionType;
     private LocalDate conceptionDate;
     private LocalDate ddr;
+    private LocalDate date;
     private int nfoetus;
     private String comment;
+    private List<ConsultationDTO> consultations;
     private Long medicalRecordId;
 }

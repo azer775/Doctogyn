@@ -1,0 +1,20 @@
+<div *ngIf="consultation; else loading">
+    <h2>Consultation Details</h2>
+    <p>ID: {{ consultation.id }}</p>
+    <p>Date: {{ consultation.date | date:'yyyy-MM-dd' }}</p>
+    <p>Signs Negates: {{ consultation.signsNegates || 'None' }}</p>
+    <p>Weight: {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
+    <p>Length: {{ consultation.length }} cm</p>
+    <p>BMI: {{ consultation.bmi }}</p>
+    <p>Breasts: {{ consultation.breasts }}</p>
+    <p>Examination: {{ consultation.examination || 'None' }}</p>
+    <p>Vagina: {{ consultation.vagina }}</p>
+    <p>Consultation Type: {{ consultation.consultationType }}</p>
+    <p>Gynecology Sub-Record ID: {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
+    <p>Fertility Sub-Record ID: {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
+    <p>Obstetrics Record ID: {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
+</div>
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>
+<div *ngIf="error">{{ error }}</div>

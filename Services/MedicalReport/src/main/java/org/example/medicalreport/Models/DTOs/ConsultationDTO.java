@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.medicalreport.Models.enums.ConsultationType;
+import org.example.medicalreport.Models.enums.State;
 
 import java.time.LocalDate;
 
@@ -16,11 +17,12 @@ public class ConsultationDTO {
     private Long id;
     private LocalDate date;
     private String signsNegates;
-    private LocalDate weight;
+    private double weight;
     private double length;
     private double bmi;
-    private double breasts;
-    private String vagina;
+    private State breasts;
+    private State vagina;
+    private String examination;
     private ConsultationType consultationType;
     private Long gynecologySubRecordId;
     private Long fertilitySubRecordId;

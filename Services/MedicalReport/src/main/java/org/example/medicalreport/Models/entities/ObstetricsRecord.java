@@ -6,6 +6,7 @@ import org.example.medicalreport.Models.enums.ConceptionType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class ObstetricsRecord {
     private ConceptionType conceptionType;
     private LocalDate conceptionDate;
     private LocalDate ddr;
+    private LocalDate date;
     private int nfoetus;
     private String comment;
 
@@ -30,67 +32,4 @@ public class ObstetricsRecord {
     @ManyToOne
     private MedicalRecord medicalRecord;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ConceptionType getConceptionType() {
-        return conceptionType;
-    }
-
-    public void setConceptionType(ConceptionType conceptionType) {
-        this.conceptionType = conceptionType;
-    }
-
-    public LocalDate getConceptionDate() {
-        return conceptionDate;
-    }
-
-    public void setConceptionDate(LocalDate conceptionDate) {
-        this.conceptionDate = conceptionDate;
-    }
-
-    public LocalDate getDdr() {
-        return ddr;
-    }
-
-    public void setDdr(LocalDate ddr) {
-        this.ddr = ddr;
-    }
-
-    public int getNfoetus() {
-        return nfoetus;
-    }
-
-    public void setNfoetus(int nfoetus) {
-        this.nfoetus = nfoetus;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public List<Consultation> getConsultations() {
-        return consultations;
-    }
-
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
 }

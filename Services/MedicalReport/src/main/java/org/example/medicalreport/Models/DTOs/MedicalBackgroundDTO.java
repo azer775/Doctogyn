@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.medicalreport.Models.enums.Allergies;
-import org.example.medicalreport.Models.enums.ChirurgicalPathology;
-import org.example.medicalreport.Models.enums.FamilialPathology;
-import org.example.medicalreport.Models.enums.MedicalPathology;
+import org.example.medicalreport.Models.enums.*;
 
 @Data
 @AllArgsConstructor
@@ -20,5 +17,6 @@ public class MedicalBackgroundDTO {
     private MedicalPathology medicalPathology;
     private ChirurgicalPathology chirurgicalPathology;
     private String surgicalApproach;
+    private BackgroundType backgroundType;
     private Long medicalRecordId;
 }

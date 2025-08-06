@@ -1,0 +1,38 @@
+    <form [formGroup]="fertilityForm" (ngSubmit)="onSubmit()">
+      <label for="age">Age:</label>
+      <input type="number" id="age" formControlName="age">
+
+      <label for="infertility">Infertility Date:</label>
+      <input type="date" id="infertility" formControlName="infertility">
+
+      <label for="duration">Duration:</label>
+      <input type="text" id="duration" formControlName="duration">
+
+      <label for="cycleLength">Cycle Length (days):</label>
+      <input type="number" id="cycleLength" formControlName="cycleLength">
+
+      <label for="cycleMin">Cycle Min (days):</label>
+      <input type="number" id="cycleMin" formControlName="cycleMin">
+
+      <label for="cycleMax">Cycle Max (days):</label>
+      <input type="number" id="cycleMax" formControlName="cycleMax">
+
+      <label for="dysmenorrhea">Dysmenorrhea:</label>
+      <input type="checkbox" id="dysmenorrhea" formControlName="dysmenorrhea">
+
+      <label for="menorrhagia">Menorrhagia:</label>
+      <input type="checkbox" id="menorrhagia" formControlName="menorrhagia">
+
+      <label for="metrorrhagia">Metrorrhagia:</label>
+      <input type="checkbox" id="metrorrhagia" formControlName="metrorrhagia">
+
+      <label for="civilState">Civil State:</label>
+      <select id="civilState" formControlName="civilState">
+        <option *ngFor="let state of CivilStates" [value]="state">{{ state }}</option>
+      </select>
+
+      <label for="comment">Comment:</label>
+      <textarea id="comment" formControlName="comment"></textarea>
+
+      <button type="submit" [disabled]="fertilityForm.invalid">Submit</button>
+    </form>

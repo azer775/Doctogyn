@@ -1,0 +1,10 @@
+.editor {
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.editor textarea {
+  width: 100%;
+  min-height: 300px;
+}

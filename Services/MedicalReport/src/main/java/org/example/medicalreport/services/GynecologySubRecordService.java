@@ -1,6 +1,8 @@
 package org.example.medicalreport.services;
 
+import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
+import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.GynecologySubRecord;
 import org.example.medicalreport.Models.entities.MedicalRecord;
 import org.example.medicalreport.repositories.GynecologySubRecordRepository;
@@ -14,12 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class GynecologySubRecordService {
-/*
+
     @Autowired
     private GynecologySubRecordRepository gynecologySubRecordRepository;
 
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private ConsultationService consultationService;
 
     public GynecologySubRecordDTO createGynecologySubRecord(GynecologySubRecordDTO dto) {
         GynecologySubRecord gynecologySubRecord = mapToEntity(dto);
@@ -70,6 +74,22 @@ public class GynecologySubRecordService {
                 .medicalRecordId(gynecologySubRecord.getMedicalRecord() != null ? gynecologySubRecord.getMedicalRecord().getId() : null)
                 .build();
     }
+    public GynecologySubRecordDTO getSubRecordConsultationIdsAndDates(long id){
+        Optional<GynecologySubRecord> subRecord = gynecologySubRecordRepository.findById(id);
+        if(subRecord.isPresent()){
+            GynecologySubRecord gynecologySubRecord= subRecord.get();
+            GynecologySubRecordDTO dto=this.mapToDTO(gynecologySubRecord);
+            dto.setConsultations(gynecologySubRecord.getConsultations().stream().map(consultationService::mapToDateAndId).toList());
+            return dto;
+        }
+        return null;
+    }
+    public GynecologySubRecordDTO mapToDateAndId(GynecologySubRecord gynecologySubRecord){
+        return GynecologySubRecordDTO.builder()
+                .id(gynecologySubRecord.getId())
+                .date(gynecologySubRecord.getDate())
+                .build();
+    }
 
     private GynecologySubRecord mapToEntity(GynecologySubRecordDTO dto) {
         GynecologySubRecord gynecologySubRecord = GynecologySubRecord.builder()
@@ -90,5 +110,5 @@ public class GynecologySubRecordService {
             medicalRecord.ifPresent(gynecologySubRecord::setMedicalRecord);
         }
         return gynecologySubRecord;
-    }*/
+    }
 }

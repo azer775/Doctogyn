@@ -1,0 +1,46 @@
+<form [formGroup]="consultationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" formControlName="date">
+  </div>
+  <div>
+    <label for="signsNegates">Signs Negates:</label>
+    <input type="text" id="signsNegates" formControlName="signsNegates">
+  </div>
+  <div>
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" formControlName="weight">
+  </div>
+  <div>
+    <label for="length">Length (cm):</label>
+    <input type="number" id="length" formControlName="length">
+  </div>
+  <div>
+    <label for="bmi">BMI:</label>
+    <input type="number" id="bmi" formControlName="bmi">
+  </div>
+  <div>
+    <label for="breasts">Breasts:</label>
+    <select id="breasts" formControlName="breasts">
+      <option *ngFor="let status of Status" [value]="status">{{status}}</option>
+    </select>
+  </div>
+  <div>
+    <label for="examination">Examination:</label>
+    <app-editor [config]="defaultConfig" [content]="content" formControlName="examination"></app-editor>
+  </div>
+  <div>
+    <label for="vagina">Vagina:</label>
+    <select id="vagina" formControlName="vagina">
+      <option *ngFor="let status of Status" [value]="status">{{status}}</option>
+    </select>
+  </div>
+  <div>
+    <label for="consultationType">Consultation Type:</label>
+    <select id="consultationType" formControlName="consultationType">
+      <option value="" disabled>Select type</option>
+      <option *ngFor="let type of consultationTypes" [value]="type">{{type}}</option>
+    </select>
+  </div>
+  <button type="submit">Submit</button>
+</form>

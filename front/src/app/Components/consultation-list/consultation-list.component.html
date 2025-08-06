@@ -1,0 +1,38 @@
+    <div class="container mx-auto p-4">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">Consultation List</h2>
+      <div *ngIf="consultations && consultations.length > 0; else noConsultations">
+        <div *ngFor="let consultation of consultations" class="border-b border-gray-200 py-2">
+          <div class="flex justify-between items-center">
+            <p class="text-lg text-gray-700">
+              Date: {{ consultation.date | date:'yyyy-MM-dd' }}
+            </p>
+            <button
+              (click)="toggleDetails(consultation.id)"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded transition duration-200"
+            >
+              {{ showDetails[consultation.id] ? 'Hide Details' : 'Show Details' }}
+            </button>
+          </div>
+          <div
+            *ngIf="showDetails[consultation.id]"
+            class="mt-2 p-4 bg-gray-50 rounded-lg shadow-sm"
+          >
+            <p class="text-gray-600"><strong>ID:</strong> {{ consultation.id }}</p>
+            <p class="text-gray-600"><strong>Signs Negates:</strong> {{ consultation.signsNegates || 'None' }}</p>
+            <p class="text-gray-600"><strong>Weight:</strong> {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
+            <p class="text-gray-600"><strong>Length:</strong> {{ consultation.length }} cm</p>
+            <p class="text-gray-600"><strong>BMI:</strong> {{ consultation.bmi }}</p>
+            <p class="text-gray-600"><strong>Breasts:</strong> {{ consultation.breasts }}</p>
+            <p class="text-gray-600"><strong>Examination:</strong> {{ consultation.examination || 'None' }}</p>
+            <p class="text-gray-600"><strong>Vagina:</strong> {{ consultation.vagina }}</p>
+            <p class="text-gray-600"><strong>Consultation Type:</strong> {{ consultation.consultationType }}</p>
+            <p class="text-gray-600"><strong>Gynecology Sub-Record ID:</strong> {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
+            <p class="text-gray-600"><strong>Fertility Sub-Record ID:</strong> {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
+            <p class="text-gray-600"><strong>Obstetrics Record ID:</strong> {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noConsultations>
+        <p class="text-gray-500">No consultations available.</p>
+      </ng-template>
+    </div>

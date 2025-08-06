@@ -62,8 +62,14 @@ public class ConsultationService {
     public void deleteConsultation(Long id) {
         consultationRepository.deleteById(id);
     }
+    public ConsultationDTO mapToDateAndId(Consultation consultation) {
+        return ConsultationDTO.builder()
+                .id(consultation.getId())
+                .date(consultation.getDate())
+                .build();
+    }
 
-    private ConsultationDTO mapToDTO(Consultation consultation) {
+    public ConsultationDTO mapToDTO(Consultation consultation) {
         return ConsultationDTO.builder()
                 .id(consultation.getId())
                 .date(consultation.getDate())
@@ -73,6 +79,7 @@ public class ConsultationService {
                 .bmi(consultation.getBmi())
                 .breasts(consultation.getBreasts())
                 .vagina(consultation.getVagina())
+                .examination(consultation.getExamination())
                 .consultationType(consultation.getConsultationType())
                 .gynecologySubRecordId(consultation.getGynecologySubRecord() != null ? consultation.getGynecologySubRecord().getId() : null)
                 .fertilitySubRecordId(consultation.getFertilitySubRecord() != null ? consultation.getFertilitySubRecord().getId() : null)
@@ -80,7 +87,7 @@ public class ConsultationService {
                 .build();
     }
 
-    private Consultation mapToEntity(ConsultationDTO dto) {
+    public Consultation mapToEntity(ConsultationDTO dto) {
         Consultation consultation = Consultation.builder()
                 .date(dto.getDate())
                 .signsNegates(dto.getSignsNegates())
@@ -89,6 +96,7 @@ public class ConsultationService {
                 .bmi(dto.getBmi())
                 .breasts(dto.getBreasts())
                 .vagina(dto.getVagina())
+                .examination(dto.getExamination())
                 .consultationType(dto.getConsultationType())
                 .build();
         if (dto.getGynecologySubRecordId() != null) {

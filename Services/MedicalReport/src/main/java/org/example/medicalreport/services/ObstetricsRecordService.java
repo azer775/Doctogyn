@@ -1,6 +1,8 @@
 package org.example.medicalreport.services;
 
+import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.ObstetricsRecordDTO;
+import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.MedicalRecord;
 import org.example.medicalreport.Models.entities.ObstetricsRecord;
 import org.example.medicalreport.repositories.MedicalRecordRepository;
@@ -19,6 +21,8 @@ public class ObstetricsRecordService {
 
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private ConsultationService consultationService;
 
     public ObstetricsRecordDTO createObstetricsRecord(ObstetricsRecordDTO dto) {
         ObstetricsRecord obstetricsRecord = mapToEntity(dto);
@@ -47,14 +51,31 @@ public class ObstetricsRecordService {
         }
         return null;
     }
+    public ObstetricsRecordDTO mapToDateAndId(ObstetricsRecord obstetricsRecord) {
+        return ObstetricsRecordDTO.builder()
+                .id(obstetricsRecord.getId())
+                .conceptionDate(obstetricsRecord.getConceptionDate())
+                .build();
+    }
 
     public void deleteObstetricsRecord(Long id) {
         obstetricsRecordRepository.deleteById(id);
+    }
+    public ObstetricsRecordDTO getSubRecordConsultationIdsAndDates(long id){
+        Optional<ObstetricsRecord> subRecord = obstetricsRecordRepository.findById(id);
+        if(subRecord.isPresent()){
+            ObstetricsRecord obstetricsRecord= subRecord.get();
+            ObstetricsRecordDTO dto=this.mapToDTO(obstetricsRecord);
+            dto.setConsultations(obstetricsRecord.getConsultations().stream().map(consultationService::mapToDateAndId).toList());
+            return dto;
+        }
+        return null;
     }
 
     private ObstetricsRecordDTO mapToDTO(ObstetricsRecord obstetricsRecord) {
         return ObstetricsRecordDTO.builder()
                 .id(obstetricsRecord.getId())
+                .date(obstetricsRecord.getDate())
                 .conceptionType(obstetricsRecord.getConceptionType())
                 .conceptionDate(obstetricsRecord.getConceptionDate())
                 .ddr(obstetricsRecord.getDdr())
@@ -68,9 +89,11 @@ public class ObstetricsRecordService {
         ObstetricsRecord obstetricsRecord = ObstetricsRecord.builder()
                 .conceptionType(dto.getConceptionType())
                 .conceptionDate(dto.getConceptionDate())
+                .date(dto.getDate())
                 .ddr(dto.getDdr())
                 .nfoetus(dto.getNfoetus())
                 .comment(dto.getComment())
+                .consultations(dto.getConsultations().stream().map(consultationService::mapToEntity).toList())
                 .build();
         if (dto.getMedicalRecordId() != null) {
             Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findById(dto.getMedicalRecordId());

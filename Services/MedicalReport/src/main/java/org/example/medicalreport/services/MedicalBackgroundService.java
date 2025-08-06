@@ -52,7 +52,7 @@ public class MedicalBackgroundService {
         medicalBackgroundRepository.deleteById(id);
     }
 
-    private MedicalBackgroundDTO mapToDTO(MedicalBackground medicalBackground) {
+    public MedicalBackgroundDTO mapToDTO(MedicalBackground medicalBackground) {
         return MedicalBackgroundDTO.builder()
                 .id(medicalBackground.getId())
                 .familialPathology(medicalBackground.getFamilialPathology())
@@ -60,22 +60,30 @@ public class MedicalBackgroundService {
                 .medicalPathology(medicalBackground.getMedicalPathology())
                 .chirurgicalPathology(medicalBackground.getChirurgicalPathology())
                 .surgicalApproach(medicalBackground.getSurgicalApproach())
+                .backgroundType(medicalBackground.getBackgroundType())
                 .medicalRecordId(medicalBackground.getMedicalRecord() != null ? medicalBackground.getMedicalRecord().getId() : null)
                 .build();
     }
 
-    private MedicalBackground mapToEntity(MedicalBackgroundDTO dto) {
+    public MedicalBackground mapToEntity(MedicalBackgroundDTO dto) {
         MedicalBackground medicalBackground = MedicalBackground.builder()
                 .familialPathology(dto.getFamilialPathology())
                 .allergies(dto.getAllergies())
                 .medicalPathology(dto.getMedicalPathology())
                 .chirurgicalPathology(dto.getChirurgicalPathology())
                 .surgicalApproach(dto.getSurgicalApproach())
+                .backgroundType(dto.getBackgroundType())
                 .build();
         if (dto.getMedicalRecordId() != null) {
             Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findById(dto.getMedicalRecordId());
             medicalRecord.ifPresent(medicalBackground::setMedicalRecord);
         }
         return medicalBackground;
+    }
+
+
+    public List<MedicalBackgroundDTO> addMBList(List<MedicalBackgroundDTO> mbList) {
+        List<MedicalBackground> list = mbList.stream().map(this::mapToEntity).toList();
+        return medicalBackgroundRepository.saveAll(list).stream().map(this::mapToDTO).toList();
     }
 }

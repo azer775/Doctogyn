@@ -1,0 +1,109 @@
+/* Note: Assuming Tailwind is included via a build process or CDN. Adjust imports if needed. */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Form Styles */
+.medical-form {
+  @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+.form-section {
+  @apply mb-6;
+}
+
+.form-row {
+  @apply flex flex-wrap gap-4;
+}
+
+.form-group {
+  @apply flex-1 min-w-[200px];
+}
+
+.form-group label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3;
+  @apply focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+}
+
+.form-select {
+  @apply pl-3 pr-10;
+}
+
+.form-textarea {
+  @apply min-h-[100px];
+}
+
+.error-message {
+  @apply mt-1 text-sm text-red-600;
+}
+
+.form-actions {
+  @apply mt-6 flex justify-end space-x-3;
+}
+
+.btn-delete {
+  @apply px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium;
+  @apply text-gray-700 bg-white hover:bg-gray-50;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+/* Records List Styles */
+.records-container {
+  @apply flex flex-col gap-6 mt-8;
+}
+
+.record-section {
+  @apply bg-white p-4 rounded-lg shadow;
+}
+
+.record-section h2 {
+  @apply text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200;
+}
+
+.record-list {
+  @apply space-y-2 mb-4;
+}
+
+.record-item {
+  @apply p-2 bg-gray-50 rounded text-sm text-gray-700;
+}
+
+.btn-add {
+  @apply w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm font-medium;
+}
+
+.merged-records-section {
+  @apply bg-white p-4 rounded-lg shadow mt-6;
+}
+
+.merged-header {
+  @apply flex justify-between items-center mb-4;
+}
+
+.merged-list-container {
+  @apply mt-4;
+}
+
+.merged-list {
+  @apply space-y-2;
+}
+
+.merged-item {
+  @apply p-2 bg-gray-50 rounded text-sm text-gray-700;
+}
+
+.merged-empty {
+  @apply text-sm text-gray-500;
+}
+
+.btn-merge {
+  @apply px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm font-medium;
+}

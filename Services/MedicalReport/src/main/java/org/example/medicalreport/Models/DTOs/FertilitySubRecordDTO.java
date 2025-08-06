@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.medicalreport.Models.entities.MedicalRecord;
 import org.example.medicalreport.Models.enums.CivilState;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,8 @@ public class FertilitySubRecordDTO {
     private Long id;
     private int age;
     private LocalDate infertility;
-    private Duration duration;
+    private LocalDate date;
+    private long duration;
     private int cycleLength;
     private int cycleMin;
     private int cycleMax;
@@ -26,5 +28,6 @@ public class FertilitySubRecordDTO {
     private Boolean metrorrhagia;
     private CivilState civilState;
     private String comment;
+    private List<ConsultationDTO> consultations;
     private Long medicalRecordId;
 }

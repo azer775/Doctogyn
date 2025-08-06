@@ -9,10 +9,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/medical-backgrounds")
 public class MedicalBackgroundController {
     @Autowired
     private MedicalBackgroundService medicalBackgroundService;
+
+    @PostMapping("addlist")
+    public ResponseEntity<List<MedicalBackgroundDTO>> addMedicalBackgroundList(@RequestBody List<MedicalBackgroundDTO> mbList){
+        List<MedicalBackgroundDTO> created = medicalBackgroundService.addMBList(mbList);
+        return ResponseEntity.ok(created);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<MedicalBackgroundDTO> createMedicalBackground(@RequestBody MedicalBackgroundDTO dto) {

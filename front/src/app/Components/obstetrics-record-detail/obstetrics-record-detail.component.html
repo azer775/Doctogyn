@@ -1,0 +1,20 @@
+    <div class="container mx-auto p-4">
+      <div *ngIf="obstetricsRecord; else loading">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Obstetrics Record Details</h2>
+        <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
+          <p class="text-gray-600"><strong>ID:</strong> {{ obstetricsRecord.id }}</p>
+          <p class="text-gray-600"><strong>Conception Type:</strong> {{ obstetricsRecord.conceptionType }}</p>
+          <p class="text-gray-600"><strong>Conception Date:</strong> {{ obstetricsRecord.conceptionDate ? (obstetricsRecord.conceptionDate | date:'yyyy-MM-dd') : 'None' }}</p>
+          <p class="text-gray-600"><strong>DDR (Last Menstrual Period):</strong> {{ obstetricsRecord.ddr ? (obstetricsRecord.ddr | date:'yyyy-MM-dd') : 'None' }}</p>
+          <p class="text-gray-600"><strong>Date:</strong> {{ obstetricsRecord.date ? (obstetricsRecord.date | date:'yyyy-MM-dd') : 'None' }}</p>
+          <p class="text-gray-600"><strong>Number of Fetuses:</strong> {{ obstetricsRecord.nfoetus }}</p>
+          <p class="text-gray-600"><strong>Comment:</strong> {{ obstetricsRecord.comment || 'None' }}</p>
+          <p class="text-gray-600"><strong>Medical Record ID:</strong> {{ obstetricsRecord.medicalRecordId }}</p>
+        </div>
+        <app-consultation-list [consultations]="obstetricsRecord.consultations"></app-consultation-list>
+      </div>
+      <ng-template #loading>
+        <p class="text-gray-500">Loading...</p>
+      </ng-template>
+      <div *ngIf="error" class="text-red-500 mt-4">{{ error }}</div>
+    </div>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/medical-records")
 public class MedicalRecordController {
     @Autowired
@@ -22,7 +23,7 @@ public class MedicalRecordController {
 
     @GetMapping("/byid/{id}")
     public ResponseEntity<MedicalRecordDTO> getMedicalRecord(@PathVariable Long id) {
-        MedicalRecordDTO dto = medicalRecordService.getMedicalRecord(id);
+        MedicalRecordDTO dto = medicalRecordService.getMedicalRecordWithSubRecordIdsAndDates(id);
         return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
 

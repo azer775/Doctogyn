@@ -20,6 +20,8 @@ public class FertilitySubRecordService {
 
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private ConsultationService consultationService;
 
     public FertilitySubRecordDTO createFertilitySubRecord(FertilitySubRecordDTO dto) {
         FertilitySubRecord fertilitySubRecord = mapToEntity(dto);
@@ -52,12 +54,29 @@ public class FertilitySubRecordService {
     public void deleteFertilitySubRecord(Long id) {
         fertilitySubRecordRepository.deleteById(id);
     }
+    public FertilitySubRecordDTO mapToDateAndId(FertilitySubRecord fertilitySubRecord) {
+        return FertilitySubRecordDTO.builder()
+                .id(fertilitySubRecord.getId())
+                .date(fertilitySubRecord.getDate())
+                .build();
+    }
+    public FertilitySubRecordDTO getSubRecordConsultationIdsAndDates(long id){
+        Optional<FertilitySubRecord> subRecord = fertilitySubRecordRepository.findById(id);
+        if(subRecord.isPresent()){
+            FertilitySubRecord fertilitySubRecord= subRecord.get();
+            FertilitySubRecordDTO dto=this.mapToDTO(fertilitySubRecord);
+            dto.setConsultations(fertilitySubRecord.getConsultations().stream().map(consultationService::mapToDateAndId).toList());
+            return dto;
+        }
+        return null;
+    }
 
     private FertilitySubRecordDTO mapToDTO(FertilitySubRecord fertilitySubRecord) {
         return FertilitySubRecordDTO.builder()
                 .id(fertilitySubRecord.getId())
                 .age(fertilitySubRecord.getAge())
                 .infertility(fertilitySubRecord.getInfertility())
+                .date(fertilitySubRecord.getDate())
                 .duration(fertilitySubRecord.getDuration())
                 .cycleLength(fertilitySubRecord.getCycleLength())
                 .cycleMin(fertilitySubRecord.getCycleMin())
@@ -75,6 +94,7 @@ public class FertilitySubRecordService {
         FertilitySubRecord fertilitySubRecord = FertilitySubRecord.builder()
                 .age(dto.getAge())
                 .infertility(dto.getInfertility())
+                .date(dto.getDate())
                 .duration(dto.getDuration())
                 .cycleLength(dto.getCycleLength())
                 .cycleMin(dto.getCycleMin())

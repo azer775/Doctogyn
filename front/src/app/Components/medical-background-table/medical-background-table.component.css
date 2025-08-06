@@ -1,0 +1,43 @@
+.records-container {
+  padding: 20px;
+}
+
+.record-section {
+  margin-bottom: 30px;
+}
+
+.record-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.record-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+}
+
+.record-table th,
+.record-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.record-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.record-item:hover {
+  background-color: #f5f5f5;
+}
+
+.record-pathology {
+  font-weight: 500;
+}
+
+.record-empty {
+  text-align: center;
+  color: #888;
+}

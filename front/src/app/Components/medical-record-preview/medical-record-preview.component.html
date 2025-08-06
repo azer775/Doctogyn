@@ -1,0 +1,16 @@
+<div class="preview-container" *ngIf="medicalRecord">
+  <h2 class="preview-title">Medical Record Preview</h2>
+  <div class="preview-content">
+    <p><strong>Name:</strong> {{ medicalRecord.name || 'N/A' }}</p>
+    <p><strong>Surname:</strong> {{ medicalRecord.surname || 'N/A' }}</p>
+    <p><strong>Birth Date:</strong> {{ medicalRecord.birthDate | date: 'MM/dd/yyyy' }}</p>
+    <p><strong>Sex:</strong> {{ medicalRecord.sex || 'N/A' }}</p>
+    <p><strong>Civil State:</strong> {{ medicalRecord.civilState || 'N/A' }}</p>
+    <p><strong>Email:</strong> {{ medicalRecord.email || 'N/A' }}</p>
+    <p><strong>Comment:</strong> {{ medicalRecord.comment || 'N/A' }}</p>
+    <button class="preview-button" (click)="openMedicalBackgroundDialog()">View Medical Backgrounds</button>
+  </div>
+</div>
+<div class="preview-container" *ngIf="!medicalRecord">
+  <p>No medical record data available.</p>
+</div>

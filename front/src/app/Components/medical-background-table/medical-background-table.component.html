@@ -1,0 +1,95 @@
+<div class="records-container">
+  <!-- Familial Background -->
+  <div class="record-section">
+    <h2>Familial Background</h2>
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Familial Pathology</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of getRecordsByType('Familial')" class="record-item">
+          <td class="record-pathology">{{ record.familialPathology }}</td>
+          <td>{{ record.comment }}</td>
+        </tr>
+        <tr *ngIf="getRecordsByType('Familial').length === 0" class="record-empty">
+          <td colspan="2">No familial records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Allergies Background -->
+  <div class="record-section">
+    <h2>Allergies Background</h2>
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Allergies</th>
+          <th>Comment</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of getRecordsByType('Allergies')" class="record-item">
+          <td class="record-pathology">{{ record.allergies }}</td>
+          <td>{{ record.comment }}</td>
+          <td>{{ record.date | date:'yyyy-MM-dd' }}</td>
+        </tr>
+        <tr *ngIf="getRecordsByType('Allergies').length === 0" class="record-empty">
+          <td colspan="3">No allergies records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Medical Background -->
+  <div class="record-section">
+    <h2>Medical Background</h2>
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Medical Pathology</th>
+          <th>Comment</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of getRecordsByType('Medical')" class="record-item">
+          <td class="record-pathology">{{ record.medicalPathology }}</td>
+          <td>{{ record.comment }}</td>
+          <td>{{ record.date | date:'yyyy-MM-dd' }}</td>
+        </tr>
+        <tr *ngIf="getRecordsByType('Medical').length === 0" class="record-empty">
+          <td colspan="3">No medical records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Chirurgical Background -->
+  <div class="record-section">
+    <h2>Chirurgical Background</h2>
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Chirurgical Pathology</th>
+          <th>Comment</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of getRecordsByType('Chirurgical')" class="record-item">
+          <td class="record-pathology">{{ record.chirurgicalPathology }}</td>
+          <td>{{ record.comment }}</td>
+          <td>{{ record.date | date:'yyyy-MM-dd' }}</td>
+        </tr>
+        <tr *ngIf="getRecordsByType('Chirurgical').length === 0" class="record-empty">
+          <td colspan="3">No chirurgical records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

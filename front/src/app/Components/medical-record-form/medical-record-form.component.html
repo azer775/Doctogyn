@@ -1,0 +1,38 @@
+ <div>
+      <h2>Add Medical Record</h2>
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" [(ngModel)]="medicalRecord.name" type="text" required>
+      </div>
+      <div>
+        <label for="surname">Surname:</label>
+        <input id="surname" [(ngModel)]="medicalRecord.surname" type="text" required>
+      </div>
+      <div>
+        <label for="birthDate">Birth Date:</label>
+        <input id="birthDate" [(ngModel)]="medicalRecord.birthDate" type="date" required>
+      </div>
+      <div>
+        <label for="sex">Sex:</label>
+        <select id="sex" [(ngModel)]="medicalRecord.sex" required>
+            <option *ngFor="let sex of Sex" [value]="sex">{{ sex }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="civilState">Civil State:</label>
+        <select id="civilState" [(ngModel)]="medicalRecord.civilState" required>
+            <option *ngFor="let state of CivilState" [value]="state">{{ state }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" [(ngModel)]="medicalRecord.email" type="email" >
+      </div>
+      <div>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" [(ngModel)]="medicalRecord.comment"></textarea>
+      </div>
+      <button (click)="addMedicalRecord()">Add Record</button>
+      <p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
+      <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    </div>

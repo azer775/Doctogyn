@@ -1,0 +1,95 @@
+<div class="records-container">
+  <!-- Familial Background -->
+  <div class="record-section">
+    <h2>Familial Background</h2>
+    <ul class="record-list">
+      <li *ngFor="let record of familialRecords" class="record-item">
+        <span class="record-pathology">{{ record.familialPathology }}</span> - {{ record.comment }}
+      </li>
+      <li *ngIf="familialRecords.length === 0" class="record-empty">No familial records found</li>
+    </ul>
+    <button (click)="toggleForm('Familial')" class="btn-add">
+      Add Familial Record
+    </button>
+    <div *ngFor="let form of formInstances['Familial']; let i = index">
+      <app-medical-background-form
+        [data]="{ medicalRecordId: medicalRecordId, backgroundType: 'Familial' }"
+        [medicalBackground]="form.data"
+        (formDeleted)="removeForm('Familial', form.index)">
+      </app-medical-background-form>
+    </div>
+  </div>
+
+  <!-- Allergies Background -->
+  <div class="record-section">
+    <h2>Allergies Background</h2>
+    <ul class="record-list">
+      <li *ngFor="let record of allergiesRecords" class="record-item">
+        <span class="record-pathology">{{ record.allergies }}</span> - {{ record.comment }} - {{ record.date | date:'yyyy-MM-dd' }}
+      </li>
+      <li *ngIf="allergiesRecords.length === 0" class="record-empty">No allergies records found</li>
+    </ul>
+    <button (click)="toggleForm('Allergies')" class="btn-add">
+      Add Allergies Record
+    </button>
+    <div *ngFor="let form of formInstances['Allergies']; let i = index">
+      <app-medical-background-form
+        [data]="{ medicalRecordId: medicalRecordId, backgroundType: 'Allergies' }"
+        [medicalBackground]="form.data"
+        (formDeleted)="removeForm('Allergies', form.index)">
+      </app-medical-background-form>
+    </div>
+  </div>
+
+  <!-- Medical Background -->
+  <div class="record-section">
+    <h2>Medical Background</h2>
+    <ul class="record-list">
+      <li *ngFor="let record of medicalRecords" class="record-item">
+        <span class="record-pathology">{{ record.medicalPathology }}</span> - {{ record.comment }} - {{ record.date | date:'yyyy-MM-dd' }}
+      </li>
+      <li *ngIf="medicalRecords.length === 0" class="record-empty">No medical records found</li>
+    </ul>
+    <button (click)="toggleForm('Medical')" class="btn-add">
+      Add Medical Record
+    </button>
+    <div *ngFor="let form of formInstances['Medical']; let i = index">
+      <app-medical-background-form
+        [data]="{ medicalRecordId: medicalRecordId, backgroundType: 'Medical' }"
+        [medicalBackground]="form.data"
+        (formDeleted)="removeForm('Medical', form.index)">
+      </app-medical-background-form>
+    </div>
+  </div>
+
+  <!-- Chirurgical Background -->
+  <div class="record-section">
+    <h2>Chirurgical Background</h2>
+    <ul class="record-list">
+      <li *ngFor="let record of chirurgicalRecords" class="record-item">
+        <span class="record-pathology">{{ record.chirurgicalPathology }}</span> - {{ record.comment }} - {{ record.date | date:'yyyy-MM-dd' }}
+      </li>
+      <li *ngIf="chirurgicalRecords.length === 0" class="record-empty">No chirurgical records found</li>
+    </ul>
+    <button (click)="toggleForm('Chirurgical')" class="btn-add">
+      Add Chirurgical Record
+    </button>
+    <div *ngFor="let form of formInstances['Chirurgical']; let i = index">
+      <app-medical-background-form
+        [data]="{ medicalRecordId: medicalRecordId, backgroundType: 'Chirurgical' }"
+        [medicalBackground]="form.data"
+        (formDeleted)="removeForm('Chirurgical', form.index)">
+      </app-medical-background-form>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="merged-records-section">
+    <div class="merged-header">
+      <h2>Submit Records</h2>
+      <button (click)="addList()" class="btn-merge">
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

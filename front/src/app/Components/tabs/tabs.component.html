@@ -1,0 +1,55 @@
+<div class="tabs-container">
+  <div class="tab-header-container">
+    <button
+      *ngFor="let tab of tabs; let i = index"
+      [class.tab-button-active]="activeTab === i"
+      [class.tab-button-inactive]="activeTab !== i"
+      (click)="setActiveTab(i)"
+      (keydown)="handleKeydown($event)"
+      class="tab-button"
+      role="tab"
+      [attr.aria-selected]="activeTab === i"
+      [attr.aria-controls]="'tab-content-' + i"
+      tabindex="0"
+    >
+      {{ tab.title }}
+      <span *ngIf="activeTab === i" class="tab-underline"></span>
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <div
+      *ngFor="let tab of tabs; let i = index"
+      [id]="'tab-content-' + i"
+      [class.animate-slide-in]="activeTab === i"
+      class="tab-content-inner"
+      role="tabpanel"
+      [attr.aria-labelledby]="'tab-' + i"
+      [hidden]="activeTab !== i"
+    >
+      <app-medical-record-preview
+        *ngIf="tab.isPreview"
+        [medicalRecord]="medicalRecord"
+      ></app-medical-record-preview>
+      <app-gynecology-sub-record-detail
+        *ngIf="tab.type === 'gynecology' && tab.subRecordId"
+        [subRecordId]="tab.subRecordId"
+      ></app-gynecology-sub-record-detail>
+      <app-fertility-sub-record-detail
+        *ngIf="tab.type === 'fertility' && tab.subRecordId"
+        [subRecordId]="tab.subRecordId"
+      ></app-fertility-sub-record-detail>
+      <app-obstetrics-record-detail
+        *ngIf="tab.type === 'obstetrics' && tab.subRecordId"
+        [subRecordId]="tab.subRecordId"
+      ></app-obstetrics-record-detail>
+      <ng-container *ngIf="!tab.isPreview && !tab.subRecordId && !tab.type">
+        <h2 class="tab-title">{{ tab.title }}</h2>
+        <p class="tab-text">Failed to load record details.</p>
+        <div class="tab-action">
+          <button class="learn-more-button">Learn More</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
