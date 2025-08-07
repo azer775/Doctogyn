@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CivilState } from '../../Models/enums';
 import { FertilitySubRecord } from '../../Models/FertilitySubRecord';
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class FertilitySubRecordFormComponent implements OnInit {
   @Input() data: { medicalRecordId: number } = { medicalRecordId: 1 };
+  @Output() formSubmitted = new EventEmitter<void>();
   fertilityForm: FormGroup;
   CivilStates = Object.values(CivilState);
 
@@ -55,6 +56,7 @@ export class FertilitySubRecordFormComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('Fertility sub-record created successfully', response);
+            this.formSubmitted.emit();
             this.resetForm();
           },
           error: (error) => {

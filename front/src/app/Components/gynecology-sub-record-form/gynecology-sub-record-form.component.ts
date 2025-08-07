@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CivilState, HormoneStatus } from '../../Models/enums';
 import { GynecologySubRecord } from '../../Models/GynecologySubRecord';
 import { GynecologySubRecordService } from '../../Services/gynecology-sub-record.service';
@@ -14,6 +14,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 })
 export class GynecologySubRecordFormComponent implements OnInit {
   @Input() data: { medicalRecordId: number } = { medicalRecordId: 1 };
+  @Output() formSubmitted = new EventEmitter<void>();
   gynecologyForm: FormGroup;
   civilStates = Object.values(CivilState);
   hormoneStatuses = Object.values(HormoneStatus);
@@ -57,6 +58,7 @@ export class GynecologySubRecordFormComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('Gynecology sub-record created successfully', response);
+            this.formSubmitted.emit();
             this.resetForm();
           },
           error: (error) => {

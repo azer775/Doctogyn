@@ -15,6 +15,17 @@
       {{ tab.title }}
       <span *ngIf="activeTab === i" class="tab-underline"></span>
     </button>
+  <button class="add-button" (click)="toggleDropdown()" tabindex="0">
+    <svg class="add-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+  </button>
+  <div *ngIf="isDropdownOpen" class="dropdown-menu">
+    <button class="dropdown-item" (click)="openFertilityForm()">Add Fertility SubRecord</button>
+    <button class="dropdown-item" (click)="openGynecologyForm()">Add Gynecology SubRecord</button>
+    <button class="dropdown-item" (click)="openObstetricsForm()">Add Obstetrics Record</button>
+  </div>
+
   </div>
 
   <div class="tab-content">

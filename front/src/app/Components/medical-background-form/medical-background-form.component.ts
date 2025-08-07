@@ -26,7 +26,7 @@ export class MedicalBackgroundFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.medicalBackgroundForm = this.fb.group({
       familialPathology: [FamilialPathology.OVARIAN_CANCER],
-      allergies: [Allergies.NONE],
+      allergies: [Allergies.Drug],
       medicalPathology: [MedicalPathology.HEART_DISEASE],
       chirurgicalPathology: [ChirurgicalPathology.APPENDECTOMY],
       comment: [''],
@@ -39,7 +39,7 @@ export class MedicalBackgroundFormComponent implements OnInit {
     if (this.medicalBackground) {
       this.medicalBackgroundForm.patchValue({
         familialPathology: this.medicalBackground.familialPathology || FamilialPathology.OVARIAN_CANCER,
-        allergies: this.medicalBackground.allergies || Allergies.NONE,
+        allergies: this.medicalBackground.allergies || Allergies.Drug,
         medicalPathology: this.medicalBackground.medicalPathology || MedicalPathology.HEART_DISEASE,
         chirurgicalPathology: this.medicalBackground.chirurgicalPathology || ChirurgicalPathology.APPENDECTOMY,
         comment: this.medicalBackground.comment || '',

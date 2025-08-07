@@ -63,8 +63,7 @@ export enum Allergies {
   Drug = 'Drug',
   Food = 'Food',
   Skin = 'Skin',
-  Respiratory = 'Respiratory',
-  NONE = "NONE"
+  Respiratory = 'Respiratory'
 }
 
 export enum MedicalPathology {

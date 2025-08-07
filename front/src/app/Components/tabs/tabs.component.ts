@@ -6,11 +6,15 @@ import { MedicalRecordPreviewComponent } from '../medical-record-preview/medical
 import { FertilitySubRecordDetailComponent } from '../fertility-sub-record-detail/fertility-sub-record-detail.component';
 import { ObstetricsRecordDetailComponent } from '../obstetrics-record-detail/obstetrics-record-detail.component';
 import { GynecologySubRecordDetailComponent } from '../gynecology-sub-record-detail/gynecology-sub-record-detail.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FertilitySubRecordFormComponent } from '../fertility-sub-record-form/fertility-sub-record-form.component';
+import { GynecologySubRecordFormComponent } from '../gynecology-sub-record-form/gynecology-sub-record-form.component';
+import { ObstetricsRecordFormComponent } from '../obstetrics-record-form/obstetrics-record-form.component';
 
 @Component({
   selector: 'app-tabs',
   standalone: true,
-  imports: [CommonModule, MedicalRecordPreviewComponent,FertilitySubRecordDetailComponent,ObstetricsRecordDetailComponent,GynecologySubRecordDetailComponent],
+  imports: [CommonModule,MatDialogModule,MedicalRecordPreviewComponent,FertilitySubRecordDetailComponent,ObstetricsRecordDetailComponent,GynecologySubRecordDetailComponent,FertilitySubRecordFormComponent,GynecologySubRecordFormComponent,ObstetricsRecordFormComponent],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.css'
 })
@@ -19,8 +23,12 @@ export class TabsComponent implements OnInit {
   activeTab = 0;
   medicalRecordId = 1; // Replace with dynamic ID (e.g., from route params)
   medicalRecord: MedicalRecord | null = null;
+  isDropdownOpen = false;
 
-  constructor(private medicalRecordService: MedicalRecordService) {}
+  constructor(
+    private medicalRecordService: MedicalRecordService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.fetchMedicalRecord();
@@ -30,6 +38,7 @@ export class TabsComponent implements OnInit {
     this.medicalRecordService.getMedicalRecord(this.medicalRecordId).subscribe({
       next: (record: MedicalRecord) => {
         this.medicalRecord = record;
+        console.log('Fetched Medical Record:', record);
         this.tabs = [
           {
             title: 'Preview',
@@ -52,14 +61,12 @@ export class TabsComponent implements OnInit {
         // Add Fertility SubRecords
         if (record.fertilitySubRecords) {
           record.fertilitySubRecords.forEach((sub) => {
-            if (sub.infertility) {
-              const date = new Date(sub.infertility);
-              this.tabs.push({
-                title: `Fertility ${date.getMonth() + 1}/${date.getFullYear()}`,
-                subRecordId: sub.id,
-                type: 'fertility',
-              });
-            }
+            const date = sub.date ? new Date(sub.date) : new Date();
+            this.tabs.push({
+              title: `Fertility ${date.getMonth() + 1}/${date.getFullYear()}`,
+              subRecordId: sub.id,
+              type: 'fertility',
+            });
           });
         }
         // Add Obstetrics SubRecords
@@ -89,6 +96,74 @@ export class TabsComponent implements OnInit {
 
   setActiveTab(index: number) {
     this.activeTab = index;
+    this.closeDropdown();
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown() {
+    this.isDropdownOpen = false;
+  }
+
+  openFertilityForm() {
+    this.closeDropdown();
+    const dialogRef = this.dialog.open(FertilitySubRecordFormComponent, {
+      data: { medicalRecordId: this.medicalRecordId },
+      width: '80%',
+      maxWidth: '800px',
+      maxHeight: '80vh',
+      autoFocus: true,
+      panelClass: 'custom-dialog-container',
+    });
+
+    dialogRef.componentInstance.formSubmitted.subscribe(() => {
+      dialogRef.close();
+      this.fetchMedicalRecord(); // Refresh tabs after form submission
+    });
+  }
+
+  openGynecologyForm() {
+    this.closeDropdown();
+    const dialogRef = this.dialog.open(GynecologySubRecordFormComponent, {
+      data: { medicalRecordId: this.medicalRecordId },
+      width: '80%',
+      maxWidth: '800px',
+      maxHeight: '80vh',
+      autoFocus: true,
+      panelClass: 'custom-dialog-container',
+    });
+
+    dialogRef.componentInstance.formSubmitted.subscribe(() => {
+      dialogRef.close();
+      this.fetchMedicalRecord(); // Refresh tabs after form submission
+    });
+  }
+
+  openObstetricsForm() {
+    this.closeDropdown();
+    const dialogRef = this.dialog.open(ObstetricsRecordFormComponent, {
+      data: { medicalRecordId: this.medicalRecordId },
+      width: '80%',
+      maxWidth: '800px',
+      maxHeight: '80vh',
+      autoFocus: true,
+      panelClass: 'custom-dialog-container',
+    });
+
+    dialogRef.componentInstance.formSubmitted.subscribe(() => {
+      dialogRef.close();
+      this.fetchMedicalRecord(); // Refresh tabs after form submission
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.add-button') && !target.closest('.dropdown-menu')) {
+      this.closeDropdown();
+    }
   }
 
   @HostListener('keydown', ['$event'])

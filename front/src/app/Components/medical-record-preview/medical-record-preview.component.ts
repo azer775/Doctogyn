@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { MedicalBackgroundFormComponent } from "../medical-background-form/medical-background-form.component";
 import { MedicalBackgroundListComponent } from '../medical-background-list/medical-background-list.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MedicalBackgroundTableComponent } from "../medical-background-table/medical-background-table.component";
 
 @Component({
   selector: 'app-medical-record-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MedicalBackgroundTableComponent],
   templateUrl: './medical-record-preview.component.html',
   styleUrl: './medical-record-preview.component.css'
 })

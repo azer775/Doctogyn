@@ -11,6 +11,9 @@
     <button class="preview-button" (click)="openMedicalBackgroundDialog()">View Medical Backgrounds</button>
   </div>
 </div>
-<div class="preview-container" *ngIf="!medicalRecord">
+<div class="preview-container" *ngIf="medicalRecord">
+      <app-medical-background-table *ngIf="medicalRecord" [medicalBackgroundList]="medicalRecord.medicalBackgrounds"></app-medical-background-table>
+</div>
+<div  *ngIf="!medicalRecord">
   <p>No medical record data available.</p>
 </div>
