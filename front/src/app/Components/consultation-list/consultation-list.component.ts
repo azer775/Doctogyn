@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ConsultationListComponent implements OnInit {
   @Input() consultations: Consultation[] | null = null;
+  @Input() setSelectedConsultationId: ((id: number | null) => void) | null = null;
   showDetails: { [key: number]: boolean } = {};
 
   ngOnInit() {
@@ -25,6 +26,9 @@ export class ConsultationListComponent implements OnInit {
 
   toggleDetails(id: number) {
     this.showDetails[id] = !this.showDetails[id];
+    // Call the callback to update the selected consultation ID
+    if (this.setSelectedConsultationId) {
+      this.setSelectedConsultationId(this.showDetails[id] ? id : null);
+    }
   }
-
 }

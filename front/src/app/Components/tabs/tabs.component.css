@@ -11,27 +11,34 @@
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative; /* Ensure container is a positioning context */
 }
 
 .tab-header-container {
-  @apply flex justify-start gap-2 bg-white/40 p-4 overflow-x-auto relative;
+  @apply absolute flex justify-start gap-2 bg-white/40 p-4 overflow-x-auto relative;
+  min-height: 56px; /* Fixed height to prevent expansion */
+  width: 100%; /* Ensure it spans the full container width */
+  z-index: 10; /* Ensure it stays above content but below dropdown */
 }
 
 @media (min-width: 640px) {
   .tab-header-container {
     @apply gap-4 p-6;
+    min-height: 64px;
   }
 }
 
 @media (min-width: 768px) {
   .tab-header-container {
     @apply gap-6 p-8;
+    min-height: 72px;
   }
 }
 
 @media (min-width: 1024px) {
   .tab-header-container {
     @apply gap-8 p-12;
+    min-height: 80px;
   }
 }
 
@@ -125,6 +132,11 @@
   transition: transform 0.3s ease;
 }
 
+.add-button-container {
+  @apply relative inline-flex;
+  z-index: 20; /* Ensure button is above tab-header-container */
+}
+
 .add-button {
   @apply flex items-center justify-center w-10 h-10 bg-white/80 rounded-lg cursor-pointer transition-colors;
 }
@@ -138,11 +150,15 @@
 }
 
 .dropdown-menu {
-  @apply absolute top-full mt-2 right-0 bg-white/90 rounded-lg shadow-lg flex flex-col min-w-[200px] z-10;
+  @apply absolute left-0 top-full mt-1 bg-white/90 rounded-lg shadow-lg flex flex-col min-w-[200px] max-w-[250px] z-30;
+  transform: translateY(0); /* Reset transform to position correctly */
+  /* Constrain dropdown within tab-header-container */
+  position: absolute;
+  top: 100%; /* Position below the button */
 }
 
 .dropdown-item {
-  @apply px-4 py-3 text-sm text-gray-700 bg-transparent border-none text-left cursor-pointer transition-colors;
+  @apply px-4 py-3 text-sm text-gray-700 bg-transparent border-none text-left cursor-pointer transition-colors whitespace-nowrap;
 }
 
 .dropdown-item:hover {
@@ -154,6 +170,8 @@
   padding: 1rem;
   background: rgba(255, 255, 255, 0.7);
   min-height: calc(100vh - 80px);
+  position: relative; /* Ensure content has its own context */
+  z-index: 0; /* Keep content below dropdown */
 }
 
 @media (min-width: 640px) {
@@ -264,4 +282,11 @@
 
 .animate-slide-in {
   animation: slideIn 0.4s ease-out forwards;
+}
+.tab-header-wrapper {
+  @apply relative;
+}
+.tab-header-container {
+  @apply flex justify-start gap-2 bg-white/40 p-4 overflow-x-auto;
+  min-height: 56px;
 }

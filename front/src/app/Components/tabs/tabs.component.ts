@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MedicalRecordService } from '../../Services/medical-record.service';
 import { MedicalRecord } from '../../Models/MedicalRecord';
 import { MedicalRecordPreviewComponent } from '../medical-record-preview/medical-record-preview.component';
@@ -24,6 +24,9 @@ export class TabsComponent implements OnInit {
   medicalRecordId = 1; // Replace with dynamic ID (e.g., from route params)
   medicalRecord: MedicalRecord | null = null;
   isDropdownOpen = false;
+  @ViewChild('addButton') addButton!: ElementRef;
+  dropdownLeft = 0;
+  dropdownTop = 0;
 
   constructor(
     private medicalRecordService: MedicalRecordService,
@@ -100,8 +103,13 @@ export class TabsComponent implements OnInit {
   }
 
   toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  this.isDropdownOpen = !this.isDropdownOpen;
+  if (this.isDropdownOpen) {
+    const rect = this.addButton.nativeElement.getBoundingClientRect();
+    this.dropdownLeft = rect.left;
+    this.dropdownTop = rect.bottom;
   }
+}
 
   closeDropdown() {
     this.isDropdownOpen = false;

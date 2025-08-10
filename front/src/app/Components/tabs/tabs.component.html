@@ -1,4 +1,5 @@
 <div class="tabs-container">
+  <div class="tab-header-wrapper">
   <div class="tab-header-container">
     <button
       *ngFor="let tab of tabs; let i = index"
@@ -15,18 +16,21 @@
       {{ tab.title }}
       <span *ngIf="activeTab === i" class="tab-underline"></span>
     </button>
-  <button class="add-button" (click)="toggleDropdown()" tabindex="0">
-    <svg class="add-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-    </svg>
-  </button>
-  <div *ngIf="isDropdownOpen" class="dropdown-menu">
-    <button class="dropdown-item" (click)="openFertilityForm()">Add Fertility SubRecord</button>
-    <button class="dropdown-item" (click)="openGynecologyForm()">Add Gynecology SubRecord</button>
-    <button class="dropdown-item" (click)="openObstetricsForm()">Add Obstetrics Record</button>
+  <div class="add-button-container">
+    <button class="add-button" (click)="toggleDropdown()" tabindex="0">
+      <svg class="add-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+    </button>
   </div>
+  </div>
+    <div *ngIf="isDropdownOpen" class="dropdown-menu"  >
+      <button class="dropdown-item" (click)="openFertilityForm()">Add Fertility SubRecord</button>
+      <button class="dropdown-item" (click)="openGynecologyForm()">Add Gynecology SubRecord</button>
+      <button class="dropdown-item" (click)="openObstetricsForm()">Add Obstetrics Record</button>
+    </div>
+</div>
 
-  </div>
 
   <div class="tab-content">
     <div
@@ -38,22 +42,10 @@
       [attr.aria-labelledby]="'tab-' + i"
       [hidden]="activeTab !== i"
     >
-      <app-medical-record-preview
-        *ngIf="tab.isPreview"
-        [medicalRecord]="medicalRecord"
-      ></app-medical-record-preview>
-      <app-gynecology-sub-record-detail
-        *ngIf="tab.type === 'gynecology' && tab.subRecordId"
-        [subRecordId]="tab.subRecordId"
-      ></app-gynecology-sub-record-detail>
-      <app-fertility-sub-record-detail
-        *ngIf="tab.type === 'fertility' && tab.subRecordId"
-        [subRecordId]="tab.subRecordId"
-      ></app-fertility-sub-record-detail>
-      <app-obstetrics-record-detail
-        *ngIf="tab.type === 'obstetrics' && tab.subRecordId"
-        [subRecordId]="tab.subRecordId"
-      ></app-obstetrics-record-detail>
+      <app-medical-record-preview *ngIf="tab.isPreview" [medicalRecord]="medicalRecord"></app-medical-record-preview>
+      <app-gynecology-sub-record-detail *ngIf="tab.type === 'gynecology' && tab.subRecordId" [subRecordId]="tab.subRecordId" ></app-gynecology-sub-record-detail>
+      <app-fertility-sub-record-detail   *ngIf="tab.type === 'fertility' && tab.subRecordId"  [subRecordId]="tab.subRecordId"></app-fertility-sub-record-detail>
+      <app-obstetrics-record-detail *ngIf="tab.type === 'obstetrics' && tab.subRecordId"[subRecordId]="tab.subRecordId" ></app-obstetrics-record-detail>
       <ng-container *ngIf="!tab.isPreview && !tab.subRecordId && !tab.type">
         <h2 class="tab-title">{{ tab.title }}</h2>
         <p class="tab-text">Failed to load record details.</p>
@@ -62,5 +54,5 @@
         </div>
       </ng-container>
     </div>
-  </div>
+</div>
 </div>
