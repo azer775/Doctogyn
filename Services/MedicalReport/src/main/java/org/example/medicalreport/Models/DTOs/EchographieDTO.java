@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.medicalreport.Models.enums.Size;
-import org.example.medicalreport.Models.enums.UterusSize;
+import org.example.medicalreport.Models.enums.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,16 +15,39 @@ import java.time.LocalDate;
 @Builder
 public class EchographieDTO {
     private Long id;
-    private Size size;
     private LocalDate date;
     private String report;
     private String cycleDay;
     private String condition;
+    // Uterus
     private UterusSize uterusSize;
-    private String endometrium;
-    private String myometre;
-    private String ROSize;
-    private String ROComment;
-    private String LOComment;
+    private long uterusLength;
+    private long uterusWidth;
+    private Myometre myometre;
+    private long myomesNumber;
+    private long endometriumThickness;
+    private String comment;
+    // Right Ovary
+    private Ovary ovaryR;
+    private long ovaryRSize;
+    private double cystSizeOR;
+    private List<Diagnosticpresumption> diagnosticpresumptionsOR;
+    private String ovaryRComment;
+    // Left Ovary
+    private Ovary ovaryL;
+    private long ovaryLSize;
+    private double cystSizeOL;
+    private List<Diagnosticpresumption> diagnosticpresumptionsOL;
+    private String ovaryLComment;
+    // Right Pelvic Mass
+    private Boolean pelvicMR;
+    private double pmRSize;
+    private List<Pelvicdiagnosticpresumption> pelvicdiagnosticpresumptionsR;
+    private String pmRComment;
+    // Left Pelvic Mass
+    private Boolean pelvicML;
+    private double pmLSize;
+    private List<Pelvicdiagnosticpresumption> pelvicdiagnosticpresumptionsL;
+    private String pmLComment;
     private Long consultationId;
 }

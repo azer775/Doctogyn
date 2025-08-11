@@ -13,4 +13,5 @@ export class Consultation {
   public consultationType!: ConsultationType;
   public gynecologySubRecordId!: number | null;
   public fertilitySubRecordId!: number | null;
-  public obstetricsRecordId!: number | null;}
+  public obstetricsRecordId!: number | null;
+}

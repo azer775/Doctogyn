@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/echographies")
+@CrossOrigin("*")
 public class EchographieController {
 
     @Autowired

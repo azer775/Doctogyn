@@ -32,12 +32,6 @@ export enum Size {
   // Placeholder; Java enum was empty, please provide actual values
 }
 
-export enum UterusSize {
-  NORMAL = 'NORMAL',
-  ENLARGED = 'ENLARGED',
-  REDUCED = 'REDUCED'
-  // Placeholder; Java enum was empty, please provide actual values
-}
 
 export enum Sex {
   Male = 'Male',
@@ -94,4 +88,41 @@ export enum BackgroundType {
     Medical = 'Medical',
     Chirurgical = 'Chirurgical',
     Allergies = 'Allergies'
+}
+export enum UterusSize {
+    Normal = 'Normal',
+    Increased = 'Increased',
+    Hypoplasia = 'Hypoplasia'
+}
+
+export enum Pelvicdiagnosticpresumption {
+    Digestivemass = 'Digestivemass',
+    Ectopicpregnancy = 'Ectopicpregnancy',
+    Hydrosalpinx = 'Hydrosalpinx',
+    Paratubalcyst = 'Paratubalcyst',
+    Falsecyst = 'Falsecyst',
+    Unidentifiedorigin = 'Unidentifiedorigin',
+    Subserosalmyoma = 'Subserosalmyoma'
+}
+
+export enum Ovary {
+    Normal = 'Normal',
+    Unexamend = 'Unexamend',
+    Cyste = 'Cyste',
+    Follicule = 'Follicule',
+    SOPK = 'SOPK'
+}
+
+export enum Myometre {
+    Normal = 'Normal',
+    Myome = 'Myome',
+    Adenomyose = 'Adenomyose'
+}
+
+export enum Diagnosticpresumption {
+    Dermoidcyst = 'Dermoidcyst',
+    Endometrioticcyst = 'Endometrioticcyst',
+    Functionalcyst = 'Functionalcyst',
+    Unidentified_presumed_benign = 'Unidentified_presumed_benign',
+    Unidentified_presumed_malignant = 'Unidentified_presumed_malignant'
 }
