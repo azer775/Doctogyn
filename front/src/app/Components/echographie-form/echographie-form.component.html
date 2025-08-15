@@ -1,216 +1,303 @@
-<form [formGroup]="echographieForm" (ngSubmit)="onSubmit()" class="space-y-6">
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">General Information</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="date" class="font-medium mb-1">Date:</label>
-        <input type="date" id="date" formControlName="date" required class="border rounded-md p-2">
+<div class="echo-form-wrapper">
+  <form [formGroup]="echographieForm" (ngSubmit)="onSubmit()" class="echo-form">
+    <!-- General Information Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+        General Information
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="date" class="echo-form-label">Date</label>
+          <input type="date" id="date" formControlName="date" required class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="cycleDay" class="echo-form-label">Cycle Day</label>
+          <input type="text" id="cycleDay" formControlName="cycleDay" required class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="condition" class="echo-form-label">Condition</label>
+          <input type="text" id="condition" formControlName="condition" required class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="report" class="font-medium mb-1">Report:</label>
-        <app-editor formControlName="report" [config]="defaultConfig"></app-editor>
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="cycleDay" class="font-medium mb-1">Cycle Day:</label>
-        <input type="text" id="cycleDay" formControlName="cycleDay" required class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="condition" class="font-medium mb-1">Condition:</label>
-        <input type="text" id="condition" formControlName="condition" required class="border rounded-md p-2">
-      </div>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Uterus</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="uterusSize" class="font-medium mb-1">Uterus Size:</label>
-        <select id="uterusSize" formControlName="uterusSize" required class="border rounded-md p-2">
-          <option value="" disabled>Select size</option>
-          <option *ngFor="let size of uterusSizes" [value]="size">{{size}}</option>
-        </select>
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="uterusLength" class="font-medium mb-1">Uterus Length (mm):</label>
-        <input type="number" id="uterusLength" formControlName="uterusLength" min="0" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="uterusWidth" class="font-medium mb-1">Uterus Width (mm):</label>
-        <input type="number" id="uterusWidth" formControlName="uterusWidth" min="0" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="myometre" class="font-medium mb-1">Myometre:</label>
-        <select id="myometre" formControlName="myometre" required class="border rounded-md p-2">
-          <option value="" disabled>Select myometre</option>
-          <option *ngFor="let myometre of myometres" [value]="myometre">{{myometre}}</option>
-        </select>
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="myomesNumber" class="font-medium mb-1">Myomes Number:</label>
-        <input type="number" id="myomesNumber" formControlName="myomesNumber" min="0" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="endometriumThickness" class="font-medium mb-1">Endometrium Thickness (mm):</label>
-        <input type="number" id="endometriumThickness" formControlName="endometriumThickness" min="0" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="comment" class="font-medium mb-1">Comment:</label>
-        <input type="text" id="comment" formControlName="comment" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="report" class="echo-form-label">Report</label>
+          <app-editor formControlName="report" [config]="defaultConfig" class="echo-form-editor"></app-editor>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Right Ovary</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryR" class="font-medium mb-1">Right Ovary:</label>
-        <select id="ovaryR" formControlName="ovaryR" required class="border rounded-md p-2">
-          <option value="" disabled>Select ovary status</option>
-          <option *ngFor="let ovary of ovaries" [value]="ovary">{{ovary}}</option>
-        </select>
+    <!-- Uterus Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        Uterus
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="uterusSize" class="echo-form-label">Uterus Size</label>
+          <select id="uterusSize" formControlName="uterusSize" required class="echo-form-select-field">
+            <option value="" disabled>Select size</option>
+            <option *ngFor="let size of uterusSizes" [value]="size">{{size}}</option>
+          </select>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="uterusLength" class="echo-form-label">Length (mm)</label>
+          <input type="number" id="uterusLength" formControlName="uterusLength" min="0" class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="uterusWidth" class="echo-form-label">Width (mm)</label>
+          <input type="number" id="uterusWidth" formControlName="uterusWidth" min="0" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryRSize" class="font-medium mb-1">Right Ovary Size (mm):</label>
-        <input type="number" id="ovaryRSize" formControlName="ovaryRSize" min="0" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="myometre" class="echo-form-label">Myometre</label>
+          <select id="myometre" formControlName="myometre" required class="echo-form-select-field">
+            <option value="" disabled>Select myometre</option>
+            <option *ngFor="let myometre of myometres" [value]="myometre">{{myometre}}</option>
+          </select>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="myomesNumber" class="echo-form-label">Myomes Number</label>
+          <input type="number" id="myomesNumber" formControlName="myomesNumber" min="0" class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="endometriumThickness" class="echo-form-label">Endometrium (mm)</label>
+          <input type="number" id="endometriumThickness" formControlName="endometriumThickness" min="0" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="cystSizeOR" class="font-medium mb-1">Cyst Size (mm):</label>
-        <input type="number" id="cystSizeOR" formControlName="cystSizeOR" min="0" step="0.1" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="comment" class="echo-form-label">Comment</label>
+          <input type="text" id="comment" formControlName="comment" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="diagnosticpresumptionsOR" class="font-medium mb-1">Diagnostic Presumptions:</label>
-        <div class="relative">
-          <button type="button" (click)="toggleDropdown('diagnosticpresumptionsOR')" class="border rounded-md p-2 w-full text-left bg-white">
-            {{ echographieForm.get('diagnosticpresumptionsOR')?.value?.length ? echographieForm.get('diagnosticpresumptionsOR')?.value.join(', ') : 'Select presumptions' }}
-          </button>
-          <div *ngIf="dropdownOpen['diagnosticpresumptionsOR']" class="absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto">
-            <label *ngFor="let presumption of diagnosticPresumptions" class="flex items-center p-2 hover:bg-gray-100">
-              <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('diagnosticpresumptionsOR', presumption, $event)" [checked]="echographieForm.get('diagnosticpresumptionsOR')?.value.includes(presumption)" class="mr-2">
-              {{ presumption }}
-            </label>
+    </div>
+
+    <!-- Right Ovary Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        Right Ovary
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="ovaryR" class="echo-form-label">Status</label>
+          <select id="ovaryR" formControlName="ovaryR" required class="echo-form-select-field">
+            <option value="" disabled>Select status</option>
+            <option *ngFor="let ovary of ovaries" [value]="ovary">{{ovary}}</option>
+          </select>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="ovaryRSize" class="echo-form-label">Size (mm)</label>
+          <input type="number" id="ovaryRSize" formControlName="ovaryRSize" min="0" class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="cystSizeOR" class="echo-form-label">Cyst Size (mm)</label>
+          <input type="number" id="cystSizeOR" formControlName="cystSizeOR" min="0" step="0.1" class="echo-form-input-field">
+        </div>
+      </div>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="diagnosticpresumptionsOR" class="echo-form-label">Diagnostic Presumptions</label>
+          <div class="relative">
+            <button type="button" (click)="toggleDropdown('diagnosticpresumptionsOR')" class="echo-form-dropdown-button">
+              <span class="truncate">
+                {{ echographieForm.get('diagnosticpresumptionsOR')?.value?.length ? echographieForm.get('diagnosticpresumptionsOR')?.value.join(', ') : 'Select presumptions' }}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div *ngIf="dropdownOpen['diagnosticpresumptionsOR']" class="echo-form-dropdown-menu">
+              <div class="echo-form-dropdown-content">
+                <label *ngFor="let presumption of diagnosticPresumptions" class="echo-form-dropdown-item">
+                  <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('diagnosticpresumptionsOR', presumption, $event)" 
+                    [checked]="echographieForm.get('diagnosticpresumptionsOR')?.value.includes(presumption)" 
+                    class="echo-form-checkbox">
+                  <span>{{ presumption }}</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryRComment" class="font-medium mb-1">Right Ovary Comment:</label>
-        <input type="text" id="ovaryRComment" formControlName="ovaryRComment" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="ovaryRComment" class="echo-form-label">Comment</label>
+          <input type="text" id="ovaryRComment" formControlName="ovaryRComment" class="echo-form-input-field">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Left Ovary</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryL" class="font-medium mb-1">Left Ovary:</label>
-        <select id="ovaryL" formControlName="ovaryL" required class="border rounded-md p-2">
-          <option value="" disabled>Select ovary status</option>
-          <option *ngFor="let ovary of ovaries" [value]="ovary">{{ovary}}</option>
-        </select>
+    <!-- Left Ovary Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        Left Ovary
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="ovaryL" class="echo-form-label">Status</label>
+          <select id="ovaryL" formControlName="ovaryL" required class="echo-form-select-field">
+            <option value="" disabled>Select status</option>
+            <option *ngFor="let ovary of ovaries" [value]="ovary">{{ovary}}</option>
+          </select>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="ovaryLSize" class="echo-form-label">Size (mm)</label>
+          <input type="number" id="ovaryLSize" formControlName="ovaryLSize" min="0" class="echo-form-input-field">
+        </div>
+        <div class="echo-form-field-group">
+          <label for="cystSizeOL" class="echo-form-label">Cyst Size (mm)</label>
+          <input type="number" id="cystSizeOL" formControlName="cystSizeOL" min="0" step="0.1" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryLSize" class="font-medium mb-1">Left Ovary Size (mm):</label>
-        <input type="number" id="ovaryLSize" formControlName="ovaryLSize" min="0" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="cystSizeOL" class="font-medium mb-1">Cyst Size (mm):</label>
-        <input type="number" id="cystSizeOL" formControlName="cystSizeOL" min="0" step="0.1" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="diagnosticpresumptionsOL" class="font-medium mb-1">Diagnostic Presumptions:</label>
-        <div class="relative">
-          <button type="button" (click)="toggleDropdown('diagnosticpresumptionsOL')" class="border rounded-md p-2 w-full text-left bg-white">
-            {{ echographieForm.get('diagnosticpresumptionsOL')?.value?.length ? echographieForm.get('diagnosticpresumptionsOL')?.value.join(', ') : 'Select presumptions' }}
-          </button>
-          <div *ngIf="dropdownOpen['diagnosticpresumptionsOL']" class="absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto">
-            <label *ngFor="let presumption of diagnosticPresumptions" class="flex items-center p-2 hover:bg-gray-100">
-              <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('diagnosticpresumptionsOL', presumption, $event)" [checked]="echographieForm.get('diagnosticpresumptionsOL')?.value.includes(presumption)" class="mr-2">
-              {{ presumption }}
-            </label>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="diagnosticpresumptionsOL" class="echo-form-label">Diagnostic Presumptions</label>
+          <div class="relative">
+            <button type="button" (click)="toggleDropdown('diagnosticpresumptionsOL')" class="echo-form-dropdown-button">
+              <span class="truncate">
+                {{ echographieForm.get('diagnosticpresumptionsOL')?.value?.length ? echographieForm.get('diagnosticpresumptionsOL')?.value.join(', ') : 'Select presumptions' }}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div *ngIf="dropdownOpen['diagnosticpresumptionsOL']" class="echo-form-dropdown-menu">
+              <div class="echo-form-dropdown-content">
+                <label *ngFor="let presumption of diagnosticPresumptions" class="echo-form-dropdown-item">
+                  <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('diagnosticpresumptionsOL', presumption, $event)" 
+                    [checked]="echographieForm.get('diagnosticpresumptionsOL')?.value.includes(presumption)" 
+                    class="echo-form-checkbox">
+                  <span>{{ presumption }}</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="ovaryLComment" class="font-medium mb-1">Left Ovary Comment:</label>
-        <input type="text" id="ovaryLComment" formControlName="ovaryLComment" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="ovaryLComment" class="echo-form-label">Comment</label>
+          <input type="text" id="ovaryLComment" formControlName="ovaryLComment" class="echo-form-input-field">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Right Pelvic Mass</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pelvicMR" class="font-medium mb-1">Right Pelvic Mass Present:</label>
-        <input type="checkbox" id="pelvicMR" formControlName="pelvicMR" class="h-5 w-5">
+    <!-- Right Pelvic Mass Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        Right Pelvic Mass
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="pelvicMR" class="echo-form-label flex items-center">
+            <input type="checkbox" id="pelvicMR" formControlName="pelvicMR" class="echo-form-checkbox mr-2">
+            Present
+          </label>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="pmRSize" class="echo-form-label">Size (mm)</label>
+          <input type="number" id="pmRSize" formControlName="pmRSize" min="0" step="0.1" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pmRSize" class="font-medium mb-1">Right Pelvic Mass Size (mm):</label>
-        <input type="number" id="pmRSize" formControlName="pmRSize" min="0" step="0.1" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pelvicdiagnosticpresumptionsR" class="font-medium mb-1">Pelvic Diagnostic Presumptions:</label>
-        <div class="relative">
-          <button type="button" (click)="toggleDropdown('pelvicdiagnosticpresumptionsR')" class="border rounded-md p-2 w-full text-left bg-white">
-            {{ echographieForm.get('pelvicdiagnosticpresumptionsR')?.value?.length ? echographieForm.get('pelvicdiagnosticpresumptionsR')?.value.join(', ') : 'Select presumptions' }}
-          </button>
-          <div *ngIf="dropdownOpen['pelvicdiagnosticpresumptionsR']" class="absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto">
-            <label *ngFor="let presumption of pelvicDiagnosticPresumptions" class="flex items-center p-2 hover:bg-gray-100">
-              <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('pelvicdiagnosticpresumptionsR', presumption, $event)" [checked]="echographieForm.get('pelvicdiagnosticpresumptionsR')?.value.includes(presumption)" class="mr-2">
-              {{ presumption }}
-            </label>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="pelvicdiagnosticpresumptionsR" class="echo-form-label">Pelvic Diagnostic Presumptions</label>
+          <div class="relative">
+            <button type="button" (click)="toggleDropdown('pelvicdiagnosticpresumptionsR')" class="echo-form-dropdown-button">
+              <span class="truncate">
+                {{ echographieForm.get('pelvicdiagnosticpresumptionsR')?.value?.length ? echographieForm.get('pelvicdiagnosticpresumptionsR')?.value.join(', ') : 'Select presumptions' }}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div *ngIf="dropdownOpen['pelvicdiagnosticpresumptionsR']" class="echo-form-dropdown-menu">
+              <div class="echo-form-dropdown-content">
+                <label *ngFor="let presumption of pelvicDiagnosticPresumptions" class="echo-form-dropdown-item">
+                  <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('pelvicdiagnosticpresumptionsR', presumption, $event)" 
+                    [checked]="echographieForm.get('pelvicdiagnosticpresumptionsR')?.value.includes(presumption)" 
+                    class="echo-form-checkbox">
+                  <span>{{ presumption }}</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pmRComment" class="font-medium mb-1">Right Pelvic Mass Comment:</label>
-        <input type="text" id="pmRComment" formControlName="pmRComment" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="pmRComment" class="echo-form-label">Comment</label>
+          <input type="text" id="pmRComment" formControlName="pmRComment" class="echo-form-input-field">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Left Pelvic Mass</h3>
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pelvicML" class="font-medium mb-1">Left Pelvic Mass Present:</label>
-        <input type="checkbox" id="pelvicML" formControlName="pelvicML" class="h-5 w-5">
+    <!-- Left Pelvic Mass Section -->
+    <div class="echo-form-section">
+      <h3 class="echo-form-section-title">
+        Left Pelvic Mass
+      </h3>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group">
+          <label for="pelvicML" class="echo-form-label flex items-center">
+            <input type="checkbox" id="pelvicML" formControlName="pelvicML" class="echo-form-checkbox mr-2">
+            Present
+          </label>
+        </div>
+        <div class="echo-form-field-group">
+          <label for="pmLSize" class="echo-form-label">Size (mm)</label>
+          <input type="number" id="pmLSize" formControlName="pmLSize" min="0" step="0.1" class="echo-form-input-field">
+        </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pmLSize" class="font-medium mb-1">Left Pelvic Mass Size (mm):</label>
-        <input type="number" id="pmLSize" formControlName="pmLSize" min="0" step="0.1" class="border rounded-md p-2">
-      </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pelvicdiagnosticpresumptionsL" class="font-medium mb-1">Pelvic Diagnostic Presumptions:</label>
-        <div class="relative">
-          <button type="button" (click)="toggleDropdown('pelvicdiagnosticpresumptionsL')" class="border rounded-md p-2 w-full text-left bg-white">
-            {{ echographieForm.get('pelvicdiagnosticpresumptionsL')?.value?.length ? echographieForm.get('pelvicdiagnosticpresumptionsL')?.value.join(', ') : 'Select presumptions' }}
-          </button>
-          <div *ngIf="dropdownOpen['pelvicdiagnosticpresumptionsL']" class="absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto">
-            <label *ngFor="let presumption of pelvicDiagnosticPresumptions" class="flex items-center p-2 hover:bg-gray-100">
-              <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('pelvicdiagnosticpresumptionsL', presumption, $event)" [checked]="echographieForm.get('pelvicdiagnosticpresumptionsL')?.value.includes(presumption)" class="mr-2">
-              {{ presumption }}
-            </label>
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="pelvicdiagnosticpresumptionsL" class="echo-form-label">Pelvic Diagnostic Presumptions</label>
+          <div class="relative">
+            <button type="button" (click)="toggleDropdown('pelvicdiagnosticpresumptionsL')" class="echo-form-dropdown-button">
+              <span class="truncate">
+                {{ echographieForm.get('pelvicdiagnosticpresumptionsL')?.value?.length ? echographieForm.get('pelvicdiagnosticpresumptionsL')?.value.join(', ') : 'Select presumptions' }}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div *ngIf="dropdownOpen['pelvicdiagnosticpresumptionsL']" class="echo-form-dropdown-menu">
+              <div class="echo-form-dropdown-content">
+                <label *ngFor="let presumption of pelvicDiagnosticPresumptions" class="echo-form-dropdown-item">
+                  <input type="checkbox" [value]="presumption" (change)="updateMultiSelect('pelvicdiagnosticpresumptionsL', presumption, $event)" 
+                    [checked]="echographieForm.get('pelvicdiagnosticpresumptionsL')?.value.includes(presumption)" 
+                    class="echo-form-checkbox">
+                  <span>{{ presumption }}</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="pmLComment" class="font-medium mb-1">Left Pelvic Mass Comment:</label>
-        <input type="text" id="pmLComment" formControlName="pmLComment" class="border rounded-md p-2">
+      <div class="echo-form-field-row">
+        <div class="echo-form-field-group full-width">
+          <label for="pmLComment" class="echo-form-label">Comment</label>
+          <input type="text" id="pmLComment" formControlName="pmLComment" class="echo-form-input-field">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="mb-6">
-    <div class="flex flex-wrap gap-4">
-      <div class="flex flex-col min-w-[200px] flex-1">
-        <label for="consultationId" class="font-medium mb-1">Consultation ID:</label>
-        <input type="number" id="consultationId" formControlName="consultationId" class="border rounded-md p-2">
-      </div>
+    <!-- Action Buttons -->
+    <div class="echo-form-action-buttons">
+      <button type="button" (click)="closeForm.emit()" class="echo-form-cancel-button">
+        Cancel
+      </button>
+      <button type="submit" [disabled]="echographieForm.invalid" class="echo-form-submit-button">
+        Submit
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
     </div>
-  </div>
-
-  <button type="submit" [disabled]="echographieForm.invalid" class="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed">Submit</button>
-</form>
+  </form>
+</div>

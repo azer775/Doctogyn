@@ -51,7 +51,7 @@ public class EchographieService {
     public void deleteEchographie(Long id) {
         echographieRepository.deleteById(id);
     }
-    private EchographieDTO mapToDTO(Echographie echographie) {
+    public EchographieDTO mapToDTO(Echographie echographie) {
         return EchographieDTO.builder()
                 .id(echographie.getId())
                 .date(echographie.getDate())
@@ -87,7 +87,7 @@ public class EchographieService {
                 .build();
     }
 
-    private Echographie mapToEntity(EchographieDTO dto) {
+    public Echographie mapToEntity(EchographieDTO dto) {
         Echographie echographie = Echographie.builder()
                 .id(dto.getId())
                 .date(dto.getDate())

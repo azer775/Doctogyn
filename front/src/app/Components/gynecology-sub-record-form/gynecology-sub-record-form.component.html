@@ -1,40 +1,61 @@
-    <form [formGroup]="gynecologyForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="gynecologyForm" (ngSubmit)="onSubmit()" class="sub-record-form-wrapper">
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="work">Work:</label>
-      <input type="text" id="work" formControlName="work">
-
+      <input type="text" id="work" formControlName="work" class="sub-record-form-input-field">
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="civilState">Civil State:</label>
-      <select id="civilState" formControlName="civilState">
+      <select id="civilState" formControlName="civilState" class="sub-record-form-select-field">
         <option *ngFor="let state of civilStates" [value]="state">{{ state }}</option>
       </select>
-
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="hormoneStatus">Hormone Status:</label>
-      <select id="hormoneStatus" formControlName="hormoneStatus">
+      <select id="hormoneStatus" formControlName="hormoneStatus" class="sub-record-form-select-field">
         <option *ngFor="let status of hormoneStatuses" [value]="status">{{ status }}</option>
       </select>
-
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="menopause">Menopause Date:</label>
-      <input type="date" id="menopause" formControlName="menopause">
-
-      <label for="dysmenorrhea">Dysmenorrhea:</label>
-      <input type="checkbox" id="dysmenorrhea" formControlName="dysmenorrhea">
-
-      <label for="menorrhagia">Menorrhagia:</label>
-      <input type="checkbox" id="menorrhagia" formControlName="menorrhagia">
-
-      <label for="metrorrhagia">Metrorrhagia:</label>
-      <input type="checkbox" id="metrorrhagia" formControlName="metrorrhagia">
-
-      <label for="periodMax">Period Max (days):</label>
-      <input type="number" id="periodMax" formControlName="periodMax">
-
-      <label for="periodMin">Period Min (days):</label>
-      <input type="number" id="periodMin" formControlName="periodMin">
-
+      <input type="date" id="menopause" formControlName="menopause" class="sub-record-form-input-field">
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="date">Date:</label>
-      <input type="date" id="date" formControlName="date">
-
+      <input type="date" id="date" formControlName="date" class="sub-record-form-input-field">
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="background">Background Date:</label>
-      <input type="date" id="background" formControlName="background">
-
-      <button type="submit" [disabled]="gynecologyForm.invalid">Submit</button>
-    </form>
+      <input type="date" id="background" formControlName="background" class="sub-record-form-input-field">
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="dysmenorrhea">Dysmenorrhea:</label>
+      <input type="checkbox" id="dysmenorrhea" formControlName="dysmenorrhea" class="sub-record-form-checkbox-field">
+    </div>
+    <div class="sub-record-form-field-group">
+      <label for="menorrhagia">Menorrhagia:</label>
+      <input type="checkbox" id="menorrhagia" formControlName="menorrhagia" class="sub-record-form-checkbox-field">
+    </div>
+    <div class="sub-record-form-field-group">
+      <label for="metrorrhagia">Metrorrhagia:</label>
+      <input type="checkbox" id="metrorrhagia" formControlName="metrorrhagia" class="sub-record-form-checkbox-field">
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="periodMax">Period Max (days):</label>
+      <input type="number" id="periodMax" formControlName="periodMax" class="sub-record-form-input-field">
+    </div>
+    <div class="sub-record-form-field-group">
+      <label for="periodMin">Period Min (days):</label>
+      <input type="number" id="periodMin" formControlName="periodMin" class="sub-record-form-input-field">
+    </div>
+  </div>
+  <div class="sub-record-form-action-buttons">
+    <button type="submit" [disabled]="gynecologyForm.invalid" class="sub-record-form-submit-button">Submit</button>
+  </div>
+</form>

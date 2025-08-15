@@ -5,10 +5,16 @@ import { MedicalBackground } from '../../Models/MedicalBackground';
 import { MedicalBackgroundService } from '../../Services/medical-background.service';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule, MatDatepicker } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-medical-background-form',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule],
   templateUrl: './medical-background-form.component.html',
   styleUrl: './medical-background-form.component.css',
   providers: [MedicalBackgroundService]

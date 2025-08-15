@@ -1,38 +1,82 @@
-    <form [formGroup]="fertilityForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="fertilityForm" (ngSubmit)="onSubmit()" class="sub-record-form-wrapper">
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="age">Age:</label>
-      <input type="number" id="age" formControlName="age">
-
+      <input type="number" id="age" formControlName="age" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('age')?.invalid && fertilityForm.get('age')?.touched" class="sub-record-form-error-text">
+        Age is required
+      </div>
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="infertility">Infertility Date:</label>
-      <input type="date" id="infertility" formControlName="infertility">
-
+      <input type="date" id="infertility" formControlName="infertility" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('infertility')?.invalid && fertilityForm.get('infertility')?.touched" class="sub-record-form-error-text">
+        Infertility Date is required
+      </div>
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="duration">Duration:</label>
-      <input type="text" id="duration" formControlName="duration">
-
+      <input type="text" id="duration" formControlName="duration" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('duration')?.invalid && fertilityForm.get('duration')?.touched" class="sub-record-form-error-text">
+        Duration is required
+      </div>
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="cycleLength">Cycle Length (days):</label>
-      <input type="number" id="cycleLength" formControlName="cycleLength">
-
+      <input type="number" id="cycleLength" formControlName="cycleLength" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('cycleLength')?.invalid && fertilityForm.get('cycleLength')?.touched" class="sub-record-form-error-text">
+        Cycle Length is required
+      </div>
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="cycleMin">Cycle Min (days):</label>
-      <input type="number" id="cycleMin" formControlName="cycleMin">
-
+      <input type="number" id="cycleMin" formControlName="cycleMin" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('cycleMin')?.invalid && fertilityForm.get('cycleMin')?.touched" class="sub-record-form-error-text">
+        Cycle Min is required
+      </div>
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="cycleMax">Cycle Max (days):</label>
-      <input type="number" id="cycleMax" formControlName="cycleMax">
-
+      <input type="number" id="cycleMax" formControlName="cycleMax" class="sub-record-form-input-field">
+      <div *ngIf="fertilityForm.get('cycleMax')?.invalid && fertilityForm.get('cycleMax')?.touched" class="sub-record-form-error-text">
+        Cycle Max is required
+      </div>
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="dysmenorrhea">Dysmenorrhea:</label>
-      <input type="checkbox" id="dysmenorrhea" formControlName="dysmenorrhea">
-
+      <input type="checkbox" id="dysmenorrhea" formControlName="dysmenorrhea" class="sub-record-form-checkbox-field">
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="menorrhagia">Menorrhagia:</label>
-      <input type="checkbox" id="menorrhagia" formControlName="menorrhagia">
-
+      <input type="checkbox" id="menorrhagia" formControlName="menorrhagia" class="sub-record-form-checkbox-field">
+    </div>
+    <div class="sub-record-form-field-group">
       <label for="metrorrhagia">Metrorrhagia:</label>
-      <input type="checkbox" id="metrorrhagia" formControlName="metrorrhagia">
-
+      <input type="checkbox" id="metrorrhagia" formControlName="metrorrhagia" class="sub-record-form-checkbox-field">
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="civilState">Civil State:</label>
-      <select id="civilState" formControlName="civilState">
+      <select id="civilState" formControlName="civilState" class="sub-record-form-select-field">
         <option *ngFor="let state of CivilStates" [value]="state">{{ state }}</option>
       </select>
-
+      <div *ngIf="fertilityForm.get('civilState')?.invalid && fertilityForm.get('civilState')?.touched" class="sub-record-form-error-text">
+        Civil State is required
+      </div>
+    </div>
+  </div>
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
       <label for="comment">Comment:</label>
-      <textarea id="comment" formControlName="comment"></textarea>
-
-      <button type="submit" [disabled]="fertilityForm.invalid">Submit</button>
-    </form>
+      <textarea id="comment" formControlName="comment" class="sub-record-form-textarea-field"></textarea>
+    </div>
+  </div>
+  <div class="sub-record-form-action-buttons">
+    <button type="submit" [disabled]="fertilityForm.invalid" class="sub-record-form-submit-button">Submit</button>
+  </div>
+</form>

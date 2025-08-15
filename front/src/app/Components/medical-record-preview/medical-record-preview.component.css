@@ -31,7 +31,9 @@
 .preview-content strong {
   margin-right: 0.5rem;
 }
-
+.custom-dialog-container .mat-dialog-container {
+  padding: 16px;
+}
 @media (min-width: 640px) {
   .preview-container {
     padding: 1.5rem;

@@ -1,20 +1,20 @@
-    <form [formGroup]="obstetricsForm" (ngSubmit)="onSubmit()">
-      <label for="conceptionType">Conception Type:</label>
-      <select id="conceptionType" formControlName="conceptionType">
-        <option *ngFor="let type of ConceptionsTypes" [value]="type">{{ type }}</option>
-      </select>
+<form [formGroup]="obstetricsForm" (ngSubmit)="onSubmit()">
+  <label for="conceptionType">Conception Type:</label>
+  <select id="conceptionType" formControlName="conceptionType">
+    <option *ngFor="let type of ConceptionsTypes" [value]="type">{{ type }}</option>
+  </select>
 
-      <label for="conceptionDate">Conception Date:</label>
-      <input type="date" id="conceptionDate" formControlName="conceptionDate">
+  <label for="conceptionDate">Conception Date:</label>
+  <input type="date" id="conceptionDate" formControlName="conceptionDate">
 
-      <label for="ddr">DDR (Last Menstrual Period):</label>
-      <input type="date" id="ddr" formControlName="ddr">
+  <label for="ddr">DDR (Last Menstrual Period):</label>
+  <input type="date" id="ddr" formControlName="ddr">
 
-      <label for="nfoetus">Number of Fetuses:</label>
-      <input type="number" id="nfoetus" formControlName="nfoetus">
+  <label for="nfoetus">Number of Fetuses:</label>
+  <input type="number" id="nfoetus" formControlName="nfoetus">
 
-      <label for="comment">Comment:</label>
-      <textarea id="comment" formControlName="comment"></textarea>
+  <label for="comment">Comment:</label>
+  <textarea id="comment" formControlName="comment"></textarea>
 
-      <button type="submit" [disabled]="obstetricsForm.invalid">Submit</button>
-    </form>
+  <button type="submit" [disabled]="obstetricsForm.invalid">Submit</button>
+</form>

@@ -22,9 +22,8 @@ export class MedicalRecordPreviewComponent {
       console.log('Opening dialog with medicalBackgrounds:', this.medicalRecord.medicalBackgrounds); // Debug log
       this.dialog.open(MedicalBackgroundListComponent, {
         data: { medicalBackgroundList: this.medicalRecord.medicalBackgrounds },
-        width: '80%',
-        maxWidth: '800px',
-        maxHeight: '80vh',
+        width: '99%',
+        maxHeight: '99vh',
         autoFocus: true,
         panelClass: 'custom-dialog-container', // Optional: for custom styling
       });

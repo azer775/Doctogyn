@@ -19,6 +19,7 @@
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Consultation Details</h2>
         <app-consultation-detail [consultationId]="selectedConsultationId()!"></app-consultation-detail>
       </div>
+      <app-consultation-form [consultationId]="1"></app-consultation-form>
     </div>
     <ng-template #loading>
       <p class="text-gray-500">Loading...</p>

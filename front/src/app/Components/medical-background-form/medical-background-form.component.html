@@ -1,22 +1,28 @@
-<form [formGroup]="medicalBackgroundForm" class="medical-form">
+<form [formGroup]="medicalBackgroundForm" class="medical-form-wrapper">
   <!-- Familial Background -->
-  <div *ngIf="data.backgroundType === 'Familial'" class="form-section familial-section">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="familialPathology">Familial Pathology:</label>
-        <select id="familialPathology" formControlName="familialPathology" class="form-select">
+  <div *ngIf="data.backgroundType === 'Familial'" class="form-section-block">
+    <h3 class="text-base font-semibold text-[#111827] mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+      </svg>
+      Familial Background
+    </h3>
+    <div class="form-field-row">
+      <div class="form-field-group">
+        <label for="familialPathology">Familial Pathology</label>
+        <select id="familialPathology" formControlName="familialPathology" class="form-select-field">
           <option value="">Select Pathology</option>
           <option *ngFor="let pathology of familialPathologies" [value]="pathology">{{pathology}}</option>
         </select>
-        <div *ngIf="medicalBackgroundForm.get('familialPathology')?.invalid && medicalBackgroundForm.get('familialPathology')?.touched" class="error-message">
+        <div *ngIf="medicalBackgroundForm.get('familialPathology')?.invalid && medicalBackgroundForm.get('familialPathology')?.touched" class="form-error-text">
           Familial Pathology is required
         </div>
       </div>
       
-      <div class="form-group">
-        <label for="commentFamilial">Comment:</label>
-        <textarea id="commentFamilial" formControlName="comment" rows="3" class="form-textarea"></textarea>
-        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="error-message">
+      <div class="form-field-group">
+        <label for="commentFamilial">Comment</label>
+        <textarea id="commentFamilial" formControlName="comment" rows="3" class="form-textarea-field" placeholder="Enter additional details"></textarea>
+        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="form-error-text">
           Comment is required
         </div>
       </div>
@@ -24,104 +30,107 @@
   </div>
 
   <!-- Allergies Background -->
-  <div *ngIf="data.backgroundType === 'Allergies'" class="form-section allergies-section">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="allergies">Allergies:</label>
-        <select id="allergies" formControlName="allergies" class="form-select">
+  <div *ngIf="data.backgroundType === 'Allergies'" class="form-section-block">
+    <h3 class="text-base font-semibold text-[#111827] mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+      </svg>
+      Allergies Background
+    </h3>
+    <div class="form-field-row">
+      <div class="form-field-group">
+        <label for="allergies">Allergy</label>
+        <select id="allergies" formControlName="allergies" class="form-select-field">
           <option value="">Select Allergy</option>
           <option *ngFor="let allergy of allergies" [value]="allergy">{{allergy}}</option>
         </select>
-        <div *ngIf="medicalBackgroundForm.get('allergies')?.invalid && medicalBackgroundForm.get('allergies')?.touched" class="error-message">
-          Allergies is required
+        <div *ngIf="medicalBackgroundForm.get('allergies')?.invalid && medicalBackgroundForm.get('allergies')?.touched" class="form-error-text">
+          Allergy is required
         </div>
       </div>
       
-      <div class="form-group">
-        <label for="commentAllergies">Comment:</label>
-        <textarea id="commentAllergies" formControlName="comment" rows="3" class="form-textarea"></textarea>
-        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="error-message">
+      <div class="form-field-group">
+        <label for="DateAllergies">Date</label>
+        <input type="date" id="DateAllergies" formControlName="date" class="form-input-field">
+      </div>
+      
+      <div class="form-field-group">
+        <label for="commentAllergies">Comment</label>
+        <textarea id="commentAllergies" formControlName="comment" rows="3" class="form-textarea-field" placeholder="Enter additional details"></textarea>
+        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="form-error-text">
           Comment is required
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="dateAllergies">Date:</label>
-        <input id="dateAllergies" type="date" formControlName="date" class="form-input">
-        <div *ngIf="medicalBackgroundForm.get('date')?.invalid && medicalBackgroundForm.get('date')?.touched" class="error-message">
-          Date is required
         </div>
       </div>
     </div>
   </div>
 
   <!-- Medical Background -->
-  <div *ngIf="data.backgroundType === 'Medical'" class="form-section medical-section">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="medicalPathology">Medical Pathology:</label>
-        <select id="medicalPathology" formControlName="medicalPathology" class="form-select">
+  <div *ngIf="data.backgroundType === 'Medical'" class="form-section-block">
+    <h3 class="text-base font-semibold text-[#111827] mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+      </svg>
+      Medical Background
+    </h3>
+    <div class="form-field-row">
+      <div class="form-field-group">
+        <label for="medicalPathology">Medical Pathology</label>
+        <select id="medicalPathology" formControlName="medicalPathology" class="form-select-field">
           <option value="">Select Pathology</option>
           <option *ngFor="let pathology of medicalPathologies" [value]="pathology">{{pathology}}</option>
         </select>
-        <div *ngIf="medicalBackgroundForm.get('medicalPathology')?.invalid && medicalBackgroundForm.get('medicalPathology')?.touched" class="error-message">
+        <div *ngIf="medicalBackgroundForm.get('medicalPathology')?.invalid && medicalBackgroundForm.get('medicalPathology')?.touched" class="form-error-text">
           Medical Pathology is required
         </div>
       </div>
       
-      <div class="form-group">
-        <label for="commentMedical">Comment:</label>
-        <textarea id="commentMedical" formControlName="comment" rows="3" class="form-textarea"></textarea>
-        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="error-message">
+      <div class="form-field-group">
+        <label for="commentMedical">Comment</label>
+        <textarea id="commentMedical" formControlName="comment" rows="3" class="form-textarea-field" placeholder="Enter additional details"></textarea>
+        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="form-error-text">
           Comment is required
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="dateMedical">Date:</label>
-        <input id="dateMedical" type="date" formControlName="date" class="form-input">
-        <div *ngIf="medicalBackgroundForm.get('date')?.invalid && medicalBackgroundForm.get('date')?.touched" class="error-message">
-          Date is required
         </div>
       </div>
     </div>
   </div>
 
   <!-- Chirurgical Background -->
-  <div *ngIf="data.backgroundType === 'Chirurgical'" class="form-section chirurgical-section">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="chirurgicalPathology">Chirurgical Pathology:</label>
-        <select id="chirurgicalPathology" formControlName="chirurgicalPathology" class="form-select">
+  <div *ngIf="data.backgroundType === 'Chirurgical'" class="form-section-block">
+    <h3 class="text-base font-semibold text-[#111827] mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+      </svg>
+      Chirurgical Background
+    </h3>
+    <div class="form-field-row">
+      <div class="form-field-group">
+        <label for="chirurgicalPathology">Chirurgical Pathology</label>
+        <select id="chirurgicalPathology" formControlName="chirurgicalPathology" class="form-select-field">
           <option value="">Select Pathology</option>
           <option *ngFor="let pathology of chirurgicalPathologies" [value]="pathology">{{pathology}}</option>
         </select>
-        <div *ngIf="medicalBackgroundForm.get('chirurgicalPathology')?.invalid && medicalBackgroundForm.get('chirurgicalPathology')?.touched" class="error-message">
+        <div *ngIf="medicalBackgroundForm.get('chirurgicalPathology')?.invalid && medicalBackgroundForm.get('chirurgicalPathology')?.touched" class="form-error-text">
           Chirurgical Pathology is required
         </div>
       </div>
       
-      <div class="form-group">
-        <label for="commentChirurgical">Comment:</label>
-        <textarea id="commentChirurgical" formControlName="comment" rows="3" class="form-textarea"></textarea>
-        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="error-message">
+      <div class="form-field-group">
+        <label for="commentChirurgical">Comment</label>
+        <textarea id="commentChirurgical" formControlName="comment" rows="3" class="form-textarea-field" placeholder="Enter additional details"></textarea>
+        <div *ngIf="medicalBackgroundForm.get('comment')?.invalid && medicalBackgroundForm.get('comment')?.touched" class="form-error-text">
           Comment is required
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="dateChirurgical">Date:</label>
-        <input id="dateChirurgical" type="date" formControlName="date" class="form-input">
-        <div *ngIf="medicalBackgroundForm.get('date')?.invalid && medicalBackgroundForm.get('date')?.touched" class="error-message">
-          Date is required
         </div>
       </div>
     </div>
   </div>
 
-  <div class="form-actions">
-    <button type="button" (click)="onDelete()" class="btn-delete">
-      Delete
-    </button>
+  <div class="form-action-buttons">
+    <div class="form-item-actions">
+      <button type="button" (click)="onDelete()" class="form-delete-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      </button>
+    </div>
   </div>
 </form>

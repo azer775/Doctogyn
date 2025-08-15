@@ -1,47 +1,54 @@
-.form-section {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  min-width: 200px;
-  flex: 1;
-}
-
-.form-field label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.form-field input,
-.form-field select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form-field select[multiple] {
-  height: 100px;
-}
-
-button[type="submit"] {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button[type="submit"]:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+  .form-container {
+    @apply space-y-6;
+  }
+  
+  .form-section {
+    @apply mb-6;
+  }
+  
+  .section-title {
+    @apply text-lg font-semibold mb-2;
+  }
+  
+  .form-fields-container {
+    @apply flex flex-wrap gap-4;
+  }
+  
+  .form-field {
+    @apply flex flex-col min-w-[200px] flex-1;
+  }
+  
+  .form-label {
+    @apply font-medium mb-1;
+  }
+  
+  .form-input {
+    @apply border rounded-md p-2;
+  }
+  
+  .form-select {
+    @apply border rounded-md p-2;
+  }
+  
+  .form-checkbox {
+    @apply h-5 w-5;
+  }
+  
+  .dropdown-button {
+    @apply border rounded-md p-2 w-full text-left bg-white;
+  }
+  
+  .dropdown-menu {
+    @apply absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto;
+  }
+  
+  .dropdown-item {
+    @apply flex items-center p-2 hover:bg-gray-100;
+  }
+  
+  .submit-button {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed;
+  }
+  .form-container {
+  @apply space-y-6 w-full;
 }

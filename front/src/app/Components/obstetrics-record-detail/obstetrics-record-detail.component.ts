@@ -5,11 +5,12 @@ import { ObstetricsRecordService } from '../../Services/obstetrics-record.servic
 import { CommonModule } from '@angular/common';
 import { ConsultationListComponent } from '../consultation-list/consultation-list.component';
 import { ConsultationDetailComponent } from "../consultation-detail/consultation-detail.component";
+import { ConsultationFormComponent } from '../consultation-form/consultation-form.component';
 
 @Component({
   selector: 'app-obstetrics-record-detail',
   standalone: true,
-  imports: [CommonModule, ConsultationListComponent, ConsultationDetailComponent],
+  imports: [CommonModule, ConsultationListComponent, ConsultationDetailComponent, ConsultationFormComponent],
   templateUrl: './obstetrics-record-detail.component.html',
   styleUrl: './obstetrics-record-detail.component.css'
 })

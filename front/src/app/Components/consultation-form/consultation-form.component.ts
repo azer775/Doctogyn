@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Consultation } from '../../Models/Consultation';
 import { ConsultationType, Status } from '../../Models/enums';
@@ -6,19 +6,26 @@ import { ConsultationService } from '../../Services/consultation.service';
 import { CommonModule } from '@angular/common';
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { EditorComponent } from '../editor/editor.component';
+import { Echographie } from '../../Models/Echographie';
+import { EchographieFormComponent } from '../echographie-form/echographie-form.component';
 
 @Component({
   selector: 'app-consultation-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxSummernoteModule, EditorComponent],
+  imports: [CommonModule, ReactiveFormsModule, NgxSummernoteModule, EditorComponent,EchographieFormComponent],
   templateUrl: './consultation-form.component.html',
   styleUrl: './consultation-form.component.css'
 })
 export class ConsultationFormComponent  implements OnInit {
+  @Input() consultationId: number | null = null;
   consultationForm: FormGroup;
-  consultationTypes = Object.values(ConsultationType); 
-  Status = Object.values(Status); 
-  content: string = '<p>Default content</p>'; // For the editor content
+  consultationTypes = Object.values(ConsultationType);
+  Status = Object.values(Status);
+  content: string = '<p>Default content</p>';
+  showEchographyForm: boolean = false;
+  echographies: Echographie[] = [];
+  selectedEchography: Echographie | null = null;
+
   constructor(
     private fb: FormBuilder,
     private consultationService: ConsultationService
@@ -38,6 +45,7 @@ export class ConsultationFormComponent  implements OnInit {
       obstetricsRecordId: [null]
     });
   }
+
   defaultConfig: any = {
     height: 300,
     focus: true,
@@ -62,29 +70,101 @@ export class ConsultationFormComponent  implements OnInit {
     }
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.consultationId) {
+      this.consultationService.getConsultation(this.consultationId).subscribe({
+        next: (consultation) => {
+          this.consultationForm.patchValue({
+            date: consultation.date ? new Date(consultation.date).toISOString().split('T')[0] : '',
+            signsNegates: consultation.signsNegates,
+            weight: consultation.weight,
+            length: consultation.length,
+            bmi: consultation.bmi,
+            breasts: consultation.breasts,
+            examination: consultation.examination,
+            vagina: consultation.vagina,
+            consultationType: consultation.consultationType,
+            gynecologySubRecordId: consultation.gynecologySubRecordId,
+            fertilitySubRecordId: consultation.fertilitySubRecordId,
+            obstetricsRecordId: consultation.obstetricsRecordId
+          });
+          this.echographies = consultation.echographies || [];
+        },
+        error: (error) => {
+          console.error('Error fetching consultation:', error);
+        }
+      });
+    }
+  }
+
+  toggleEchographyForm() {
+    this.showEchographyForm = !this.showEchographyForm;
+    this.selectedEchography = null;
+  }
+
+  closeEchographyForm() {
+    this.showEchographyForm = false;
+    this.selectedEchography = null;
+  }
+
+  editEchography(index: number) {
+    this.selectedEchography = this.echographies[index];
+    this.showEchographyForm = true;
+  }
+
+  addEchography(echography: Echographie) {
+    if (this.selectedEchography && echography.id === this.selectedEchography.id) {
+      const index = this.echographies.findIndex(e => e.id === echography.id);
+      this.echographies[index] = echography;
+    } else {
+      this.echographies.push(echography);
+    }
+    this.showEchographyForm = false;
+    this.selectedEchography = null;
+  }
+
+  removeEchography(index: number) {
+    this.echographies.splice(index, 1);
+  }
 
   onSubmit() {
     if (this.consultationForm.valid) {
       const consultation: Consultation = {
         ...this.consultationForm.value,
-        date: new Date(this.consultationForm.value.date), // Convert string to Date
-        examination: this.consultationForm.get('examination')?.value
+        date: new Date(this.consultationForm.value.date),
+        examination: this.consultationForm.get('examination')?.value,
+        echographies: this.echographies
       };
-      console.log('Consultation Data:', consultation);
-       this.consultationService.createConsultation(consultation).subscribe({
-        next: (response) => {
-          console.log('Consultation created successfully:', response);
-          //this.consultationForm.reset();
-        },
-        error: (error) => {
-          console.error('Error creating consultation:', error);
-        }
-      }); 
-     } else {
+
+      if (this.consultationId) {
+        // Update existing consultation
+        this.consultationService.updateConsultation(this.consultationId, consultation).subscribe({
+          next: (response) => {
+            console.log('Consultation updated successfully:', response);
+            this.consultationForm.reset();
+            this.echographies = [];
+            this.consultationId = null;
+          },
+          error: (error) => {
+            console.error('Error updating consultation:', error);
+          }
+        });
+      } else {
+        // Create new consultation
+        this.consultationService.createConsultation(consultation).subscribe({
+          next: (response) => {
+            console.log('Consultation created successfully:', response);
+            this.consultationForm.reset();
+            this.echographies = [];
+          },
+          error: (error) => {
+            console.error('Error creating consultation:', error);
+          }
+        });
+      }
+    } else {
       console.log('Form is invalid');
       this.consultationForm.markAllAsTouched();
-    } 
+    }
   }
-
 }

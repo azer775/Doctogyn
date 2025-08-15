@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Echographie } from '../../Models/Echographie';
 import { UterusSize, Myometre, Ovary, Diagnosticpresumption, Pelvicdiagnosticpresumption } from '../../Models/enums';
@@ -14,6 +14,7 @@ import { EditorComponent } from '../editor/editor.component';
   styleUrl: './echographie-form.component.css'
 })
 export class EchographieFormComponent implements OnInit {
+  @Input() echographie: Echographie | null = null;
   echographieForm: FormGroup;
   uterusSizes = Object.values(UterusSize);
   myometres = Object.values(Myometre);
@@ -26,8 +27,12 @@ export class EchographieFormComponent implements OnInit {
     pelvicdiagnosticpresumptionsR: false,
     pelvicdiagnosticpresumptionsL: false
   };
+  @Output() echographySubmitted = new EventEmitter<Echographie>();
+  @Output() closeForm = new EventEmitter<void>();
+
   defaultConfig: any = {
-    height: 300,
+    width: 500,
+    height: 75,
     focus: true,
     tableClassName: 'custom-table',
     toolbar: [
@@ -88,7 +93,42 @@ export class EchographieFormComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.echographie) {
+      this.echographieForm.patchValue({
+        date: this.echographie.date ? new Date(this.echographie.date).toISOString().split('T')[0] : '',
+        report: this.echographie.report,
+        cycleDay: this.echographie.cycleDay,
+        condition: this.echographie.condition,
+        uterusSize: this.echographie.uterusSize,
+        uterusLength: this.echographie.uterusLength,
+        uterusWidth: this.echographie.uterusWidth,
+        myometre: this.echographie.myometre,
+        myomesNumber: this.echographie.myomesNumber,
+        endometriumThickness: this.echographie.endometriumThickness,
+        comment: this.echographie.comment,
+        ovaryR: this.echographie.ovaryR,
+        ovaryRSize: this.echographie.ovaryRSize,
+        cystSizeOR: this.echographie.cystSizeOR,
+        diagnosticpresumptionsOR: this.echographie.diagnosticpresumptionsOR || [],
+        ovaryRComment: this.echographie.ovaryRComment,
+        ovaryL: this.echographie.ovaryL,
+        ovaryLSize: this.echographie.ovaryLSize,
+        cystSizeOL: this.echographie.cystSizeOL,
+        diagnosticpresumptionsOL: this.echographie.diagnosticpresumptionsOL || [],
+        ovaryLComment: this.echographie.ovaryLComment,
+        pelvicMR: this.echographie.pelvicMR,
+        pmRSize: this.echographie.pmRSize,
+        pelvicdiagnosticpresumptionsR: this.echographie.pelvicdiagnosticpresumptionsR || [],
+        pmRComment: this.echographie.pmRComment,
+        pelvicML: this.echographie.pelvicML,
+        pmLSize: this.echographie.pmLSize,
+        pelvicdiagnosticpresumptionsL: this.echographie.pelvicdiagnosticpresumptionsL || [],
+        pmLComment: this.echographie.pmLComment,
+        consultationId: this.echographie.consultationId
+      });
+    }
+  }
 
   toggleDropdown(field: string) {
     this.dropdownOpen[field] = !this.dropdownOpen[field];
@@ -106,26 +146,77 @@ export class EchographieFormComponent implements OnInit {
 
   onSubmit() {
     if (this.echographieForm.valid) {
-      const echographie: Echographie = {
+      const echography: Echographie = {
         ...this.echographieForm.value,
+        id: this.echographie?.id,
         date: new Date(this.echographieForm.value.date),
         diagnosticpresumptionsOR: this.echographieForm.value.diagnosticpresumptionsOR || [],
         diagnosticpresumptionsOL: this.echographieForm.value.diagnosticpresumptionsOL || [],
         pelvicdiagnosticpresumptionsR: this.echographieForm.value.pelvicdiagnosticpresumptionsR || [],
         pelvicdiagnosticpresumptionsL: this.echographieForm.value.pelvicdiagnosticpresumptionsL || []
       };
-      console.log('Echographie Data:', echographie);
-      this.echographieService.createEchographie(echographie).subscribe({
-        next: (response) => {
-          console.log('Echographie created successfully:', response);
-        },
-        error: (error) => {
-          console.error('Error creating echographie:', error);
-        }
-      });
+
+      if (this.echographie?.id) {
+        // Update existing echography
+        this.echographieService.updateEchographie(this.echographie.id, echography).subscribe({
+          next: (response) => {
+            console.log('Echography updated successfully:', response);
+            this.echographySubmitted.emit(response);
+            this.resetForm();
+            this.echographie = null;
+          },
+          error: (error) => {
+            console.error('Error updating echography:', error);
+          }
+        });
+      } else {
+        // Create new echography
+        this.echographySubmitted.emit(echography);
+        this.resetForm();
+      }
     } else {
       console.log('Form is invalid');
       this.echographieForm.markAllAsTouched();
     }
+  }
+
+  resetForm() {
+    this.echographieForm.reset({
+      date: '',
+      report: '<p>Default content</p>',
+      cycleDay: '',
+      condition: '',
+      uterusSize: '',
+      uterusLength: null,
+      uterusWidth: null,
+      myometre: '',
+      myomesNumber: null,
+      endometriumThickness: null,
+      comment: '',
+      ovaryR: '',
+      ovaryRSize: null,
+      cystSizeOR: null,
+      diagnosticpresumptionsOR: [],
+      ovaryRComment: '',
+      ovaryL: '',
+      ovaryLSize: null,
+      cystSizeOL: null,
+      diagnosticpresumptionsOL: [],
+      ovaryLComment: '',
+      pelvicMR: false,
+      pmRSize: null,
+      pelvicdiagnosticpresumptionsR: [],
+      pmRComment: '',
+      pelvicML: false,
+      pmLSize: null,
+      pelvicdiagnosticpresumptionsL: [],
+      pmLComment: '',
+      consultationId: null
+    });
+  }
+
+  closeEchographyForm() {
+    this.resetForm();
+    this.closeForm.emit();
   }
 }

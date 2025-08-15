@@ -30,6 +30,8 @@ public class ConsultationService {
 
     @Autowired
     private ObstetricsRecordRepository obstetricsRecordRepository;
+    @Autowired
+    EchographieService echographieService;
 
     public ConsultationDTO createConsultation(ConsultationDTO dto) {
         Consultation consultation = mapToEntity(dto);
@@ -80,6 +82,7 @@ public class ConsultationService {
                 .breasts(consultation.getBreasts())
                 .vagina(consultation.getVagina())
                 .examination(consultation.getExamination())
+                .echographies(consultation.getEchographies().stream().map(echographieService::mapToDTO).toList())
                 .consultationType(consultation.getConsultationType())
                 .gynecologySubRecordId(consultation.getGynecologySubRecord() != null ? consultation.getGynecologySubRecord().getId() : null)
                 .fertilitySubRecordId(consultation.getFertilitySubRecord() != null ? consultation.getFertilitySubRecord().getId() : null)
@@ -98,6 +101,7 @@ public class ConsultationService {
                 .vagina(dto.getVagina())
                 .examination(dto.getExamination())
                 .consultationType(dto.getConsultationType())
+                .echographies(dto.getEchographies().stream().map(echographieService::mapToEntity).toList())
                 .build();
         if (dto.getGynecologySubRecordId() != null) {
             Optional<GynecologySubRecord> gynecologySubRecord = gynecologySubRecordRepository.findById(dto.getGynecologySubRecordId());

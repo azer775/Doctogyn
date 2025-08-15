@@ -8,6 +8,7 @@ import org.example.medicalreport.Models.enums.ConsultationType;
 import org.example.medicalreport.Models.enums.State;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,5 @@ public class ConsultationDTO {
     private Long gynecologySubRecordId;
     private Long fertilitySubRecordId;
     private Long obstetricsRecordId;
+    private List<EchographieDTO> echographies;
 }

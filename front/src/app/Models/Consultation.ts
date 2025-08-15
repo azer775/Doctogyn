@@ -1,3 +1,4 @@
+import { Echographie } from "./Echographie";
 import { ConsultationType, Status } from "./enums";
 
 export class Consultation {
@@ -14,4 +15,5 @@ export class Consultation {
   public gynecologySubRecordId!: number | null;
   public fertilitySubRecordId!: number | null;
   public obstetricsRecordId!: number | null;
+  public echographies: Echographie[] = [];
 }
