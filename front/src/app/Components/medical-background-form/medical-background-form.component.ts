@@ -31,10 +31,10 @@ export class MedicalBackgroundFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.medicalBackgroundForm = this.fb.group({
-      familialPathology: [FamilialPathology.OVARIAN_CANCER],
-      allergies: [Allergies.Drug],
-      medicalPathology: [MedicalPathology.HEART_DISEASE],
-      chirurgicalPathology: [ChirurgicalPathology.APPENDECTOMY],
+      familialPathology: [null],
+      allergies: [null],
+      medicalPathology: [null],
+      chirurgicalPathology: [null],
       comment: [''],
       date: [null]
     });
@@ -67,7 +67,6 @@ export class MedicalBackgroundFormComponent implements OnInit {
     switch (type) {
       case 'Familial':
         controls['familialPathology'].setValidators(Validators.required);
-        controls['comment'].setValidators(Validators.required);
         break;
       case 'Allergies':
         controls['allergies'].setValidators(Validators.required);
@@ -81,8 +80,6 @@ export class MedicalBackgroundFormComponent implements OnInit {
         break;
       case 'Chirurgical':
         controls['chirurgicalPathology'].setValidators(Validators.required);
-        controls['date'].setValidators(Validators.required);
-        controls['comment'].setValidators(Validators.required);
         break;
     }
 
@@ -92,18 +89,34 @@ export class MedicalBackgroundFormComponent implements OnInit {
   getFormData(): MedicalBackground | null {
     if (this.medicalBackgroundForm.valid) {
       const formValue = this.medicalBackgroundForm.value;
-      return new MedicalBackground(
-        0,
-        formValue.familialPathology,
-        formValue.allergies,
-        formValue.medicalPathology,
-        formValue.chirurgicalPathology,
-        '',
-        formValue.comment,
-        formValue.date ? new Date(formValue.date) : new Date(),
-        this.data.backgroundType,
-        this.data.medicalRecordId
-      );
+      if(this.medicalBackground)
+        {return new MedicalBackground(
+          this.medicalBackground.id,
+          formValue.familialPathology,
+          formValue.allergies,
+          formValue.medicalPathology,
+          formValue.chirurgicalPathology,
+          '',
+          formValue.comment,
+          formValue.date ? new Date(formValue.date) : new Date(),
+          this.data.backgroundType,
+          this.data.medicalRecordId
+        );}
+        else
+        {
+          return new MedicalBackground(
+            null,
+            formValue.familialPathology,
+            formValue.allergies,
+            formValue.medicalPathology,
+            formValue.chirurgicalPathology,
+            '',
+            formValue.comment,
+            formValue.date ? new Date(formValue.date) : new Date(),
+            this.data.backgroundType,
+            this.data.medicalRecordId
+          );
+        }
     }
     return null;
   }

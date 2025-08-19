@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MedicalRecord } from '../../Models/MedicalRecord';
 import { CommonModule } from '@angular/common';
 import { MedicalBackgroundFormComponent } from "../medical-background-form/medical-background-form.component";
 import { MedicalBackgroundListComponent } from '../medical-background-list/medical-background-list.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MedicalBackgroundTableComponent } from "../medical-background-table/medical-background-table.component";
+import { MedicalRecordService } from '../../Services/medical-record.service';
 
 @Component({
   selector: 'app-medical-record-preview',
@@ -13,24 +14,50 @@ import { MedicalBackgroundTableComponent } from "../medical-background-table/med
   templateUrl: './medical-record-preview.component.html',
   styleUrl: './medical-record-preview.component.css'
 })
-export class MedicalRecordPreviewComponent {
+export class MedicalRecordPreviewComponent implements OnInit {
   @Input() medicalRecord: MedicalRecord | null = null;
-  constructor(private dialog: MatDialog) {}
 
-    openMedicalBackgroundDialog(): void {
+  constructor(
+    private dialog: MatDialog,
+    private medicalRecordService: MedicalRecordService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadMedicalRecord();
+  }
+
+  loadMedicalRecord(): void {
+    if (this.medicalRecord?.id) {
+      this.medicalRecordService.getMedicalRecord(this.medicalRecord.id).subscribe({
+        next: (record) => {
+          this.medicalRecord = record;
+        },
+        error: (error) => {
+          console.error('Error loading medical record:', error);
+        }
+      });
+    }
+  }
+
+  openMedicalBackgroundDialog(): void {
     if (this.medicalRecord?.medicalBackgrounds) {
       console.log('Opening dialog with medicalBackgrounds:', this.medicalRecord.medicalBackgrounds); // Debug log
-      this.dialog.open(MedicalBackgroundListComponent, {
-        data: { medicalBackgroundList: this.medicalRecord.medicalBackgrounds },
+      const dialogRef = this.dialog.open(MedicalBackgroundListComponent, {
+        data: { medicalBackgroundList: this.medicalRecord.medicalBackgrounds, medicalRecordId: this.medicalRecord.id },
         width: '99%',
         maxHeight: '99vh',
         autoFocus: true,
-        panelClass: 'custom-dialog-container', // Optional: for custom styling
+        panelClass: 'custom-dialog-container'
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.success) {
+          console.log('Medical backgrounds updated, reloading medical record');
+          this.loadMedicalRecord();
+        }
       });
     } else {
       console.warn('No medical backgrounds available to display in dialog');
     }
   }
-  
-
 }

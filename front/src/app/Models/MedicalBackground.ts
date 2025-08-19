@@ -1,7 +1,7 @@
 import { Allergies, ChirurgicalPathology, FamilialPathology, MedicalPathology } from "./enums";
 
 export class MedicalBackground {
-  public id!: number;
+  public id!: number | null; // Assuming id can be null for new records
   public familialPathology!: FamilialPathology;
   public allergies!: Allergies;
   public medicalPathology!: MedicalPathology;
@@ -13,7 +13,7 @@ export class MedicalBackground {
   public medicalRecordId!: number;
 
   constructor(
-    id: number,
+    id: number | null,
     familialPathology: FamilialPathology,
     allergies: Allergies,
     medicalPathology: MedicalPathology,
@@ -24,7 +24,7 @@ export class MedicalBackground {
     backgroundType: string,
     medicalRecordId: number
   ) {
-    this.id = id;
+    this.id = id || null;
     this.familialPathology = familialPathology;
     this.allergies = allergies;
     this.medicalPathology = medicalPathology;

@@ -1,36 +1,54 @@
 <div class="tabs-container">
   <div class="tab-header-wrapper">
-  <div class="tab-header-container">
-    <button
-      *ngFor="let tab of tabs; let i = index"
-      [class.tab-button-active]="activeTab === i"
-      [class.tab-button-inactive]="activeTab !== i"
-      (click)="setActiveTab(i)"
-      (keydown)="handleKeydown($event)"
-      class="tab-button"
-      role="tab"
-      [attr.aria-selected]="activeTab === i"
-      [attr.aria-controls]="'tab-content-' + i"
-      tabindex="0"
-    >
-      {{ tab.title }}
-      <span *ngIf="activeTab === i" class="tab-underline"></span>
-    </button>
-  <div class="add-button-container">
-    <button class="add-button" (click)="toggleDropdown()" tabindex="0">
-      <svg class="add-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-    </button>
-  </div>
-  </div>
-    <div *ngIf="isDropdownOpen" class="dropdown-menu"  >
-      <button class="dropdown-item" (click)="openFertilityForm()">Add Fertility SubRecord</button>
-      <button class="dropdown-item" (click)="openGynecologyForm()">Add Gynecology SubRecord</button>
-      <button class="dropdown-item" (click)="openObstetricsForm()">Add Obstetrics Record</button>
+    <div class="tab-header-container">
+      <button
+        *ngFor="let tab of tabs; let i = index"
+        [class.tab-button-active]="activeTab === i"
+        [class.tab-button-inactive]="activeTab !== i"
+        (click)="setActiveTab(i)"
+        (keydown)="handleKeydown($event)"
+        class="tab-button"
+        role="tab"
+        [attr.aria-selected]="activeTab === i"
+        [attr.aria-controls]="'tab-content-' + i"
+        tabindex="0"
+      >
+        <span class="tab-button-content">
+          {{ tab.title }}
+          <span *ngIf="activeTab === i" class="tab-underline"></span>
+        </span>
+      </button>
+      
+      <div class="add-button-container">
+        <button class="add-button" (click)="toggleDropdown()" tabindex="0">
+          <svg class="add-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      </div>
     </div>
-</div>
-
+    
+    <div *ngIf="isDropdownOpen" class="dropdown-menu">
+      <button class="dropdown-item" (click)="openFertilityForm()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        Add Fertility SubRecord
+      </button>
+      <button class="dropdown-item" (click)="openGynecologyForm()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        Add Gynecology SubRecord
+      </button>
+      <button class="dropdown-item" (click)="openObstetricsForm()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        Add Obstetrics Record
+      </button>
+    </div>
+  </div>
 
   <div class="tab-content">
     <div
@@ -43,16 +61,25 @@
       [hidden]="activeTab !== i"
     >
       <app-medical-record-preview *ngIf="tab.isPreview" [medicalRecord]="medicalRecord"></app-medical-record-preview>
-      <app-gynecology-sub-record-detail *ngIf="tab.type === 'gynecology' && tab.subRecordId" [subRecordId]="tab.subRecordId" ></app-gynecology-sub-record-detail>
-      <app-fertility-sub-record-detail   *ngIf="tab.type === 'fertility' && tab.subRecordId"  [subRecordId]="tab.subRecordId"></app-fertility-sub-record-detail>
-      <app-obstetrics-record-detail *ngIf="tab.type === 'obstetrics' && tab.subRecordId"[subRecordId]="tab.subRecordId" ></app-obstetrics-record-detail>
+      <app-gynecology-sub-record-detail *ngIf="tab.type === 'gynecology' && tab.subRecordId" [subRecordId]="tab.subRecordId"></app-gynecology-sub-record-detail>
+      <app-fertility-sub-record-detail *ngIf="tab.type === 'fertility' && tab.subRecordId" [subRecordId]="tab.subRecordId"></app-fertility-sub-record-detail>
+      <app-obstetrics-record-detail *ngIf="tab.type === 'obstetrics' && tab.subRecordId" [subRecordId]="tab.subRecordId"></app-obstetrics-record-detail>
+      
       <ng-container *ngIf="!tab.isPreview && !tab.subRecordId && !tab.type">
-        <h2 class="tab-title">{{ tab.title }}</h2>
-        <p class="tab-text">Failed to load record details.</p>
-        <div class="tab-action">
-          <button class="learn-more-button">Learn More</button>
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 class="empty-title">{{ tab.title }}</h2>
+          <p class="empty-text">Failed to load record details.</p>
+          <button class="empty-action-button">
+            Learn More
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
         </div>
       </ng-container>
     </div>
-</div>
+  </div>
 </div>

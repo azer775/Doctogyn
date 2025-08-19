@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.medicalreport.Models.enums.ConceptionType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,6 +22,6 @@ public class ObstetricsRecordDTO {
     private LocalDate date;
     private int nfoetus;
     private String comment;
-    private List<ConsultationDTO> consultations;
+    private List<ConsultationDTO> consultations= new ArrayList<>();
     private Long medicalRecordId;
 }

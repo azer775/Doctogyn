@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@ToString
 public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

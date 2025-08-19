@@ -17,6 +17,7 @@ public class MedicalBackgroundDTO {
     private MedicalPathology medicalPathology;
     private ChirurgicalPathology chirurgicalPathology;
     private String surgicalApproach;
+    private String comment;
     private BackgroundType backgroundType;
     private Long medicalRecordId;
 }

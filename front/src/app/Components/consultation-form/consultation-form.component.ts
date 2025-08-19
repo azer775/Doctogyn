@@ -23,6 +23,7 @@ export class ConsultationFormComponent  implements OnInit {
   Status = Object.values(Status);
   content: string = '<p>Default content</p>';
   showEchographyForm: boolean = false;
+  isEchographyCollapsed: boolean = false;
   echographies: Echographie[] = [];
   selectedEchography: Echographie | null = null;
 
@@ -102,6 +103,14 @@ export class ConsultationFormComponent  implements OnInit {
     this.selectedEchography = null;
   }
 
+  toggleEchographyCollapse() {
+    this.isEchographyCollapsed = !this.isEchographyCollapsed;
+    if (this.isEchographyCollapsed) {
+      this.showEchographyForm = false;
+      this.selectedEchography = null;
+    }
+  }
+
   closeEchographyForm() {
     this.showEchographyForm = false;
     this.selectedEchography = null;
@@ -110,6 +119,7 @@ export class ConsultationFormComponent  implements OnInit {
   editEchography(index: number) {
     this.selectedEchography = this.echographies[index];
     this.showEchographyForm = true;
+    this.isEchographyCollapsed = false;
   }
 
   addEchography(echography: Echographie) {
@@ -137,7 +147,6 @@ export class ConsultationFormComponent  implements OnInit {
       };
 
       if (this.consultationId) {
-        // Update existing consultation
         this.consultationService.updateConsultation(this.consultationId, consultation).subscribe({
           next: (response) => {
             console.log('Consultation updated successfully:', response);
@@ -150,7 +159,6 @@ export class ConsultationFormComponent  implements OnInit {
           }
         });
       } else {
-        // Create new consultation
         this.consultationService.createConsultation(consultation).subscribe({
           next: (response) => {
             console.log('Consultation created successfully:', response);

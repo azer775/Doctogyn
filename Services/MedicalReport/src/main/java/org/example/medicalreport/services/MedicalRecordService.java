@@ -126,6 +126,7 @@ public class MedicalRecordService {
                 .sex(dto.getSex())
                 .civilState(dto.getCivilState())
                 .email(dto.getEmail())
+                .medicalBackgrounds(dto.getMedicalBackgrounds().stream().map(medicalBackgroundService::mapToEntity).toList())
                 .comment(dto.getComment())
                 .build();
     }

@@ -20,6 +20,7 @@ public class MedicalBackground {
     private ChirurgicalPathology chirurgicalPathology;
     private String surgicalApproach;
     private BackgroundType backgroundType;
+    private String comment;
     @ManyToOne
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;

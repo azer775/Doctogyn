@@ -196,285 +196,90 @@
 }
 
 /* Tabs Component Styles */
-:host {
-  display: block;
+.tabs-container {
+  @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
 }
 
-.tabs-container {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Inter', sans-serif;
-  background: rgba(232, 232, 232, 0.2);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(232, 232, 232, 0.2);
-  position: relative;
+.tab-header-wrapper {
+  @apply relative border-b border-[#e5e7eb];
 }
 
 .tab-header-container {
-  @apply absolute flex justify-start gap-1 bg-white/40 p-4 overflow-x-auto relative;
-  min-height: 56px;
-  width: 100%;
-  z-index: 10;
-  background: rgba(232, 232, 232, 0.4);
-}
-
-@media (min-width: 640px) {
-  .tab-header-container {
-    @apply gap-4 p-6;
-    min-height: 64px;
-  }
-}
-
-@media (min-width: 768px) {
-  .tab-header-container {
-    @apply gap-6 p-8;
-    min-height: 72px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .tab-header-container {
-    @apply gap-8 p-12;
-    min-height: 80px;
-  }
-}
-
-.tab-header-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.tab-header-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-.tab-header-container::-webkit-scrollbar-track {
-  background: transparent;
+  @apply flex items-center justify-between bg-[#f8fafc] px-4 py-2 overflow-x-auto;
 }
 
 .tab-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: all 0.3s ease-out;
-  cursor: pointer;
-  white-space: nowrap;
+  @apply relative px-4 py-2 text-sm font-medium rounded-md focus:outline-none transition-colors;
 }
 
-@media (min-width: 640px) {
-  .tab-button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .tab-button {
-    font-size: 1.125rem;
-  }
+.tab-button-content {
+  @apply flex flex-col items-center;
 }
 
 .tab-button-active {
-  background: #e2f8f8;
-  color: #58b0b0;
+  @apply text-[#6fdcdc] bg-white shadow-sm;
 }
 
 .tab-button-inactive {
-  color: #030c08;
-}
-
-.tab-button-inactive:hover,
-.tab-button-inactive:focus {
-  color: #6fdcdc;
-  background: rgba(111, 220, 220, 0.5);
-}
-
-.tab-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #6fdcdc;
-}
-
-.tab-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-@media (min-width: 640px) {
-  .tab-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
-
-.tab-icon-active {
-  color: #6fdcdc;
-}
-
-.tab-icon-inactive {
-  color: #b898cd;
+  @apply text-[#374151] hover:text-[#6fdcdc] hover:bg-[#f0fdf4];
 }
 
 .tab-underline {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, #6fdcdc, #b898cd);
-  transform: scaleX(1);
-  transition: transform 0.3s ease;
+  @apply w-full h-0.5 bg-[#6fdcdc] mt-1 rounded-full;
 }
 
 .add-button-container {
-  @apply relative inline-flex;
-  z-index: 20;
+  @apply ml-2;
 }
 
 .add-button {
-  @apply flex items-center justify-center w-10 h-10 bg-white/80 rounded-lg cursor-pointer transition-colors;
-  background: rgba(232, 232, 232, 0.8);
-}
-
-.add-button:hover {
-  @apply bg-blue-100;
-  background: #e2f8f8;
+  @apply flex items-center justify-center w-8 h-8 bg-[#6fdcdc] text-white rounded-md hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1;
 }
 
 .add-icon {
-  @apply w-6 h-6 text-gray-700;
-  color: #030c08;
+  @apply w-4 h-4;
 }
 
 .dropdown-menu {
-  @apply absolute left-0 top-full mt-1 bg-white/90 rounded-lg shadow-lg flex flex-col min-w-[200px] max-w-[250px] z-30;
-  transform: translateY(0);
-  position: absolute;
-  top: 100%;
-  background: rgba(232, 232, 232, 0.9);
+  @apply absolute right-0 mt-1 w-56 bg-white rounded-md shadow-lg z-10 border border-[#e5e7eb];
 }
 
 .dropdown-item {
-  @apply px-4 py-3 text-sm text-[#030c08] bg-transparent border-none text-left cursor-pointer transition-colors whitespace-nowrap;
-}
-
-.dropdown-item:hover {
-  @apply bg-[#e2f8f8]/80;
+  @apply flex items-center px-4 py-2 text-sm text-[#374151] hover:bg-[#f0fdf4] w-full text-left;
 }
 
 .tab-content {
-  flex-grow: 1;
-  padding: 1rem;
-  background: rgba(232, 232, 232, 0.7);
-  min-height: calc(100vh - 80px);
-  position: relative;
-  z-index: 0;
-}
-
-@media (min-width: 640px) {
-  .tab-content {
-    padding: 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .tab-content {
-    padding: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .tab-content {
-    padding: 3rem;
-  }
+  @apply p-4 bg-white;
 }
 
 .tab-content-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 1280px;
-  margin: 0 auto;
+  @apply space-y-4;
 }
 
-.tab-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #030c08;
-  letter-spacing: -0.025em;
+.empty-state {
+  @apply flex flex-col items-center justify-center py-12 text-center;
 }
 
-@media (min-width: 640px) {
-  .tab-title {
-    font-size: 1.875rem;
-  }
+.empty-icon {
+  @apply h-12 w-12 text-gray-400 mb-4;
 }
 
-@media (min-width: 768px) {
-  .tab-title {
-    font-size: 2.25rem;
-  }
+.empty-title {
+  @apply text-lg font-semibold text-[#111827] mb-2;
 }
 
-.tab-text {
-  color: #030c08;
-  line-height: 1.75;
-  font-size: 1rem;
+.empty-text {
+  @apply text-sm text-[#6b7280] mb-4;
 }
 
-@media (min-width: 640px) {
-  .tab-text {
-    font-size: 1.125rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .tab-text {
-    font-size: 1.25rem;
-  }
-}
-
-.tab-action {
-  margin-top: 1.5rem;
-}
-
-.learn-more-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #6fdcdc;
-  color: #030c08;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  transition: background 0.3s ease;
-  font-size: 0.875rem;
-}
-
-@media (min-width: 640px) {
-  .learn-more-button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .learn-more-button {
-    font-size: 1.125rem;
-  }
-}
-
-.learn-more-button:hover {
-  background: #58b0b0;
+.empty-action-button {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -483,11 +288,53 @@
 }
 
 .animate-slide-in {
-  animation: slideIn 0.4s ease-out forwards;
+  animation: slideIn 0.3s ease-out forwards;
 }
 
-.tab-header-wrapper {
-  @apply relative;
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  .tab-header-container {
+    @apply px-6 py-3;
+  }
+  
+  .tab-button {
+    @apply px-5 py-2 text-base;
+  }
+  
+  .tab-content {
+    @apply p-6;
+  }
+}
+
+@media (min-width: 768px) {
+  .tab-header-container {
+    @apply px-8 py-4;
+  }
+  
+  .empty-state {
+    @apply py-16;
+  }
+  
+  .empty-title {
+    @apply text-xl;
+  }
+  
+  .empty-text {
+    @apply text-base;
+  }
+}
+
+/* Scrollbar styling */
+.tab-header-container::-webkit-scrollbar {
+  @apply h-1.5;
+}
+
+.tab-header-container::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+.tab-header-container::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
 /* Medical Record Preview Component Styles */

@@ -60,6 +60,7 @@ public class MedicalBackgroundService {
                 .medicalPathology(medicalBackground.getMedicalPathology())
                 .chirurgicalPathology(medicalBackground.getChirurgicalPathology())
                 .surgicalApproach(medicalBackground.getSurgicalApproach())
+                .comment(medicalBackground.getComment())
                 .backgroundType(medicalBackground.getBackgroundType())
                 .medicalRecordId(medicalBackground.getMedicalRecord() != null ? medicalBackground.getMedicalRecord().getId() : null)
                 .build();
@@ -67,11 +68,13 @@ public class MedicalBackgroundService {
 
     public MedicalBackground mapToEntity(MedicalBackgroundDTO dto) {
         MedicalBackground medicalBackground = MedicalBackground.builder()
+                .id(dto.getId())
                 .familialPathology(dto.getFamilialPathology())
                 .allergies(dto.getAllergies())
                 .medicalPathology(dto.getMedicalPathology())
                 .chirurgicalPathology(dto.getChirurgicalPathology())
                 .surgicalApproach(dto.getSurgicalApproach())
+                .comment(dto.getComment())
                 .backgroundType(dto.getBackgroundType())
                 .build();
         if (dto.getMedicalRecordId() != null) {
@@ -83,6 +86,10 @@ public class MedicalBackgroundService {
 
 
     public List<MedicalBackgroundDTO> addMBList(List<MedicalBackgroundDTO> mbList) {
+        List<MedicalBackground> list = mbList.stream().map(this::mapToEntity).toList();
+        return medicalBackgroundRepository.saveAll(list).stream().map(this::mapToDTO).toList();
+    }
+    public List<MedicalBackgroundDTO> updateMBList(List<MedicalBackgroundDTO> mbList) {
         List<MedicalBackground> list = mbList.stream().map(this::mapToEntity).toList();
         return medicalBackgroundRepository.saveAll(list).stream().map(this::mapToDTO).toList();
     }
