@@ -35,6 +35,7 @@ public class Consultation {
     private GynecologySubRecord gynecologySubRecord;
 
     @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Echographie> echographies = new ArrayList<>();
 
     @ManyToOne

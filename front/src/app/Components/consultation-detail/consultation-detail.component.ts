@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { Consultation } from '../../Models/Consultation';
 import { ConsultationType, Status } from '../../Models/enums';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './consultation-detail.component.html',
   styleUrl: './consultation-detail.component.css'
 })
-export class ConsultationDetailComponent implements OnInit {
+export class ConsultationDetailComponent implements OnInit , OnChanges {
   @Input() consultationId!: number;
   consultation: Consultation | null = null;
   error: string | null = null;
@@ -35,6 +35,12 @@ export class ConsultationDetailComponent implements OnInit {
         });
     } else {
       this.error = 'No consultation ID provided';
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['consultationId'] && changes['consultationId'].currentValue) {
+      this.consultationId = changes['consultationId'].currentValue;
+      this.ngOnInit();
     }
   }
 

@@ -51,15 +51,16 @@ public class ConsultationService {
     }
 
     public ConsultationDTO updateConsultation(Long id, ConsultationDTO dto) {
-        //Optional<Consultation> existing = consultationRepository.findById(id);
-        //if (existing.isPresent()) {
+        Optional<Consultation> existing = consultationRepository.findById(id);
+        if (existing.isPresent()) {
             Consultation consultation = mapToEntity(dto);
             consultation.setId(id); // Ensure the ID is preserved for update
-            System.out.println(consultation);
+            System.out.println("before"+consultation.getEchographies());
             Consultation updated = consultationRepository.save(consultation);
+            System.out.println("after"+updated.getEchographies());
             return mapToDTO(updated);
-        //}
-       // return null;
+        }
+        return null;
     }
 
     public void deleteConsultation(Long id) {

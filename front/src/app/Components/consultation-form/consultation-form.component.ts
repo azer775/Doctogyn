@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Consultation } from '../../Models/Consultation';
 import { ConsultationType, Status } from '../../Models/enums';
@@ -18,6 +18,7 @@ import { EchographieFormComponent } from '../echographie-form/echographie-form.c
 })
 export class ConsultationFormComponent  implements OnInit {
   @Input() consultationId: number | null = null;
+  @Output() formSubmitted = new EventEmitter<void>(); // New output
   consultationForm: FormGroup;
   consultationTypes = Object.values(ConsultationType);
   Status = Object.values(Status);
@@ -90,6 +91,7 @@ export class ConsultationFormComponent  implements OnInit {
             obstetricsRecordId: consultation.obstetricsRecordId
           });
           this.echographies = consultation.echographies || [];
+          console.log('Fetched consultation:', consultation);
         },
         error: (error) => {
           console.error('Error fetching consultation:', error);
@@ -153,8 +155,10 @@ export class ConsultationFormComponent  implements OnInit {
             this.consultationForm.reset();
             this.echographies = [];
             this.consultationId = null;
+            this.formSubmitted.emit(); // Emit event to reset edit state
           },
           error: (error) => {
+            console.log('Error updating consultation:', consultation);
             console.error('Error updating consultation:', error);
           }
         });
@@ -164,6 +168,7 @@ export class ConsultationFormComponent  implements OnInit {
             console.log('Consultation created successfully:', response);
             this.consultationForm.reset();
             this.echographies = [];
+            this.formSubmitted.emit(); // Emit event to reset edit state
           },
           error: (error) => {
             console.error('Error creating consultation:', error);

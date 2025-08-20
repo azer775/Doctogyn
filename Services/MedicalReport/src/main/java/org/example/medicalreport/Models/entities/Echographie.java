@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@ToString
 public class Echographie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +53,7 @@ public class Echographie {
     private double pmLSize;
     private List<Pelvicdiagnosticpresumption> pelvicdiagnosticpresumptionsL;
     private String pmLComment;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "consultation")
     private Consultation consultation;
 

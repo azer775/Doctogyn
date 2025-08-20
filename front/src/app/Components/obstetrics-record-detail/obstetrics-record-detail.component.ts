@@ -19,6 +19,7 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
   obstetricsRecord: ObstetricsRecord | null = null;
   error: string | null = null;
   selectedConsultationId = signal<number | null>(null);
+  selectedEditConsultationId = signal<number | null>(null); // New signal for editing
 
   constructor(private obstetricsRecordService: ObstetricsRecordService) {}
 
@@ -33,6 +34,7 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
         )
         .subscribe(record => {
           this.obstetricsRecord = record;
+          console.log('Fetched Obstetrics Record:', record);
         });
     } else {
       this.error = 'No sub-record ID provided';
@@ -41,5 +43,15 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
 
   setSelectedConsultationId(id: number | null) {
     this.selectedConsultationId.set(id);
+    if (id !== null) {
+      this.selectedEditConsultationId.set(null); // Hide edit form when showing details
+    }
+  }
+
+  setSelectedEditConsultationId(id: number | null) {
+    this.selectedEditConsultationId.set(id);
+    if (id !== null) {
+      this.selectedConsultationId.set(null); // Hide details when editing
+    }
   }
 }

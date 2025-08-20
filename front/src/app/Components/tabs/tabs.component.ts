@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MedicalRecordService } from '../../Services/medical-record.service';
 import { MedicalRecord } from '../../Models/MedicalRecord';
 import { MedicalRecordPreviewComponent } from '../medical-record-preview/medical-record-preview.component';
@@ -30,11 +31,19 @@ export class TabsComponent implements OnInit {
 
   constructor(
     private medicalRecordService: MedicalRecordService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.fetchMedicalRecord();
+    // Subscribe to route params
+    this.route.params.subscribe(params => {
+      // If an ID is provided in the route, use it; otherwise use the default (1)
+      if (params['id']) {
+        this.medicalRecordId = +params['id'];
+      }
+      this.fetchMedicalRecord();
+    });
   }
 
   fetchMedicalRecord(): void {

@@ -675,81 +675,147 @@
 .consultation-form-no-echography {
   @apply py-8 text-center;
 }
-/*   .form-container {
-    @apply space-y-6;
-  }
-  
-  .form-section {
-    @apply mb-6;
-  }
-  
-  .section-title {
-    @apply text-lg font-semibold mb-2;
-  }
-  
-  .form-fields-container {
-    @apply flex flex-wrap gap-4;
-  }
-  
-  .form-field {
-    @apply flex flex-col min-w-[200px] flex-1;
-  }
-  
-  .form-label {
-    @apply font-medium mb-1;
-  }
-  
-  .form-input {
-    @apply border rounded-md p-2;
-  }
-  
-  .form-select {
-    @apply border rounded-md p-2;
-  }
-  
-  .form-checkbox {
-    @apply h-5 w-5;
-  }
-  
-  .dropdown-button {
-    @apply border rounded-md p-2 w-full text-left bg-white;
-  }
-  
-  .dropdown-menu {
-    @apply absolute z-10 bg-white border rounded-md mt-1 w-full max-h-40 overflow-y-auto;
-  }
-  
-  .dropdown-item {
-    @apply flex items-center p-2 hover:bg-gray-100;
-  }
-  
-  .submit-button {
-    @apply bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed;
-  }
-.form-container {
-  @apply space-y-4 ;
+/* Consultation List*/
+.consultation-list-container {
+  @apply bg-white p-6 rounded-lg shadow-sm border border-[#e5e7eb];
 }
 
-.form-section {
-  @apply mb-3;
+.consultation-list-header {
+  @apply text-xl font-semibold text-[#111827] mb-6 flex items-center;
 }
 
-.section-title {
-  @apply text-lg font-semibold mb-2;
+.consultation-list-icon {
+  @apply h-6 w-6 text-[#6fdcdc] mr-2;
 }
 
-.form-fields-container {
-  @apply flex flex-wrap gap-4;
+.consultation-item-card {
+  @apply bg-white rounded-lg border border-[#e5e7eb] p-4 shadow-xs hover:shadow-sm transition-shadow;
 }
 
-.form-field {
-  @apply flex flex-col min-w-[100px] flex-1;
+.consultation-item-content {
+  @apply flex justify-between items-center;
 }
 
-.form-label {
-  @apply font-medium mb-1;
+.consultation-date-container {
+  @apply flex items-center;
 }
 
-.form-input {
-  @apply border rounded-md p-2;
-} */
+.consultation-date-icon {
+  @apply h-5 w-5 text-[#6b7280] mr-3;
+}
+
+.consultation-date-text {
+  @apply text-lg font-medium text-[#111827];
+}
+
+.consultation-actions-container {
+  @apply flex items-center space-x-2;
+}
+
+.consultation-action-button {
+  @apply p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors;
+}
+
+.consultation-details-button {
+  @apply text-[#6b7280] hover:bg-gray-100 focus:ring-gray-400;
+}
+
+.consultation-edit-button {
+  @apply text-[#1d4ed8] hover:bg-[#dbeafe] focus:ring-[#93c5fd];
+}
+
+.consultation-delete-button {
+  @apply text-[#b91c1c] hover:bg-[#fee2e2] focus:ring-[#fca5a5];
+}
+
+.consultation-action-icon {
+  @apply h-4 w-4;
+}
+
+.empty-state-container {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+
+.empty-state-icon {
+  @apply h-16 w-16 text-[#9ca3af] mb-4;
+}
+
+.empty-state-title {
+  @apply text-[#6b7280] text-lg font-medium mb-2;
+}
+
+.empty-state-subtitle {
+  @apply text-[#9ca3af] text-sm;
+}
+/* Obstetric Details*/
+.sub-record-detail-container {
+  @apply flex container mx-auto p-4 gap-4;
+}
+
+.sub-record-main-content {
+  @apply w-3/4;
+}
+
+.sub-record-sidebar {
+  @apply w-1/4;
+}
+
+.sub-record-section {
+  @apply bg-white p-6 rounded-lg shadow-sm border border-[#e5e7eb] mb-4;
+}
+
+.sub-record-section-header {
+  @apply text-xl font-semibold text-[#111827] mb-4 flex items-center;
+}
+
+.sub-record-section-icon {
+  @apply h-6 w-6 text-[#6fdcdc] mr-2;
+}
+
+.sub-record-detail-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.sub-record-detail-item {
+  @apply flex flex-col;
+}
+
+.sub-record-detail-label {
+  @apply text-sm font-medium text-[#374151] mb-1;
+}
+
+.sub-record-detail-value {
+  @apply text-[#111827];
+}
+
+.sub-record-detail-value-empty {
+  @apply text-[#9ca3af] italic;
+}
+
+.consultation-detail-container {
+  @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
+}
+
+.consultation-detail-header {
+  @apply text-xl font-semibold text-[#111827] p-4 bg-[#f8fafc] border-b border-[#e5e7eb] flex items-center;
+}
+
+.consultation-detail-content {
+  @apply p-4;
+}
+
+.loading-container {
+  @apply flex items-center justify-center p-8;
+}
+
+.loading-text {
+  @apply text-[#6b7280];
+}
+
+.error-container {
+  @apply mt-4 p-4 bg-[#fef2f2] border border-[#fecaca] rounded-lg;
+}
+
+.error-text {
+  @apply text-[#b91c1c];
+}

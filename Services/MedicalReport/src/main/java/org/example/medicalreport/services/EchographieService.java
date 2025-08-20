@@ -123,6 +123,7 @@ public class EchographieService {
         if (dto.getConsultationId() != null) {
             Optional<Consultation> consultation = consultationRepository.findById(dto.getConsultationId());
             consultation.ifPresent(echographie::setConsultation);
+            System.out.println("Consultation set for Echographie: " + echographie.getConsultation());
         }
         return echographie;
     }

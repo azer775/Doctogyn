@@ -1,38 +1,74 @@
-    <div class="container mx-auto p-4">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">Consultation List</h2>
-      <div *ngIf="consultations && consultations.length > 0; else noConsultations">
-        <div *ngFor="let consultation of consultations" class="border-b border-gray-200 py-2">
-          <div class="flex justify-between items-center">
-            <p class="text-lg text-gray-700">
-              Date: {{ consultation.date | date:'yyyy-MM-dd' }}
-            </p>
-            <button
-              (click)="toggleDetails(consultation.id)"
-              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded transition duration-200"
-            >
-              {{ showDetails[consultation.id] ? 'Hide Details' : 'Show Details' }}
-            </button>
-          </div>
-          <div
-            *ngIf="showDetails[consultation.id]"
-            class="mt-2 p-4 bg-gray-50 rounded-lg shadow-sm"
+<div class="consultation-list-container">
+  <h2 class="consultation-list-header">
+    <svg xmlns="http://www.w3.org/2000/svg" class="consultation-list-icon" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+    </svg>
+    Consultation List
+  </h2>
+  
+  <div *ngIf="consultations && consultations.length > 0; else noConsultations" class="space-y-3">
+    <div *ngFor="let consultation of consultations" class="consultation-item-card">
+      <div class="consultation-item-content">
+        <div class="consultation-date-container">
+          <svg xmlns="http://www.w3.org/2000/svg" class="consultation-date-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+          </svg>
+          <span class="consultation-date-text">
+            {{ consultation.date | date:'mediumDate' }}
+          </span>
+        </div>
+        
+        <div class="consultation-actions-container">
+          <!-- Details Toggle Button -->
+          <button
+            (click)="toggleDetails(consultation.id)"
+            class="consultation-action-button consultation-details-button"
+            [title]="showDetails[consultation.id] ? 'Hide Details' : 'Show Details'"
           >
-            <p class="text-gray-600"><strong>ID:</strong> {{ consultation.id }}</p>
-            <p class="text-gray-600"><strong>Signs Negates:</strong> {{ consultation.signsNegates || 'None' }}</p>
-            <p class="text-gray-600"><strong>Weight:</strong> {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
-            <p class="text-gray-600"><strong>Length:</strong> {{ consultation.length }} cm</p>
-            <p class="text-gray-600"><strong>BMI:</strong> {{ consultation.bmi }}</p>
-            <p class="text-gray-600"><strong>Breasts:</strong> {{ consultation.breasts }}</p>
-            <p class="text-gray-600"><strong>Examination:</strong> {{ consultation.examination || 'None' }}</p>
-            <p class="text-gray-600"><strong>Vagina:</strong> {{ consultation.vagina }}</p>
-            <p class="text-gray-600"><strong>Consultation Type:</strong> {{ consultation.consultationType }}</p>
-            <p class="text-gray-600"><strong>Gynecology Sub-Record ID:</strong> {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
-            <p class="text-gray-600"><strong>Fertility Sub-Record ID:</strong> {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
-            <p class="text-gray-600"><strong>Obstetrics Record ID:</strong> {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
-          </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="consultation-action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    [attr.d]="showDetails[consultation.id] ? 
+                    'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' : 
+                    'M15 12a3 3 0 11-6 0 3 3 0 016 0z'" />
+              <path *ngIf="!showDetails[consultation.id]" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </button>
+
+          <!-- Edit Button -->
+          <button 
+            (click)="editConsultation(consultation.id)"
+            class="consultation-action-button consultation-edit-button"
+            [title]="showEdit[consultation.id] ? 'Cancel Edit' : 'Edit'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="consultation-action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </button>
+
+          <!-- Delete Button -->
+          <button 
+            (click)="deleteConsultation(consultation.id)"
+            class="consultation-action-button consultation-delete-button"
+            title="Delete"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="consultation-action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
         </div>
       </div>
-      <ng-template #noConsultations>
-        <p class="text-gray-500">No consultations available.</p>
-      </ng-template>
+      
+      <!-- Details content would go here when expanded -->
     </div>
+  </div>
+  
+  <ng-template #noConsultations>
+    <div class="empty-state-container">
+      <svg xmlns="http://www.w3.org/2000/svg" class="empty-state-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+      <p class="empty-state-title">No consultations available</p>
+      <p class="empty-state-subtitle">Create your first consultation to get started</p>
+    </div>
+  </ng-template>
+</div>

@@ -15,6 +15,7 @@ import { EditorComponent } from '../editor/editor.component';
 })
 export class EchographieFormComponent implements OnInit {
   @Input() echographie: Echographie | null = null;
+  @Input() consultationId: number | null = null; // New input for consultation ID
   echographieForm: FormGroup;
   uterusSizes = Object.values(UterusSize);
   myometres = Object.values(Myometre);
@@ -88,8 +89,7 @@ export class EchographieFormComponent implements OnInit {
       pelvicML: [false],
       pmLSize: [null, [Validators.min(0)]],
       pelvicdiagnosticpresumptionsL: [[]],
-      pmLComment: [''],
-      consultationId: [null]
+      pmLComment: ['']
     });
   }
 
@@ -124,8 +124,7 @@ export class EchographieFormComponent implements OnInit {
         pelvicML: this.echographie.pelvicML,
         pmLSize: this.echographie.pmLSize,
         pelvicdiagnosticpresumptionsL: this.echographie.pelvicdiagnosticpresumptionsL || [],
-        pmLComment: this.echographie.pmLComment,
-        consultationId: this.echographie.consultationId
+        pmLComment: this.echographie.pmLComment
       });
     }
   }
@@ -157,6 +156,7 @@ export class EchographieFormComponent implements OnInit {
       };
 
       if (this.echographie?.id) {
+        echography.consultationId = this.echographie.consultationId; // Ensure consultationId is set
         // Update existing echography
         this.echographieService.updateEchographie(this.echographie.id, echography).subscribe({
           next: (response) => {
@@ -170,6 +170,7 @@ export class EchographieFormComponent implements OnInit {
           }
         });
       } else {
+        echography.consultationId = this.consultationId;
         // Create new echography
         this.echographySubmitted.emit(echography);
         this.resetForm();
