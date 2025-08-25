@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/gmail")
-//@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8090"},allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8090"},allowCredentials = "true")
 @RequiredArgsConstructor
 public class GmailController {
     @Autowired
@@ -39,7 +39,6 @@ public class GmailController {
     private GmailService gmailService;
     @Autowired
     private FastApiClient fastApiClient;
-
 
     @GetMapping("/authorize")
     public ResponseEntity<String> authorizeGmail(Authentication authentication) {
