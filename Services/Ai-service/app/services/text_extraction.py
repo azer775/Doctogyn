@@ -2,7 +2,7 @@
 
 from io import BytesIO
 from typing import List
-
+import spacy
 from fastapi import UploadFile
 import fitz
 import pdfplumber
@@ -13,6 +13,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tessera
 
 
 class TextExtractionService:
+     
     def __init__(self):
         
         pass
@@ -36,6 +37,7 @@ class TextExtractionService:
                         text_parts.append(page_text)
 
             full_text = "\n".join(text_parts).strip()
+            full_text = redact_with_spacy(full_text)
             return full_text, contents
 
         except Exception as e:
@@ -54,6 +56,7 @@ class TextExtractionService:
                 all_text += f"\nDOCUMENT{i}\n{ocr_text}\nEND\n"
             else: 
                 all_text += f"\nDOCUMENT{i}\n{text}\nEND\n"
+
         print("all_text",all_text)
         return "\n".join(all_text) + "\nDOCUMENT END\n"
 
@@ -80,5 +83,12 @@ class TextExtractionService:
                 return f"[ERROR: Unsupported file type for OCR: {file.filename}]"
         except Exception as e:
             return f"[ERROR: OCR failed for {file.filename}: {e}]"
-
-        return "\n".join(ocr_text_parts).strip()
+        return "\n".join(redact_with_spacy(text) for text in ocr_text_parts).strip()
+nlp = spacy.load("en_core_web_md")     
+def redact_with_spacy(text: str) -> str:
+    doc = nlp(text)
+    redacted = text
+    for ent in doc.ents:
+        if ent.label_ in ["PERSON", "ORG", "LOC"]:
+            redacted = redacted.replace(ent.text, f" ")
+    return redacted

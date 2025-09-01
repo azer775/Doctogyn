@@ -39,6 +39,9 @@ export class EmailsComponent  {
   /** Progress indicator for file upload operations (0-100) */
   uploadProgress: number | null = null;
 
+  /** Flag to track if component is in processing mode (hides emails list) */
+  isProcessingMode: boolean = false;
+
   /**
    * Constructor - Initializes the emails component with required services
    * @param gmailService - Service for Gmail API operations (fetch emails, attachments, etc.)
@@ -184,9 +187,11 @@ export class EmailsComponent  {
   /**
    * Displays and processes PDF attachments for analysis
    * Fetches attachment content and sends it for processing/analysis
+   * Also sets processing mode to hide emails list
    */
   displayAndProcessPdfAttachment(): void {
     if (this.selectedAttachments.length > 0) {
+      this.isProcessingMode = true;
       this.processMultipleAttachmentsForAnalysis(this.selectedAttachments);
     }
   }
@@ -252,6 +257,7 @@ export class EmailsComponent  {
   /**
    * Prepares multiple attachments for analysis by ensuring they have file data
    * If attachments lack data, fetches it first before sending for processing
+   * Also displays the PDFs for viewing during processing
    * @param attachments - Array of attachments to process for analysis
    */
   private processMultipleAttachmentsForAnalysis(attachments: EmailAttachment[]): void {
@@ -270,7 +276,8 @@ export class EmailsComponent  {
             }
           });
           
-          // Now process all attachments
+          // Display PDFs and process attachments
+          this.fetchAndDisplayMultiplePdfs(attachments);
           this.sendMultipleAttachmentsForProcessing(attachments);
         },
         error: (error) => {
@@ -278,7 +285,8 @@ export class EmailsComponent  {
         }
       });
     } else {
-      // All attachments have data, proceed with processing
+      // All attachments have data, display PDFs and proceed with processing
+      this.fetchAndDisplayMultiplePdfs(attachments);
       this.sendMultipleAttachmentsForProcessing(attachments);
     }
   }
@@ -411,6 +419,15 @@ export class EmailsComponent  {
    */
   closePdfViewer(): void {
     this.cleanupAllPdfUrls();
+    this.isProcessingMode = false;
+  }
+
+  /**
+   * Exits processing mode and returns to emails list view
+   */
+  exitProcessingMode(): void {
+    this.isProcessingMode = false;
+    this.closePdfViewer();
   }
 
   // ===== UI HELPER METHODS =====

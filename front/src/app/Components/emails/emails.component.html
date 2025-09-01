@@ -4,27 +4,31 @@
 
   <!-- Control Buttons -->
   <div class="control-buttons">
-    <button (click)="displayPdfAttachment()" [disabled]="selectedAttachments.length === 0">
+    <button (click)="displayPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
       View {{selectedAttachments.length}} Selected PDF{{selectedAttachments.length > 1 ? 's' : ''}}
     </button>
     
-    <button (click)="displayAndProcessPdfAttachment()" [disabled]="selectedAttachments.length === 0">
+    <button (click)="displayAndProcessPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
       Process {{selectedAttachments.length}} Selected PDF{{selectedAttachments.length > 1 ? 's' : ''}}
     </button>
 
-    <button (click)="selectAllAttachments()" [disabled]="getAllAttachments().length === 0">
+    <button (click)="selectAllAttachments()" [disabled]="getAllAttachments().length === 0 || isProcessingMode">
       Select All ({{getAllAttachments().length}})
     </button>
 
-    <button (click)="clearSelection()" [disabled]="selectedAttachments.length === 0">
+    <button (click)="clearSelection()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
       Clear Selection
+    </button>
+
+    <button *ngIf="isProcessingMode" (click)="exitProcessingMode()" class="exit-processing-btn">
+      Back to Emails
     </button>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <!-- Emails List -->
-    <div class="emails-section" [class.with-pdf]="displayedPdfUrls.length > 0">
+    <div class="emails-section" [class.with-pdf]="displayedPdfUrls.length > 0" [class.hidden]="isProcessingMode">
       
       <!-- Selected Attachments Summary -->
       <div *ngIf="selectedAttachments.length > 0" class="selected-summary">
@@ -72,7 +76,7 @@
     </div>
 
     <!-- PDF Viewer Section -->
-    <div class="pdf-section" *ngIf="displayedPdfUrls.length > 0">
+    <div class="pdf-section" *ngIf="displayedPdfUrls.length > 0" [class.full-width]="isProcessingMode">
       <div class="pdf-header">
         <h4>PDF Viewers ({{displayedPdfUrls.length}})</h4>
         <button (click)="closePdfViewer()">Close</button>

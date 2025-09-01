@@ -56,6 +56,16 @@
   cursor: not-allowed;
 }
 
+.exit-processing-btn {
+  background: #4caf50 !important;
+  color: white !important;
+  border-color: #4caf50 !important;
+}
+
+.exit-processing-btn:hover {
+  background: #45a049 !important;
+}
+
 /* Main Content */
 .main-content {
   display: flex;
@@ -73,6 +83,10 @@
 
 .emails-section.with-pdf {
   flex: 0 0 50%;
+}
+
+.emails-section.hidden {
+  display: none;
 }
 
 /* Selected Summary */
@@ -222,6 +236,11 @@
   background: #fff;
   display: flex;
   flex-direction: column;
+}
+
+.pdf-section.full-width {
+  flex: 1;
+  border-left: none;
 }
 
 .pdf-header {
