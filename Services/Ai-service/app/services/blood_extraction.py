@@ -24,20 +24,17 @@ class BloodExtractionService:
 Each object in the json belongs to a category (biology, serolgy..) and corresponds to a lab test result. 
 The output json should be formatted as in the input json. The input json is scattered between a ***SYSTEM INPUT JSON*** (in the system prompt)and ***USER INPUT JSON*** (in the user prompt).
 The output json should have this structure and only these top level keys:
-{{
-document1{{
-"CytologyPathology": []
-"Genetic": []
-"Biology": []
-"Serology": []
-"Bacteriology": []
-"Radiology": []
-"Spermogramme": []
-"Maternal Serum Marker": []
-"Hysterosalpingography": []
-"Blood Group": []}}
-document2{{...}}
-}}
+[
+  {{
+    "biologies": [],
+    "bacteriologies": [],
+    "bloodgroups": [],
+    "radiologies": [],
+    "serologies": [],
+    "spermAnalyses": []
+  }},
+  {{...}}
+]
 
 BE AS ACCURATE AS POSSIBLE. IT WOULD BE BETTER NOT TO EXTRACT A RIGHT DATA THAN TO EXTRACT WRONG ONE.
 Follow these steps:
@@ -137,6 +134,7 @@ Hysterosalpingography-cervix:
 IMPORTANT: Remember that we can upload many document (marked by ***document1***), process each one as an independant document. Each document contains a group of tests results. All the results in a given document should have the same date. But, in case of multiple documents, we could have different dates for each group of results.
 10. For "Maternal Serum Marker" category, use the following rules: Start by defining First (if PAPP-A is present) or second trimester (if PAPP-A is not present). If first trimester, only PAPP-A and free beta hCG are required. If second trimester, only AFP, HCG are required (sometime oestriol is present). Only consider combined risk (not chemical or age-related risks)
 11. For the "comment" fields, only put the original interpretation present in the input text (immunisation statut...). Do not include previous lab results. This field could be empty if no improtant information.
+**CRITICAL**: The response must be a valid JSON array starting with '[' and ending with ']'. Do not return a single JSON object. Do not include any leading or trailing whitespace, backticks, labels (e.g., 'json'), comments, explanations, or any other content before or after the JSON array. The response must be parseable by Python's `json.loads()` without errors.
     Reference tests: {reference}"""
         human_prompt = "Extract results from this report:\n\n{text}"
         prompt = ChatPromptTemplate.from_messages([
@@ -146,7 +144,7 @@ IMPORTANT: Remember that we can upload many document (marked by ***document1***)
 
         return (
             RunnablePassthrough.assign(
-                schema=lambda _: BloodTestResult.model_json_schema(),
+                
                 reference=lambda _: json.dumps(reference_data)
             )
             | prompt
@@ -183,13 +181,14 @@ IMPORTANT: Remember that we can upload many document (marked by ***document1***)
     async def extract(self, file: UploadFile) -> Dict:
         raw_text = await self.text_extractor.extract_text(file)
         reference_json = self.load_reference_files([
-            "C:/Users/azerb/Downloads/biology.json"
+            "C:/Users/azerb/Desktop/Internship/Services/Ai-service/app/biology.json"
         ])
         chain = self._build_chain(reference_json)
         response = await chain.ainvoke({"text": raw_text})
-
+        doc = response.chat.choices[0].message.content.parsed
+        documents= [doc]
         try:
-            return json.loads(response.content)
+            return json.loads(documents)
         except json.JSONDecodeError as e:
             raise HTTPException(400, f"Failed to parse LLM response: {str(e)}")
     

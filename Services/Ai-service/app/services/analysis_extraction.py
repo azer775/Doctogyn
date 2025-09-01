@@ -20,34 +20,65 @@ class BloodExtractionService:
         self.text_extractor = TextExtractionService()
 
     def _build_chain(self, reference_data: List[Dict[str, Any]]):
-        system_prompt = """You are a helpful assistant. The provided text is extracted from lab test result documents (pdf,images). Extract the lab results from the following text and format them into a JSON.
-Each object in the json belongs to a category (biology, serolgy..) and corresponds to a lab test result. 
-The output json should be formatted as in the input json. The input json is scattered between a ***SYSTEM INPUT JSON*** (in the system prompt)and ***USER INPUT JSON*** (in the user prompt).
-The output json should have this structure and only these top level keys:
-{{
-document1{{
-"CytologyPathology": []
-"Genetic": []
-"Biology": []
-"Serology": []
-"Bacteriology": []
-"Radiology": []
-"Spermogramme": []
-"Maternal Serum Marker": []
-"Hysterosalpingography": []
-"Blood Group": []}}
-document2{{...}}
-}}
+        system_prompt = """You are a helpful assistant. The provided text is extracted from lab test result documents (pdf, images). 
+Your task is to extract the lab results from the following text and format them into a JSON.
 
-BE AS ACCURATE AS POSSIBLE. IT WOULD BE BETTER NOT TO EXTRACT A RIGHT DATA THAN TO EXTRACT WRONG ONE.
-Follow these steps:
-Step1: Read the ***SYSTEM INPUT JSON*** and complete it from the the ***USER INPUT JSON*** (if contains values) to understand the lab results test that could exist in the text. From this step you will consider a unique input json called SYSTEM-USER INPUT JSON.
-Step2: Identify the lab results test that exist in the text and match one of the test in the SYSTEM-USER INPUT JSON (Remember that the input text could be in another language than English, usually). Identify the date of the tests. 
-Step3: Generate the OUTPUT JSON where each object is a lab result test that belongs to a category. For each object, follow the sample object (the first one in each category). If there are multiple values for the same lab result type, replicate the object. Do not create objects or catagories that do not exist in the input json.
-Ensure that:
-1. For the numerical values fields, retain the exact decimal values from the text (e.g., if the text says 11.23, write 11.23) and avoid using letters or specific characters (for example, if the value in the text is "<0.01", write "0.01").
-2. If no values are found for a specific object, delete the entire block from the JSON.
-3. For Blood group and Rh, use the following rules:
+IMPORTANT: The final JSON must always be a **LIST of documents**. 
+Each document corresponds to one uploaded lab report (marked by ***document1***, ***document2***, etc.).
+All the results in a given document should share the same "Date" (the date of the document header). 
+Different documents may have different dates.
+
+---
+
+### OUTPUT FORMAT
+The OUTPUT JSON must always look like this:
+
+[
+  {{
+    "CytologyPathology": [...],
+    "Genetic": [...],
+    "Biology": [...],
+    "Serology": [...],
+    "Bacteriology": [...],
+    "Radiology": [...],
+    "Spermogramme": [...],
+    "Maternal Serum Marker": [...],
+    "Hysterosalpingography": [...],
+    "Blood Group": [...]
+  }},
+  {{
+    ...
+  }}
+]
+
+⚠️ Rules:
+- Each DOCUMENT = one object in the list.
+- Each DOCUMENT corresponds to one uploaded file or section (***documentX***).
+- If a category has no results in that document, **omit the category entirely** (do not include empty arrays).
+- If a category has multiple test results, include them all inside the array.
+- Never add categories or tests that are not present in the SYSTEM-USER INPUT JSON.
+
+---
+
+### EXTRACTION STEPS
+Step 1: Merge the ***SYSTEM INPUT JSON*** with the ***USER INPUT JSON*** into one unified list of possible tests 
+(called SYSTEM-USER INPUT JSON). This defines the possible test names and structures. 
+
+Step 2: For each ***documentX*** in the text:
+- Identify the date of the document (ignore dates from older results mentioned inside the text).
+- Identify lab results that match one of the SYSTEM-USER INPUT JSON tests.
+- Map them to the correct category.
+- If multiple values for the same test exist, create multiple objects.
+
+Step 3: Produce the OUTPUT JSON as a list of documents, following the exact rules above.
+
+---
+
+### FIELD RULES
+1. Numerical values: keep decimals as written (e.g. 11.23 → 11.23). 
+   If a value is "<0.01", write `0.01`.
+
+2. Blood Group / Rh mapping:
 - A positive: 1
 - A negative: 2
 - B positive: 3
@@ -56,7 +87,8 @@ Ensure that:
 - AB negative: 6
 - O positive: 7
 - O negative: 8
-4.For "Germ" field in the "Bacteriology" category, use the following rules ("Germ"field can take many values: for example, if the text says "Streptococcus agalactiae" and "Uréaplasma Uréalyticum", write 2,3):
+
+3. Bacteriology "Germ" mapping (field can contain multiple values, e.g. "2,3"):  
 - No germ: 0
 - Candida glabrata: 1
 - Streptococcus agalactiae: 2
@@ -77,33 +109,36 @@ Ensure that:
 - Staphylocoque coagulase negative: 18
 - Enterococcus spp: 19
 - Enterobacter cloacae: 20
-5.for "Sample-origin" field in the "Genetic" category, use the following rules:
-- Maternel Blood: -1
-- Paternel Blood: -2
-- Amniotic fluid: -3
-6. In "hysterosalpingography" category fields, use the following rules (each field can take many values: for example, if the text says "lblUsualAppearance" and "lblIrregularOutline", write -1,-2):
-Hysterosalpingography-uterus:
-- lblUsualAppearance: -1  
-- lblIrregularOutline: -2  
-- lblBicornuateSeptate: -3  
-- lblUnicornuate: -4  
-- lblLargeSize: -5  
-- lblSmallSize: -6  
-- lblNotDemonstrated: -7  
-- lblSmoothFillingDefect: -8  
-- lblIrregularFillingDefect: -9  
-Hysterosalpingography-tube:
-- lblUsualAppearance: -1  
-- lblNotDemonstrated: -2  
-- lblFullyDemonstrated: -3  
-- lblCornualObstruction: -4  
-- lblIsthmicObstruction: -5  
-- lblDistalObstruction: -6  
-- lblHydrosalpinx: -7  
-- lblMotionless: -8  
-- lblAscended: -9  
 
-Hysterosalpingography-cervix:
+4. Genetic "Sample-origin" mapping:
+- Maternal Blood: -1
+- Paternal Blood: -2
+- Amniotic fluid: -3
+
+5. Hysterosalpingography mapping (each field can take multiple values, e.g. "-1,-2"):  
+Uterus:
+- lblUsualAppearance: -1
+- lblIrregularOutline: -2
+- lblBicornuateSeptate: -3
+- lblUnicornuate: -4
+- lblLargeSize: -5
+- lblSmallSize: -6
+- lblNotDemonstrated: -7
+- lblSmoothFillingDefect: -8
+- lblIrregularFillingDefect: -9
+
+Tube:
+- lblUsualAppearance: -1
+- lblNotDemonstrated: -2
+- lblFullyDemonstrated: -3
+- lblCornualObstruction: -4
+- lblIsthmicObstruction: -5
+- lblDistalObstruction: -6
+- lblHydrosalpinx: -7
+- lblMotionless: -8
+- lblAscended: -9
+
+Cervix:
 - lblUsualAppearance: -1
 - lblIrregularOutline: -2
 - lblBicornuateSeptate: -3
@@ -113,40 +148,35 @@ Hysterosalpingography-cervix:
 - lblSmoothFillingDefect: -7
 - lblIrregularFillingDefect: -8
 
-7. For the "Interpretation" field, use the following rules: use your best knowledge to define the interpretation.
-   - Biology:
-     - Normal: 1
-     - Low: 2
-     - High: 3
-     - Undefined: Omit the field
-   - Serology:
-     - Negative: 1
-     - Positive: 2
-     - Equivoqual: 3
-     - Undefined: Omit the field
-   - Bacteriology:
-     - Negative: 1
-     - Positive: 2
-     - Undefined: Omit the field
-   - Radiology:
-     - Normal: 1
-     - abnormal: 2
-     - Undefined: Omit the field
-8. For the "Date" field, use the date of the document (usually found in the first lines of the text).Sometimes, there is previous lab test results related to a diffrent dates, ignore them.
-9. Don't change any key value in the provided json, only fill the values
-IMPORTANT: Remember that we can upload many document (marked by ***document1***), process each one as an independant document. Each document contains a group of tests results. All the results in a given document should have the same date. But, in case of multiple documents, we could have different dates for each group of results.
-10. For "Maternal Serum Marker" category, use the following rules: Start by defining First (if PAPP-A is present) or second trimester (if PAPP-A is not present). If first trimester, only PAPP-A and free beta hCG are required. If second trimester, only AFP, HCG are required (sometime oestriol is present). Only consider combined risk (not chemical or age-related risks)
-11. For the "comment" fields, only put the original interpretation present in the input text (immunisation statut...). Do not include previous lab results. This field could be empty if no improtant information.
-    Reference tests: {reference}"""
+6. Interpretation rules:
+- Biology: Normal=1, Low=2, High=3
+- Serology: Negative=1, Positive=2, Equivocal=3
+- Bacteriology: Negative=1, Positive=2
+- Radiology: Normal=1, Abnormal=2
+
+7. Maternal Serum Marker:
+- If PAPP-A present → first trimester: only include PAPP-A and free beta hCG.
+- If no PAPP-A → second trimester: only include AFP, HCG (and optionally oestriol).
+- Only include combined risk, not age or chemistry-based risks.
+
+8. Comments: only include the original interpretation text from the input (e.g. "immunisation status"). 
+   Can be empty if nothing is relevant.
+
+---
+
+### REFERENCE
+Reference tests: {reference}
+
+---
+"""
         human_prompt = "Extract results from this report:\n\n{text}"
         prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
             ("human", human_prompt)
         ])
-
+ 
         return (
             RunnablePassthrough.assign(
-                schema=lambda _: BloodTestResult.model_json_schema(),
                 reference=lambda _: json.dumps(reference_data)
             )
             | prompt
@@ -187,7 +217,7 @@ IMPORTANT: Remember that we can upload many document (marked by ***document1***)
         ])
         chain = self._build_chain(reference_json)
         response = await chain.ainvoke({"text": raw_text})
-
+        print("Full LLM response:",response.content)
         try:
             return json.loads(response.content)
         except json.JSONDecodeError as e:

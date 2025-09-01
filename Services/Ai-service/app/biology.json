@@ -1,0 +1,795 @@
+{"Categories":{
+    "Biology": [
+              {
+                "date": "YYYY-MM-DD",
+                "type": 0,
+                "value": 0,
+                "interpretation": 0,
+                "comment": "<string>",
+                "consultationId": 0
+              },
+              {
+                "N": "100g OGTT 1h Glucose (mmol/L)",
+                "id": "-1"
+              },
+              {
+                "N": "100g OGTT 1h Glucose (mg/dL)",
+                "id": "-2"
+              },
+              {
+                "N": "100g OGTT 1h Glucose (g/L)",
+                "id": "-3"
+              },
+              {
+                "N": "100g OGTT 2h Glucose (mmol/L)",
+                "id": "-4"
+              },
+              {
+                "N": "100g OGTT 2h Glucose (mg/dL)",
+                "id": "-5"
+              },
+              {
+                "N": "100g OGTT 2h Glucose (g/L)",
+                "id": "-6"
+              },
+              {
+                "N": "100g OGTT Fasting Glucose (mmol/L)",
+                "id": "-7"
+              },
+              {
+                "N": "100g OGTT Fasting Glucose (mg/dL)",
+                "id": "-8"
+              },
+              {
+                "N": "100g OGTT Fasting Glucose (g/L)",
+                "id": "-9"
+              },
+              {
+                "N": "17-Hydroxyprogesterone (mg/L)",
+                "id": "-10"
+              },
+              {
+                "N": "17-Hydroxyprogesterone (μmol/L)",
+                "id": "-11"
+              },
+              {
+                "N": "50g OGTT 1h Glucose (mg/dL)",
+                "id": "-12"
+              },
+              {
+                "N": "50g OGTT 1h Glucose (g/L)",
+                "id": "-13"
+              },
+              {
+                "N": "50g OGTT 1h Glucose (mmol/L)",
+                "id": "-14"
+              },
+              {
+                "N": "50g OGTT Fasting Glucose (mmol/L)",
+                "id": "-15"
+              },
+              {
+                "N": "50g OGTT Fasting Glucose (mg/dL)",
+                "id": "-16"
+              },
+              {
+                "N": "50g OGTT Fasting Glucose (g/L)",
+                "id": "-17"
+              },
+              {
+                "N": "75g OGTT 1h Glucose (mmol/L)",
+                "id": "-18"
+              },
+              {
+                "N": "75g OGTT 1h Glucose (mg/dL)",
+                "id": "-19"
+              },
+              {
+                "N": "75g OGTT 1h Glucose (g/L)",
+                "id": "-20"
+              },
+              {
+                "N": "75g OGTT 2h Glucose (mmol/L)",
+                "id": "-21"
+              },
+              {
+                "N": "75g OGTT 2h Glucose (mg/dL)",
+                "id": "-22"
+              },
+              {
+                "N": "75g OGTT 2h Glucose (g/L)",
+                "id": "-23"
+              },
+              {
+                "N": "75g OGTT Fasting Glucose (mmol/L)",
+                "id": "-24"
+              },
+              {
+                "N": "75g OGTT Fasting Glucose (mg/dL)",
+                "id": "-25"
+              },
+              {
+                "N": "75g OGTT Fasting Glucose (g/L)",
+                "id": "-26"
+              },
+              {
+                "N": "Alanine Aminotransferase (IU/L)",
+                "id": "-27"
+              },
+              {
+                "N": "Alpha-Fetoprotein (ng/mL or μg/L)",
+                "id": "-28"
+              },
+              {
+                "N": "Anti-Müllerian Hormone (pmol/L)",
+                "id": "-29"
+              },
+              {
+                "N": "Anti-Müllerian Hormone (ng/mL)",
+                "id": "-30"
+              },
+              {
+                "N": "Antithrombin (%)",
+                "id": "-31"
+              },
+              {
+                "N": "Aspartate Aminotransferase (IU/L)",
+                "id": "-32"
+              },
+              {
+                "N": "Bilirubin Conjugated/Direct (mg/dL)",
+                "id": "-33"
+              },
+              {
+                "N": "Bilirubin Conjugated/Direct (μmol/L)",
+                "id": "-34"
+              },
+              {
+                "N": "Bilirubin Total (mg/dL)",
+                "id": "-35"
+              },
+              {
+                "N": "Bilirubin Total (μmol/L)",
+                "id": "-36"
+              },
+              {
+                "N": "Calcium (mmol/L)",
+                "id": "-37"
+              },
+              {
+                "N": "Chloride (mmol/L or mEq/L)",
+                "id": "-38"
+              },
+              {
+                "N": "C-Reactive Protein (nmol/L)",
+                "id": "-39"
+              },
+              {
+                "N": "C-Reactive Protein (mg/L)",
+                "id": "-40"
+              },
+              {
+                "N": "Creatinine (μmol/L)",
+                "id": "-41"
+              },
+              {
+                "N": "Creatinine (mg/dL)",
+                "id": "-42"
+              },
+              {
+                "N": "D-Dimers (μg/L)",
+                "id": "-43"
+              },
+              {
+                "N": "DHEA (μg/dL or pg/mL)",
+                "id": "-44"
+              },
+              {
+                "N": "DHEA Sulphate (μg/dL or pg/mL)",
+                "id": "-45"
+              },
+              {
+                "N": "Fasting Glucose Concentration (mmol/L)",
+                "id": "-46"
+              },
+              {
+                "N": "Fasting Glucose Concentration (mg/dL)",
+                "id": "-47"
+              },
+              {
+                "N": "Fasting Glucose Concentration (g/L)",
+                "id": "-48"
+              },
+              {
+                "N": "Ferritin (ng/mL or μg/L)",
+                "id": "-49"
+              },
+              {
+                "N": "Fibrinogen (g/L)",
+                "id": "-50"
+              },
+              {
+                "N": "Follicle Stimulating Hormone (IU/L)",
+                "id": "-51"
+              },
+              {
+                "N": "Free Thyroxine (pmol/L)",
+                "id": "-52"
+              },
+              {
+                "N": "Free Thyroxine (ng/dL)",
+                "id": "-53"
+              },
+              {
+                "N": "Gamma-Glutamyl Transferase (U/L)",
+                "id": "-54"
+              },
+              {
+                "N": "Glycated Haemoglobin (%)",
+                "id": "-55"
+              },
+              {
+                "N": "HDL (mmol/L)",
+                "id": "-56"
+              },
+              {
+                "N": "HDL (mg/dL)",
+                "id": "-57"
+              },
+              {
+                "N": "Hematocrit (%)",
+                "id": "-58"
+              },
+              {
+                "N": "Hemoglobin (g/L)",
+                "id": "-59"
+              },
+              {
+                "N": "Human Chorionic Gonadotrophin (IU/L or mU/mL)",
+                "id": "-60"
+              },
+              {
+                "N": "LDL (mmol/L)",
+                "id": "-61"
+              },
+              {
+                "N": "LDL (mg/dL)",
+                "id": "-62"
+              },
+              {
+                "N": "Lipase (U/L)",
+                "id": "-63"
+              },
+              {
+                "N": "Luteinising Hormone (IU/L)",
+                "id": "-64"
+              },
+              {
+                "N": "Oestradiol (pmol/L)",
+                "id": "-65"
+              },
+              {
+                "N": "Oestradiol (pg/mL)",
+                "id": "-66"
+              },
+              {
+                "N": "Platelet (/μL)",
+                "id": "-67"
+              },
+              {
+                "N": "Potassium (mmol/L or mEq/L)",
+                "id": "-68"
+              },
+              {
+                "N": "Progesterone (ng/mL)",
+                "id": "-69"
+              },
+              {
+                "N": "Progesterone (nmol/L)",
+                "id": "-70"
+              },
+              {
+                "N": "Prolactin (μg/L)",
+                "id": "-71"
+              },
+              {
+                "N": "Prolactin (mIU/L)",
+                "id": "-72"
+              },
+              {
+                "N": "Protein C (%)",
+                "id": "-73"
+              },
+              {
+                "N": "Protein S (%)",
+                "id": "-74"
+              },
+              {
+                "N": "Proteinuria 24h (mg/L)",
+                "id": "-75"
+              },
+              {
+                "N": "Proteinuria 24h (mg/24h)",
+                "id": "-76"
+              },
+              {
+                "N": "Prothrombin Time (%)",
+                "id": "-77"
+              },
+              {
+                "N": "Sodium (mmol/L or mEq/L)",
+                "id": "-78"
+              },
+              {
+                "N": "Testosterone (nmol/L)",
+                "id": "-79"
+              },
+              {
+                "N": "Testosterone (ng/dL)",
+                "id": "-80"
+              },
+              {
+                "N": "Thyroid Stimulating Hormone (mIU/L or μIU/mL)",
+                "id": "-81"
+              },
+              {
+                "N": "Total Cholesterol (mmol/L)",
+                "id": "-82"
+              },
+              {
+                "N": "Total Cholesterol (mg/dL)",
+                "id": "-83"
+              },
+              {
+                "N": "Triglyceride (mmol/L)",
+                "id": "-84"
+              },
+              {
+                "N": "Triglyceride (mg/dL)",
+                "id": "-85"
+              },
+              {
+                "N": "Urea (mg/dL)",
+                "id": "-86"
+              },
+              {
+                "N": "Urea (mmol/L)",
+                "id": "-87"
+              },
+              {
+                "N": "Vitamin D (nmol/L)",
+                "id": "-88"
+              },
+              {
+                "N": "Vitamin D (ng/mL)",
+                "id": "-89"
+              },
+              {
+                "N": "White Blood Cell (/mm³ or /μL)",
+                "id": "-90"
+              },
+              {
+                "N": "Uric Acid (μmol/L)",
+                "id": "-91"
+              },
+              {
+                "N": "Uric Acid (mg/L)",
+                "id": "-92"
+              },
+              {
+                "N": "TCK/TCA",
+                "id": "-93"
+              },
+              {
+                "N": "B12 Vitamin (pmol/L)",
+                "id": "-94"
+              },
+              {
+                "N": "B12 Vitamin (ng/mL)",
+                "id": "-95"
+              },
+              {
+                "N": "Acide urique",
+                "id": "1"
+              },
+              {
+                "N": "test1 (test1)",
+                "id": "2"
+              },
+              {
+                "N": "test2 (test2)",
+                "id": "3"
+              },
+              {
+                "N": "Test de fragmentation ADN spermatique (%)",
+                "id": "4"
+              }
+            ],
+    "Serology": [
+              {
+                "date": "YYYY-MM-DD",
+                "type": 0,
+                "value": 0,
+                "interpretation": 0,
+                "comment": "string",
+                "consultationId": 0
+              },
+              {
+                "N": "Anti-B2GP1 Antibodies",
+                "id": "-1"
+              },
+              {
+                "N": "Anticardiolipin Antibodies",
+                "id": "-2"
+              },
+              {
+                "N": "Antinuclear Antibody (1/)",
+                "id": "-3"
+              },
+              {
+                "N": "Antiphospholipid Antibodies",
+                "id": "-4"
+              },
+              {
+                "N": "Cancer Antigen 125 (U/mL)",
+                "id": "-5"
+              },
+              {
+                "N": "Chlamydia Trachomatis Serology",
+                "id": "-6"
+              },
+              {
+                "N": "COVID-19 Antibodies",
+                "id": "-7"
+              },
+              {
+                "N": "Cytomegalovirus IgG",
+                "id": "-8"
+              },
+              {
+                "N": "Cytomegalovirus IgG Avidity",
+                "id": "-9"
+              },
+              {
+                "N": "Cytomegalovirus IgM",
+                "id": "-10"
+              },
+              {
+                "N": "Factor 5 Leiden Mutation Screen",
+                "id": "-11"
+              },
+              {
+                "N": "Hepatitis B Antibody",
+                "id": "-12"
+              },
+              {
+                "N": "Hepatitis B Surface Antigen",
+                "id": "-13"
+              },
+              {
+                "N": "Hepatitis C Antibody",
+                "id": "-14"
+              },
+              {
+                "N": "Herpes Simplex Serology",
+                "id": "-15"
+              },
+              {
+                "N": "HIV Antibody",
+                "id": "-16"
+              },
+              {
+                "N": "Irregular Antibodies Test (1/)",
+                "id": "-17"
+              },
+              {
+                "N": "Lupus Anticoagulant (GPL or MPL)",
+                "id": "-18"
+              },
+              {
+                "N": "Mycoplasma Serology",
+                "id": "-19"
+              },
+              {
+                "N": "Neisseria Gonorrhea Serology",
+                "id": "-20"
+              },
+              {
+                "N": "Parvovirus B19 Serology IgG",
+                "id": "-21"
+              },
+              {
+                "N": "Parvovirus B19 Serology IgM",
+                "id": "-22"
+              },
+              {
+                "N": "Rubella Serology Avidity",
+                "id": "-23"
+              },
+              {
+                "N": "Rubella Serology IgG",
+                "id": "-24"
+              },
+              {
+                "N": "Rubella Serology IgM",
+                "id": "-25"
+              },
+              {
+                "N": "Syphilis Serology",
+                "id": "-26"
+              },
+              {
+                "N": "Toxoplasma PCR",
+                "id": "-27"
+              },
+              {
+                "N": "Toxoplasma Serology Avidity",
+                "id": "-28"
+              },
+              {
+                "N": "Toxoplasma Serology IgG",
+                "id": "-29"
+              },
+              {
+                "N": "Toxoplasma Serology IgM",
+                "id": "-30"
+              },
+              {
+                "N": "Trichomonas Vaginalis Serology",
+                "id": "-31"
+              },
+              {
+                "N": "CA 19-9 (mU/mL or μg/mL)",
+                "id": "-32"
+              },
+              {
+                "N": "ACE (ng/mL)",
+                "id": "-33"
+              },
+              {
+                "N": "HCG",
+                "id": "-34"
+              },
+              {
+                "N": "AC DNA Natif",
+                "id": "-35"
+              },
+              {
+                "N": "HCG qualitative",
+                "id": "1"
+              },
+              {
+                "N": "Ac anti-ADN natif",
+                "id": "2"
+              },
+              {
+                "N": "CA 19-9 (U/mL)",
+                "id": "3"
+              },
+              {
+                "N": "ACE (ng/mL)",
+                "id": "4"
+              },
+              {
+                "N": "test1 (test1)",
+                "id": "5"
+              },
+              {
+                "N": "test2 (test2)",
+                "id": "6"
+              },
+              {
+                "N": "Recherche de sang dans les selles",
+                "id": "7"
+              }
+    ],
+    "Bacteriology": [
+              {
+                "date": "YYYY-MM-DD",
+                "type": 0,
+                "germs": [0],
+                "interpretation": 0,
+                "comment": "string",
+                "consultationId": 0
+              },
+              {
+        "id":-1,
+        "N":"lblHpvTest"
+       },
+       {
+        "id":-2,
+        "N":"lblSemenCulture"
+       },
+       {
+        "id":-3,
+        "N":"lblSemenCultureChlamydia"
+       },
+       {
+        "id":-4,
+        "N":"lblSemenCultureMycoplasma"
+       },
+       {
+        "id":-5,
+        "N":"cyto-bactériologiquedesurines"
+       },
+       {
+        "id":-6,
+        "N":"lblVaginalSwab"
+       },
+       {
+        "id":-7,
+        "N":"lblVaginalSwabChlamydia"
+       },
+       {
+        "id":-8,
+        "N":"lblVaginalSwabMycoplasma"
+       }
+     
+     ], 
+     
+    "Radiology": [
+                {
+                  "date": "YYYY-MM-DD",
+                  "type": 0,
+                  "conclusion": "string",
+                  "comment": "string",
+                  "consultationId": 0
+                },
+                {
+                  "N": "Breast Ultrasound",
+                  "id": "-1"
+                },
+                {
+                  "N": "Testicular Ultrasound",
+                  "id": "-3"
+                },
+                {
+                  "N": "Doppler Ultrasound Lower Limbs",
+                  "id": "-4"
+                },
+                {
+                  "N": "Pituitary MRI",
+                  "id": "-5"
+                },
+                {
+                  "N": "Pelvic Scan",
+                  "id": "-6"
+                },
+                {
+                  "N": "Pelvic MRI",
+                  "id": "-7"
+                },
+                {
+                  "N": "Abdominal Ultrasound",
+                  "id": "-8"
+                },
+                {
+                  "N": "Echocardiography",
+                  "id": "-9"
+                },
+                {
+                  "N": "Soft Part Ultrasound",
+                  "id": "-10"
+                },
+                {
+                  "N": "Renal Ultrasound",
+                  "id": "-11"
+                },
+                {
+                  "N": "Brain MRI",
+                  "id": "-12"
+                },
+                {
+                  "N": "Chest MRI",
+                  "id": "-13"
+                },
+                {
+                  "N": "Cardiac MRI",
+                  "id": "-14"
+                },
+                {
+                  "N": "Abdominal MRI",
+                  "id": "-15"
+                },
+                {
+                  "N": "Bone MRI",
+                  "id": "-16"
+                },
+                {
+                  "N": "Brain Scan",
+                  "id": "-17"
+                },
+                {
+                  "N": "Chest Scan",
+                  "id": "-18"
+                },
+                {
+                  "N": "Abdominal Scan",
+                  "id": "-19"
+                },
+                {
+                  "N": "Bone Scan",
+                  "id": "-20"
+                },
+                {
+                  "N": "Lung Scintigraphy",
+                  "id": "-21"
+                },
+                {
+                  "N": "Echographie abdominale",
+                  "id": "1"
+                },
+                {
+                  "N": "ASP",
+                  "id": "2"
+                },
+                {
+                  "N": "test1",
+                  "id": "3"
+                },
+                {
+                  "N": "Echo-mammographie",
+                  "id": "4"
+                },
+                {
+                  "N": "Hysterosalpingographie",
+                  "id": "5"
+                }
+            ],
+    "Spermogramme": [
+                        {
+                          "date": "YYYY-MM-DD",
+                          "abstinence": 0,
+                          "ph": 0,
+                          "volume": 0,
+                          "concentration": 0,
+                          "progressivemobility": 0,
+                          "totalmotility": 0,
+                          "totalcount": 0,
+                          "roundcells": 0,
+                          "leukocytes": 0,
+                          "morphology": 0,
+                          "norm": "string",
+                          "vitality": 0,
+                          "tms": 0,
+                          "consultationId": 0
+                        }
+                    ],
+    "Maternal Serum Marker": [
+                        {
+                            "Date": "YYYY-MM-DD",
+                            "Date of collection": "YYYY-MM-DD",
+                            "First or second trimester": "First/second",
+                            "PAPP-A (MOM)": "number",
+                            "Free HCG (MOM)": "number",
+                            "AFP (MOM)": "number",
+                            "B HCG or Beta HCG (MOM)": "number",
+                            "Estriol (MOM)": "number",
+                            "Down syndrome (trisomy21) risk (1/..)": "number",
+                            "Trisomy 13 risk (1/..)": "number",
+                            "Trisomy 18 risk (1/..)": "number",
+                            "Comment": "string"
+                        }
+                    ],
+    "Hysterosalpingography": [
+                        {
+                            "Date": "YYYY-MM-DD",
+                            "Cervix": 0,
+                            "uterus": 0,
+                            "Right tube": 0,
+                            "Left tube": 0,
+                            "Peritunium": 0,
+                            "Conslusion": "string"
+                        }
+                    ],
+    "Blood Group": [
+                        {
+                          "date": "YYYY-MM-DD",
+                          "type": 0,
+                          "comment": "string",
+                          "consultationId": 0
+                        }
+                    ]
+}}
+          
+         
