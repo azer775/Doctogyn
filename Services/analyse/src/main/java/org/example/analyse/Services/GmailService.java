@@ -7,6 +7,7 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.*;
 import org.example.analyse.Models.EmailAttachment;
 import org.example.analyse.Models.EmailMessage;
+import org.example.analyse.Models.dtos.ExtractionResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,21 +112,6 @@ public class GmailService {
         return "No text content found";
     }
 
-
-
-    public EmailAttachment loadFileData(String accessToken, String messageId, EmailAttachment emailAttachment) throws IOException {
-        Gmail gmail = buildGmailClient(accessToken);
-        if (emailAttachment.getFileData() == null && emailAttachment.getAttachmentId() != null) {
-            MessagePartBody attachmentBody = gmail.users().messages().attachments()
-                    .get("me", messageId, emailAttachment.getAttachmentId())
-                    .execute();
-            emailAttachment.setFileData(attachmentBody.getData());
-            System.out.println("file data service" + emailAttachment.getFileData());
-            return emailAttachment;
-        }
-        return emailAttachment;
-    }
-
     private List<EmailAttachment> getAttachmentsId(Gmail gmail, Message message) throws IOException {
         List<EmailAttachment> attachments = new ArrayList<>();
         MessagePart payload = message.getPayload();
@@ -185,7 +171,7 @@ public class GmailService {
                 .collect(Collectors.toList());
     }
 
-    public String processAttachments(List<EmailAttachment> attachments) throws IOException {
+    public ExtractionResponse processAttachments(List<EmailAttachment> attachments) throws IOException {
         List<MultipartFile> files = attachments.stream()
                 .map(attachment -> {
                     validateAttachment(attachment);
@@ -194,7 +180,7 @@ public class GmailService {
                 })
                 .collect(Collectors.toList());
 
-        return fastApi.uploadFile(files).toString();
+        return fastApi.uploadFile(files);
     }
 
     private void validateAttachment(EmailAttachment attachment) {
@@ -205,7 +191,6 @@ public class GmailService {
             throw new IllegalArgumentException("Invalid Base64 data");
         }
     }
-
 
     private MultipartFile createMultipartFile(byte[] fileBytes, EmailAttachment attachment) {
         return new MultipartFile() {
@@ -252,20 +237,5 @@ public class GmailService {
             }
         };
     }
-    public static byte[] decodeUrlSafeBase64(String base64Data) {
-        if (base64Data == null || base64Data.isEmpty()) {
-            throw new IllegalArgumentException("Base64 input is empty");
-        }
 
-        String standardBase64 = base64Data
-                .replace('-', '+')
-                .replace('_', '/');
-
-        int padding = 4 - (standardBase64.length() % 4);
-        if (padding < 4) {
-            standardBase64 += "=".repeat(padding);
-        }
-
-        return Base64.getDecoder().decode(standardBase64);
-    }
 }

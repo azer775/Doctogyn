@@ -1,0 +1,46 @@
+<div class="login-container">
+  <div class="file-upload-section">
+    <input type="file" #fileInput style="display: none" 
+           (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+    
+    <button mat-raised-button color="primary" 
+            (click)="fileInput.click()">
+      attach_file
+      Choose File
+    </button>
+    
+    <span *ngIf="selectedFile" class="file-name">
+      {{ selectedFile.name }}
+      <button mat-icon-button (click)="selectedFile = null">
+        close
+      </button>
+    </span>
+    
+    
+    
+    
+  </div>
+  
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
+  <button mat-raised-button color="primary" 
+          (click)="loginWithGoogle()"
+          [disabled]="isLoading" *ngIf="!isLoggedIn">
+    <span *ngIf="!isLoading">Login with Google</span>
+    
+  </button>
+
+  <button mat-raised-button color="accent" 
+          *ngIf="isLoggedIn"
+          (click)="openEmailsDialog()">
+    mail
+    View Emails
+  </button>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+</div>
