@@ -16,23 +16,23 @@ public class BloodGroupController {
     @Autowired
     private BloodGroupService bloodGroupService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<BloodGroup> getAll() {
         return bloodGroupService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getbyid/{id}")
     public ResponseEntity<BloodGroup> getById(@PathVariable Long id) {
         Optional<BloodGroup> bloodGroup = bloodGroupService.findById(id);
         return bloodGroup.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public BloodGroup create(@RequestBody BloodGroup bloodGroup) {
         return bloodGroupService.save(bloodGroup);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<BloodGroup> update(@PathVariable Long id, @RequestBody BloodGroup bloodGroupDetails) {
         try {
             BloodGroup updatedBloodGroup = bloodGroupService.update(id, bloodGroupDetails);

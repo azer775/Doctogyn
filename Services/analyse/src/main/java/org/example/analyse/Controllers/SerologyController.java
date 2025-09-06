@@ -16,7 +16,7 @@ public class SerologyController {
     @Autowired
     private SerologyService serologyService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Serology> getAll() {
         return serologyService.findAll();
     }
@@ -27,12 +27,12 @@ public class SerologyController {
         return serology.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Serology create(@RequestBody Serology serology) {
         return serologyService.save(serology);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Serology> update(@PathVariable Long id, @RequestBody Serology serologyDetails) {
         try {
             Serology updatedSerology = serologyService.update(id, serologyDetails);

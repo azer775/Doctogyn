@@ -21,18 +21,18 @@ public class RadiologyController {
         return radiologyService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/byid/{id}")
     public ResponseEntity<Radiology> getById(@PathVariable Long id) {
         Optional<Radiology> radiology = radiologyService.findById(id);
         return radiology.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Radiology create(@RequestBody Radiology radiology) {
         return radiologyService.save(radiology);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Radiology> update(@PathVariable Long id, @RequestBody Radiology radiologyDetails) {
         try {
             Radiology updatedRadiology = radiologyService.update(id, radiologyDetails);
@@ -42,7 +42,7 @@ public class RadiologyController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         radiologyService.deleteById(id);
         return ResponseEntity.noContent().build();

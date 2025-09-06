@@ -58,7 +58,7 @@ public class BacteriologyController {
     public List<Bacteriology> getByConsultationId(@PathVariable Long consultationId) {
         return bacteriologyService.findByConsultationId(consultationId);
     }
-    @PostMapping(value = "/test", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    /*@PostMapping(value = "/test", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> testApi(@RequestParam("file") MultipartFile file) {
         List<MultipartFile> files = List.of(file);
         try {
@@ -71,6 +71,6 @@ public class BacteriologyController {
     @PostMapping("/test2")
     public ResponseEntity<String> testEndpoint(@RequestBody List<Document> documents) {
         return ResponseEntity.ok("Test endpoint is working!");
-    }
+    }*/
 
 }

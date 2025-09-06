@@ -16,18 +16,18 @@ public class SpermAnalysisController {
     @Autowired
     private SpermAnalysisService spermAnalysisService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<SpermAnalysis> getAll() {
         return spermAnalysisService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/byid/{id}")
     public ResponseEntity<SpermAnalysis> getById(@PathVariable Long id) {
         Optional<SpermAnalysis> spermAnalysis = spermAnalysisService.findById(id);
         return spermAnalysis.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public SpermAnalysis create(@RequestBody SpermAnalysis spermAnalysis) {
         return spermAnalysisService.save(spermAnalysis);
     }

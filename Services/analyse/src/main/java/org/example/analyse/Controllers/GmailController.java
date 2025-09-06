@@ -31,7 +31,7 @@ public class GmailController {
     private OAuth2AuthorizedClientService authorizedClientService;
     @Autowired
     private GmailService gmailService;
-    
+
 
     @GetMapping("/authorize")
     public ResponseEntity<String> authorizeGmail(Authentication authentication) {
