@@ -22,11 +22,13 @@ import { MedicalBackground } from './Models/MedicalBackground';
 import { Allergies, ChirurgicalPathology, FamilialPathology, MedicalPathology } from './Models/enums';
 import { EchographieFormComponent } from './Components/echographie-form/echographie-form.component';
 import { LoginOauthComponent } from "./Components/login-oauth/login-oauth.component";
+import { BacteriologyFormComponent } from "./Components/bacteriology-form/bacteriology-form.component";
+import { BiologyFormComponent } from "./Components/biology-form/biology-form.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MedicalBackgroundFormComponent, MedicalBackgroundListComponent, MedicalRecordFormComponent, GynecologySubRecordFormComponent, ObstetricsRecordFormComponent, FertilitySubRecordFormComponent, EditorComponent, NgxSummernoteModule, ReactiveFormsModule, ConsultationFormComponent, TabsComponent, GynecologySubRecordDetailComponent, ObstetricsRecordDetailComponent, FertilitySubRecordDetailComponent, MedicalRecordPreviewComponent, ConsultationDetailComponent, ConsultationListComponent, MedicalBackgroundTableComponent, EchographieFormComponent, LoginOauthComponent],
+  imports: [MedicalBackgroundFormComponent, MedicalBackgroundListComponent, MedicalRecordFormComponent, GynecologySubRecordFormComponent, ObstetricsRecordFormComponent, FertilitySubRecordFormComponent, EditorComponent, NgxSummernoteModule, ReactiveFormsModule, ConsultationFormComponent, TabsComponent, GynecologySubRecordDetailComponent, ObstetricsRecordDetailComponent, FertilitySubRecordDetailComponent, MedicalRecordPreviewComponent, ConsultationDetailComponent, ConsultationListComponent, MedicalBackgroundTableComponent, EchographieFormComponent, LoginOauthComponent, BacteriologyFormComponent, BiologyFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

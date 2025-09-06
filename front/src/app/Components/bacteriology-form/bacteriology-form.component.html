@@ -1,0 +1,30 @@
+ <form [formGroup]="bacteriologyForm">
+      <div style="display: inline;">
+        <label for="id">ID:</label>
+        <input id="id" type="number" formControlName="id" readonly>
+
+        <label for="date">Date:</label>
+        <input id="date" type="date" formControlName="date">
+
+        <label for="type">Type:</label>
+        <select id="type" formControlName="type">
+          <option *ngFor="let type of bacteriologyTypes" [ngValue]="type">{{ type.name }}</option>
+        </select>
+
+        <label for="germs">Germs:</label>
+        <select id="germs" formControlName="germs" multiple>
+          <option *ngFor="let germ of germs" [ngValue]="germ">{{ germ.name }}</option>
+        </select>
+
+        <label for="interpretation">Interpretation:</label>
+        <select id="interpretation" formControlName="interpretation">
+          <option *ngFor="let interpretation of bacteriologyInterpretations" [ngValue]="interpretation">{{ interpretation.name }}</option>
+        </select>
+
+        <label for="comment">Comment:</label>
+        <input id="comment" type="text" formControlName="comment">
+
+        <label for="consultationId">Consultation ID:</label>
+        <input id="consultationId" type="number" formControlName="consultationId" readonly>
+      </div>
+    </form>
