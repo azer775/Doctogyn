@@ -1,0 +1,17 @@
+<form [formGroup]="bloodGroupForm">
+    <div style="display: inline;">
+    <label for="id">ID:</label>
+    <input id="id" type="number" formControlName="id" readonly>
+
+    <label for="date">Date:</label>
+    <input id="date" type="date" formControlName="date">
+
+    <label for="type">Type:</label>
+    <select id="type" formControlName="type">
+        <option *ngFor="let type of bloodTypes" [ngValue]="type">{{ type.name }}</option>
+    </select>
+
+    <label for="comment">Comment:</label>
+    <input id="comment" type="text" formControlName="comment">
+    </div>
+</form>

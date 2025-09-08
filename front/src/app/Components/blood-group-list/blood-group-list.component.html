@@ -1,0 +1,7 @@
+<div>
+    <button (click)="addBloodGroupForm()">Add Blood Group Form</button>
+    <div *ngFor="let bloodGroup of bloodGroups; let i = index" style="display: inline;">
+    <app-blood-group-form [bloodGroup]="bloodGroup" (bloodGroupSubmitted)="updateBloodGroup($event, i)"></app-blood-group-form>
+    <button (click)="deleteBloodGroupForm(i)">Delete</button>
+    </div>
+</div>

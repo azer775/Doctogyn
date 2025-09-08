@@ -1,0 +1,7 @@
+<div>
+    <button (click)="addSerologyForm()">Add Serology Form</button>
+    <div *ngFor="let serology of serologies; let i = index" style="display: inline;">
+    <app-serology-form [serology]="serology" (serologySubmitted)="updateSerology($event, i)"></app-serology-form>
+    <button (click)="deleteSerologyForm(i)">Delete</button>
+    </div>
+</div>

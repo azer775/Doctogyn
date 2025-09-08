@@ -1,0 +1,7 @@
+<div>
+    <button (click)="addSpermAnalysisForm()">Add Sperm Analysis Form</button>
+    <div *ngFor="let spermAnalysis of spermAnalyses; let i = index" style="display: inline;">
+        <app-sperm-analysis-form [spermAnalysis]="spermAnalysis" (spermAnalysisSubmitted)="updateSpermAnalysis($event, i)"></app-sperm-analysis-form>
+        <button (click)="deleteSpermAnalysisForm(i)">Delete</button>
+    </div>
+</div>

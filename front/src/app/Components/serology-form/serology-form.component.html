@@ -1,4 +1,4 @@
-    <form [formGroup]="radiologyForm">
+<form [formGroup]="serologyForm">
       <div style="display: inline;">
         <label for="id">ID:</label>
         <input id="id" type="number" formControlName="id" readonly>
@@ -8,7 +8,12 @@
 
         <label for="type">Type:</label>
         <select id="type" formControlName="type">
-          <option *ngFor="let type of radiologyTypes" [ngValue]="type">{{ type.name }}</option>
+          <option *ngFor="let type of serologyTypes" [ngValue]="type">{{ type.name }}</option>
+        </select>
+
+        <label for="interpretation">Interpretation:</label>
+        <select id="interpretation" formControlName="interpretation">
+          <option *ngFor="let interpretation of serologyInterpretations" [ngValue]="interpretation">{{ interpretation.name }}</option>
         </select>
 
         <label for="conclusion">Conclusion:</label>

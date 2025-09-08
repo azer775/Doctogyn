@@ -26,8 +26,7 @@ export class BiologyFormComponent implements OnInit {
       type: [null],
       value: [0],
       interpretation: [null],
-      comment: [''],
-      consultationId: [0]
+      conclusion: ['']
     });
   }
 
@@ -39,13 +38,11 @@ export class BiologyFormComponent implements OnInit {
         type: this.biology.type,
         value: this.biology.value,
         interpretation: this.biology.interpretation,
-        comment: this.biology.comment,
-        consultationId: this.biology.consultationId
+        comment: this.biology.comment
       });
     }
   }
 
-  // Emit the form's Biology data
   submitForm(): void {
     const formValue = this.biologyForm.value;
     const biology: Biology = {
@@ -55,12 +52,11 @@ export class BiologyFormComponent implements OnInit {
       value: formValue.value,
       interpretation: formValue.interpretation,
       comment: formValue.comment,
-      consultationId: formValue.consultationId
+      consultationId: this.biology ? this.biology.consultationId : 0
     };
     this.biologySubmitted.emit(biology);
   }
 
-  // Format Date to YYYY-MM-DD for input type="date"
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

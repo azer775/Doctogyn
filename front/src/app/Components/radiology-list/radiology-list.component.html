@@ -1,0 +1,7 @@
+<div>
+    <button (click)="addRadiologyForm()">Add Radiology Form</button>
+    <div *ngFor="let radiology of radiologies; let i = index" style="display: inline;">
+    <app-radiology-form [radiology]="radiology" (radiologySubmitted)="updateRadiology($event, i)"></app-radiology-form>
+    <button (click)="deleteRadiologyForm(i)">Delete</button>
+    </div>
+</div>

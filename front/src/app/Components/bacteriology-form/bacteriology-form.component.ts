@@ -27,8 +27,7 @@ export class BacteriologyFormComponent implements OnInit {
       type: [null],
       germs: [[]],
       interpretation: [null],
-      comment: [''],
-      consultationId: [0]
+      conclusion: ['']
     });
   }
 
@@ -40,13 +39,11 @@ export class BacteriologyFormComponent implements OnInit {
         type: this.bacteriology.type,
         germs: this.bacteriology.germs,
         interpretation: this.bacteriology.interpretation,
-        comment: this.bacteriology.comment,
-        consultationId: this.bacteriology.consultationId
+        comment: this.bacteriology.comment
       });
     }
   }
 
-  // Emit the form's Bacteriology data
   submitForm(): void {
     const formValue = this.bacteriologyForm.value;
     const bacteriology: Bacteriology = {
@@ -56,12 +53,11 @@ export class BacteriologyFormComponent implements OnInit {
       germs: formValue.germs,
       interpretation: formValue.interpretation,
       comment: formValue.comment,
-      consultationId: formValue.consultationId
+      consultationId: this.bacteriology ? this.bacteriology.consultationId : 0
     };
     this.bacteriologySubmitted.emit(bacteriology);
   }
 
-  // Format Date to YYYY-MM-DD for input type="date"
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

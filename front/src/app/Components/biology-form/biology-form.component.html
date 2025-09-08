@@ -8,7 +8,7 @@
 
         <label for="type">Type:</label>
         <select id="type" formControlName="type">
-          <option *ngFor="let type of biologyTypes" [ngValue]="type">{{ type.name }}</option>
+          <option *ngFor="let type of biologyTypes" [ngValue]="type.id">{{ type.name }}</option>
         </select>
 
         <label for="value">Value:</label>
@@ -16,13 +16,10 @@
 
         <label for="interpretation">Interpretation:</label>
         <select id="interpretation" formControlName="interpretation">
-          <option *ngFor="let interpretation of biologyInterpretations" [ngValue]="interpretation">{{ interpretation.name }}</option>
+          <option *ngFor="let interpretation of biologyInterpretations" [ngValue]="interpretation.id">{{ interpretation.name }}</option>
         </select>
 
         <label for="comment">Comment:</label>
         <input id="comment" type="text" formControlName="comment">
-
-        <label for="consultationId">Consultation ID:</label>
-        <input id="consultationId" type="number" formControlName="consultationId" readonly>
       </div>
     </form>

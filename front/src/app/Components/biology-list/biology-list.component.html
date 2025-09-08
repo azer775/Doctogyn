@@ -1,0 +1,7 @@
+ <div>
+      <button (click)="addBiologyForm()">Add Biology Form</button>
+      <div *ngFor="let biology of biologies; let i = index" style="display: inline;">
+        <app-biology-form [biology]="biology" (biologySubmitted)="updateBiology($event, i)"></app-biology-form>
+        <button (click)="deleteBiologyForm(i)">Delete</button>
+      </div>
+    </div>

@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Radiology } from '../../Models/Radiology';
 import { RadiologyType } from '../../Models/RadiologyType';
+import { comment } from 'postcss';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-radiology-form',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './radiology-form.component.html',
   styleUrl: './radiology-form.component.css'
 })
@@ -22,7 +24,7 @@ export class RadiologyFormComponent implements OnInit {
       id: [0],
       date: [''],
       type: [null],
-      comment: ['']
+      conclusion: ['']
     });
   }
 
@@ -32,12 +34,12 @@ export class RadiologyFormComponent implements OnInit {
         id: this.radiology.id,
         date: this.formatDate(this.radiology.date),
         type: this.radiology.type,
-        comment: this.radiology.comment
+        comment: this.radiology.comment,
+        conclusion: this.radiology.conclusion
       });
     }
   }
 
-  // Emit the form's Radiology data
   submitForm(): void {
     const formValue = this.radiologyForm.value;
     const radiology: Radiology = {
@@ -45,13 +47,12 @@ export class RadiologyFormComponent implements OnInit {
       date: formValue.date ? new Date(formValue.date) : new Date(),
       type: formValue.type,
       comment: formValue.comment,
-      consultationId: this.radiology ? this.radiology.consultationId : 0,
-      conclusion: ''
+      conclusion: formValue.conclusion,
+      consultationId: this.radiology ? this.radiology.consultationId : 0
     };
     this.radiologySubmitted.emit(radiology);
   }
 
-  // Format Date to YYYY-MM-DD for input type="date"
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

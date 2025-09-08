@@ -24,11 +24,16 @@ import { EchographieFormComponent } from './Components/echographie-form/echograp
 import { LoginOauthComponent } from "./Components/login-oauth/login-oauth.component";
 import { BacteriologyFormComponent } from "./Components/bacteriology-form/bacteriology-form.component";
 import { BiologyFormComponent } from "./Components/biology-form/biology-form.component";
+import { BiologyListComponent } from './Components/biology-list/biology-list.component';
+import { BacteriologyListComponent } from './Components/bacteriology-list/bacteriology-list.component';
+import { BloodGroupListComponent } from './Components/blood-group-list/blood-group-list.component';
+import { RadiologyListComponent } from './Components/radiology-list/radiology-list.component';
+import { SpermAnalysisListComponent } from './Components/sperm-analysis-list/sperm-analysis-list.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MedicalBackgroundFormComponent, MedicalBackgroundListComponent, MedicalRecordFormComponent, GynecologySubRecordFormComponent, ObstetricsRecordFormComponent, FertilitySubRecordFormComponent, EditorComponent, NgxSummernoteModule, ReactiveFormsModule, ConsultationFormComponent, TabsComponent, GynecologySubRecordDetailComponent, ObstetricsRecordDetailComponent, FertilitySubRecordDetailComponent, MedicalRecordPreviewComponent, ConsultationDetailComponent, ConsultationListComponent, MedicalBackgroundTableComponent, EchographieFormComponent, LoginOauthComponent, BacteriologyFormComponent, BiologyFormComponent],
+  imports: [MedicalBackgroundFormComponent, MedicalBackgroundListComponent, MedicalRecordFormComponent, GynecologySubRecordFormComponent, ObstetricsRecordFormComponent, FertilitySubRecordFormComponent, EditorComponent, NgxSummernoteModule, ReactiveFormsModule, ConsultationFormComponent, TabsComponent, GynecologySubRecordDetailComponent, ObstetricsRecordDetailComponent, FertilitySubRecordDetailComponent, MedicalRecordPreviewComponent, ConsultationDetailComponent, ConsultationListComponent, MedicalBackgroundTableComponent, EchographieFormComponent, LoginOauthComponent, BacteriologyFormComponent, BiologyFormComponent, SpermAnalysisListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
