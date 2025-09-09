@@ -16,9 +16,15 @@ export class SpermAnalysisListComponent implements OnInit {
   @Output() spermAnalysesChange = new EventEmitter<SpermAnalysis[]>();
 
   ngOnInit(): void {
-    // Ensure spermAnalyses is initialized as an array
-    this.spermAnalyses = Array.isArray(this.spermAnalyses) ? [...this.spermAnalyses] : [];
-    this.emitSpermAnalyses();
+    // Ensure spermAnalyses is initialized as an array and filter out empty entries
+    this.spermAnalyses = Array.isArray(this.spermAnalyses) 
+      ? this.spermAnalyses.filter(sa => sa && Object.keys(sa).length > 0)
+      : [];
+    
+    // Only emit if there are actual sperm analyses
+    if (this.spermAnalyses.length > 0) {
+      this.emitSpermAnalyses();
+    }
   }
 
   addSpermAnalysisForm(): void {

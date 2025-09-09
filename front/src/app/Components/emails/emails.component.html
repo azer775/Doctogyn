@@ -100,5 +100,8 @@
         </div>
       </div>
     </div>
+    <div *ngIf="analysesList">
+            <app-email-analyses-list [extractionResponse]="analysesList"></app-email-analyses-list>
+    </div>
   </div>
 </div>

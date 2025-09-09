@@ -17,9 +17,15 @@ export class BacteriologyListComponent implements OnInit {
   @Output() bacteriologiesChange = new EventEmitter<Bacteriology[]>();
 
   ngOnInit(): void {
-    // Ensure bacteriologies is initialized as an array
-    this.bacteriologies = Array.isArray(this.bacteriologies) ? [...this.bacteriologies] : [];
-    this.emitBacteriologies();
+    // Ensure bacteriologies is initialized as an array and filter out empty entries
+    this.bacteriologies = Array.isArray(this.bacteriologies) 
+      ? this.bacteriologies.filter(b => b && Object.keys(b).length > 0)
+      : [];
+    
+    // Only emit if there are actual bacteriologies
+    if (this.bacteriologies.length > 0) {
+      this.emitBacteriologies();
+    }
   }
 
   addBacteriologyForm(): void {

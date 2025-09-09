@@ -1,50 +1,84 @@
-<form [formGroup]="spermAnalysisForm">
-      <div style="display: inline;">
+<div class="analysis-form">
+  <form [formGroup]="spermAnalysisForm">
+    <div class="analysis-form-fields">
+      
+      <div class="analysis-form-field">
         <label for="date">Date:</label>
         <input id="date" type="date" formControlName="date">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="abstinence">Abstinence:</label>
         <input id="abstinence" type="number" formControlName="abstinence">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="ph">pH:</label>
         <input id="ph" type="number" formControlName="ph">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="volume">Volume:</label>
         <input id="volume" type="number" formControlName="volume">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="concentration">Concentration:</label>
         <input id="concentration" type="number" formControlName="concentration">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="progressivemobility">Progressive Mobility:</label>
         <input id="progressivemobility" type="number" formControlName="progressivemobility">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="totalmotility">Total Motility:</label>
         <input id="totalmotility" type="number" formControlName="totalmotility">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="totalcount">Total Count:</label>
         <input id="totalcount" type="number" formControlName="totalcount">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="roundcells">Round Cells:</label>
         <input id="roundcells" type="number" formControlName="roundcells">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="leukocytes">Leukocytes:</label>
         <input id="leukocytes" type="number" formControlName="leukocytes">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="morphology">Morphology:</label>
         <input id="morphology" type="number" formControlName="morphology">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="norm">Norm:</label>
         <select id="norm" formControlName="norm">
           <option *ngFor="let norm of spermNorms" [ngValue]="norm">{{ norm.name }}</option>
         </select>
+      </div>
 
+      <div class="analysis-form-field">
         <label for="vitality">Vitality:</label>
         <input id="vitality" type="number" formControlName="vitality">
+      </div>
 
+      <div class="analysis-form-field">
         <label for="tms">TMS:</label>
         <input id="tms" type="number" formControlName="tms">
+      </div>
 
+      <div class="analysis-form-field analysis-form-comment">
         <label for="comment">Comment:</label>
         <input id="comment" type="text" formControlName="comment">
       </div>
-    </form>
+
+    </div>
+  </form>
+</div>

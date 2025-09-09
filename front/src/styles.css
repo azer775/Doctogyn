@@ -819,3 +819,174 @@
 .error-text {
   @apply text-[#b91c1c];
 }
+
+/* Analysis Form Component Styles */
+.analysis-form {
+  @apply bg-white p-4 rounded-lg shadow-sm border border-[#e5e7eb] mb-4;
+}
+
+.analysis-form form {
+  @apply space-y-0;
+}
+
+.analysis-form-fields {
+  @apply flex flex-wrap items-end gap-2 mb-2;
+}
+
+.analysis-form-field {
+  @apply flex flex-col min-w-[20px] max-w-[140px];
+}
+
+.analysis-form-field label {
+  @apply block text-sm font-medium text-[#374151] mb-1;
+}
+
+.analysis-form-field input,
+.analysis-form-field select {
+  @apply block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3 text-sm text-[#111827];
+  @apply focus:outline-none focus:ring-[#6fdcdc] focus:border-[#6fdcdc] focus:ring-1;
+  @apply placeholder-gray-400;
+}
+
+.analysis-form-field select {
+  @apply pl-3 pr-8;
+}
+
+.analysis-form-dropdown {
+  @apply relative min-w-[120px] max-w-[160px];
+  position: relative;
+}
+
+.analysis-form-dropdown-button {
+  @apply flex items-center justify-between w-full px-3 py-2 text-sm text-[#111827] bg-white border border-[#d1d5db] rounded-md shadow-sm cursor-pointer;
+  @apply focus:outline-none focus:ring-[#6fdcdc] focus:border-[#6fdcdc] focus:ring-1;
+  @apply hover:border-[#6fdcdc];
+}
+
+.analysis-form-dropdown-menu {
+  @apply absolute top-full left-0 right-0 mt-1 bg-white border border-[#d1d5db] rounded-md shadow-lg max-h-48 overflow-y-auto;
+  z-index: 1000;
+}
+
+.analysis-form-dropdown-content {
+  @apply py-1;
+}
+
+.analysis-form-dropdown-item {
+  @apply flex items-center px-3 py-2 text-sm text-[#374151] hover:bg-[#f0fdf4] cursor-pointer;
+}
+
+.analysis-form-dropdown-item input[type="checkbox"] {
+  @apply mr-2 w-4 h-4 text-[#6fdcdc] border-[#d1d5db] rounded focus:ring-[#6fdcdc] focus:ring-2;
+}
+
+.analysis-form-dropdown-icon {
+  @apply w-4 h-4 text-[#6b7280];
+}
+
+.analysis-form-comment {
+  @apply flex-1 min-w-[90px] max-w-[250px];
+}
+
+/* Analysis List Component Styles */
+.analysis-list {
+  @apply bg-white p-4 rounded-lg shadow-sm border border-[#e5e7eb];
+}
+
+.analysis-list-header {
+  @apply flex justify-between items-center mb-4;
+}
+
+.analysis-list-title {
+  @apply text-lg font-semibold text-[#111827] flex items-center;
+}
+
+.analysis-list-title svg {
+  @apply h-5 w-5 mr-2 text-[#6fdcdc];
+}
+
+.analysis-list-add-button {
+  @apply flex items-center justify-center w-10 h-10 rounded-md shadow-sm;
+  @apply text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply transition-colors duration-200;
+}
+
+.analysis-list-add-button svg {
+  @apply w-5 h-5;
+}
+
+.analysis-list-content {
+  @apply space-y-4;
+}
+
+.analysis-list-item {
+  @apply relative bg-[#f8fafc] rounded-lg border border-[#e2e8f0] p-4;
+}
+
+.analysis-list-item-header {
+  @apply flex justify-between items-start mb-2;
+}
+
+.analysis-list-item-actions {
+  @apply flex space-x-2;
+}
+
+.analysis-list-delete-button {
+  @apply flex items-center justify-center w-8 h-8 rounded-md;
+  @apply text-[#b91c1c] hover:bg-[#fee2e2] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#fca5a5];
+  @apply transition-colors duration-200;
+}
+
+.analysis-list-delete-button svg {
+  @apply w-4 h-4;
+}
+
+.analysis-list-empty {
+  @apply text-center py-8 text-[#6b7280];
+}
+
+/* Analyses Lists Container Component Styles (for consultation form) */
+.analyses-lists-container {
+  @apply w-full p-6 rounded-lg border border-[#d1d5db] bg-white/90 shadow-sm mt-4;
+}
+
+.analyses-lists-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.analyses-lists-title {
+  @apply text-lg font-semibold text-[#374151] flex items-center;
+}
+
+.analyses-lists-title svg {
+  @apply h-5 w-5 mr-2 text-[#6fdcdc];
+}
+
+.analyses-lists-toggle-button {
+  @apply flex items-center px-4 py-2 bg-[#6fdcdc] text-white rounded-md hover:bg-[#58b0b0] transition-colors;
+  @apply focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 text-sm font-medium;
+}
+
+.analyses-lists-content {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
+
+.analyses-lists-grid-item {
+  @apply min-w-0;
+}
+
+.analyses-lists-content .analysis-list {
+  @apply bg-[#f8fafc] border-[#e2e8f0] shadow-xs;
+}
+
+.analyses-lists-empty-state {
+  @apply col-span-full py-12 text-center;
+}
+
+.analyses-lists-empty-state svg {
+  @apply h-16 w-16 mx-auto mb-4 text-[#d1d5db];
+}
+
+.analyses-lists-empty-state p {
+  @apply text-[#6b7280] text-sm;
+}

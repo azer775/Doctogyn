@@ -1,7 +1,39 @@
-<div>
-    <button (click)="addRadiologyForm()">Add Radiology Form</button>
-    <div *ngFor="let radiology of radiologies; let i = index" style="display: inline;">
-    <app-radiology-form [radiology]="radiology" (radiologySubmitted)="updateRadiology($event, i)"></app-radiology-form>
-    <button (click)="deleteRadiologyForm(i)">Delete</button>
+<div class="analysis-list">
+  <div class="analysis-list-header">
+    <h3 class="analysis-list-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+      </svg>
+      Radiology Analyses
+    </h3>
+    <button type="button" (click)="addRadiologyForm()" class="analysis-list-add-button" title="Add Radiology Form">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="analysis-list-content">
+    <div *ngFor="let radiology of radiologies; let i = index" class="analysis-list-item">
+      <div class="analysis-list-item-header">
+        <span class="text-sm text-[#6b7280]"></span>
+        <div class="analysis-list-item-actions">
+          <button type="button" (click)="deleteRadiologyForm(i)" class="analysis-list-delete-button" title="Delete Analysis">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <app-radiology-form [radiology]="radiology" (radiologySubmitted)="updateRadiology($event, i)"></app-radiology-form>
     </div>
+    
+    <div *ngIf="radiologies.length === 0" class="analysis-list-empty">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-[#d1d5db]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="text-sm">No radiology analyses yet</p>
+      <p class="text-xs mt-1">Click the + button to add your first analysis</p>
+    </div>
+  </div>
 </div>

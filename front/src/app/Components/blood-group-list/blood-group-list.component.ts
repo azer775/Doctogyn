@@ -17,9 +17,15 @@ export class BloodGroupListComponent implements OnInit {
   @Output() bloodGroupsChange = new EventEmitter<BloodGroup[]>();
 
   ngOnInit(): void {
-    // Ensure bloodGroups is initialized as an array
-    this.bloodGroups = Array.isArray(this.bloodGroups) ? [...this.bloodGroups] : [];
-    this.emitBloodGroups();
+    // Ensure bloodGroups is initialized as an array and filter out empty entries
+    this.bloodGroups = Array.isArray(this.bloodGroups) 
+      ? this.bloodGroups.filter(bg => bg && Object.keys(bg).length > 0)
+      : [];
+    
+    // Only emit if there are actual blood groups
+    if (this.bloodGroups.length > 0) {
+      this.emitBloodGroups();
+    }
   }
 
   addBloodGroupForm(): void {

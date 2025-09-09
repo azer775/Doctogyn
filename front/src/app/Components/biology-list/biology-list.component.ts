@@ -18,9 +18,15 @@ export class BiologyListComponent implements OnInit {
   @Output() biologiesChange = new EventEmitter<Biology[]>();
 
   ngOnInit(): void {
-    // Ensure biologies is initialized as an array
-    this.biologies = Array.isArray(this.biologies) ? [...this.biologies] : [];
-    this.emitBiologies();
+    // Ensure biologies is initialized as an array and filter out empty entries
+    this.biologies = Array.isArray(this.biologies) 
+      ? this.biologies.filter(b => b && Object.keys(b).length > 0)
+      : [];
+    
+    // Only emit if there are actual biologies
+    if (this.biologies.length > 0) {
+      this.emitBiologies();
+    }
   }
 
   addBiologyForm(): void {
@@ -52,13 +58,13 @@ export class BiologyListComponent implements OnInit {
   private emitBiologies(): void {
     // Emit biologies without consultationId
     const biologiesToEmit = this.biologies.map(biology => ({
-      id: biology.id,
+      id: biology?.id || 0,
       date: biology.date,
       type: biology.type,
       value: biology.value,
       interpretation: biology.interpretation,
       comment: biology.comment,
-      consultationId: biology.consultationId
+      consultationId: biology.consultationId || 0
     }));
     this.biologiesChange.emit(biologiesToEmit);
   }

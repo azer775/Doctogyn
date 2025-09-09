@@ -7,14 +7,18 @@ import { OAuthService } from '../../Services/oauth.service';
 import { CommonModule, DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ExtractionResponse } from '../../Models/ExtractionResponse';
+import { AnalysesListComponent } from '../analyses-list/analyses-list.component';
+import { EmailAnalysesListComponent } from "../email-analyses-list/email-analyses-list.component";
 
 @Component({
   selector: 'app-emails',
   standalone: true,
-  imports: [    NgFor, 
-    NgIf, 
+  imports: [NgFor,
+    NgIf,
     DatePipe,
-    PdfViewerModule],
+    PdfViewerModule,
+    EmailAnalysesListComponent],
   templateUrl: './emails.component.html',
   styleUrl: './emails.component.css'
 })
@@ -41,6 +45,7 @@ export class EmailsComponent  {
 
   /** Flag to track if component is in processing mode (hides emails list) */
   isProcessingMode: boolean = false;
+  analysesList: ExtractionResponse | null = null;
 
   /**
    * Constructor - Initializes the emails component with required services
@@ -314,8 +319,9 @@ export class EmailsComponent  {
     // Send all valid attachments for processing
     this.gmailService.processAttachment1(validAttachments).subscribe({
       next: (result) => {
-        alert(`Processing completed for ${validAttachments.length} attachment(s): ${result}`);
-        console.log('Processing result:', result);
+        this.analysesList = result;
+        //alert(`Processing completed for ${validAttachments.length} attachment(s): ${this.analysesList}`);
+        console.log('Processing result:', this.analysesList);
       },
       error: (error) => {
         console.error('Processing failed:', error);

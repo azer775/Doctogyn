@@ -1,0 +1,6 @@
+/* Custom overrides for bacteriology form specific needs */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

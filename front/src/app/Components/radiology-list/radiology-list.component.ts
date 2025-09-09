@@ -16,9 +16,15 @@ export class RadiologyListComponent implements OnInit {
   @Output() radiologiesChange = new EventEmitter<Radiology[]>();
 
   ngOnInit(): void {
-    // Ensure radiologies is initialized as an array
-    this.radiologies = Array.isArray(this.radiologies) ? [...this.radiologies] : [];
-    this.emitRadiologies();
+    // Ensure radiologies is initialized as an array and filter out empty entries
+    this.radiologies = Array.isArray(this.radiologies) 
+      ? this.radiologies.filter(r => r && Object.keys(r).length > 0)
+      : [];
+    
+    // Only emit if there are actual radiologies
+    if (this.radiologies.length > 0) {
+      this.emitRadiologies();
+    }
   }
 
   addRadiologyForm(): void {

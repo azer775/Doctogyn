@@ -1,0 +1,20 @@
+<div >
+      <div  *ngIf="biologies.length > 0">
+        <app-biology-list [biologies]="biologies"></app-biology-list>
+      </div>
+      <div  *ngIf="bacteriologies.length > 0">
+        <app-bacteriology-list [bacteriologies]="bacteriologies"></app-bacteriology-list>
+      </div>
+      <div  *ngIf="bloodGroups.length > 0">
+        <app-blood-group-list [bloodGroups]="bloodGroups"></app-blood-group-list>
+      </div>
+      <div  *ngIf="radiologies.length > 0">
+        <app-radiology-list [radiologies]="radiologies"></app-radiology-list>
+      </div>
+      <div  *ngIf="serologies.length > 0">
+        <app-serology-list [serologies]="serologies"></app-serology-list>
+      </div>
+      <div  *ngIf="spermAnalyses.length > 0">
+        <app-sperm-analysis-list [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
+      </div>
+</div>

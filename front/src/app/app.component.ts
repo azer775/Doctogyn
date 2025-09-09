@@ -29,16 +29,133 @@ import { BacteriologyListComponent } from './Components/bacteriology-list/bacter
 import { BloodGroupListComponent } from './Components/blood-group-list/blood-group-list.component';
 import { RadiologyListComponent } from './Components/radiology-list/radiology-list.component';
 import { SpermAnalysisListComponent } from './Components/sperm-analysis-list/sperm-analysis-list.component';
+import { AnalysesListComponent } from "./Components/analyses-list/analyses-list.component";
+import { ExtractionResponse } from './Models/ExtractionResponse';
+import { Document } from './Models/Document';
+import { Biology } from './Models/Biology';
+import { Bacteriology } from './Models/Bacteriology';
+import { BloodGroup } from './Models/BloodGroup';
+import { Radiology } from './Models/Radiology';
+import { Serology } from './Models/Serology';
+import { SpermAnalysis } from './Models/SpermAnalysis';
+import { BiologyType, BiologyInterpretation } from './Models/BiologyEnums';
+import { BacteriologyType, Germ, BacteriologyInterpretation } from './Models/BacteriologyEnums';
+import { BloodType } from './Models/BloodType';
+import { RadiologyType } from './Models/RadiologyType';
+import { SerologyType, SerologyInterpretation } from './Models/SerologyEnums';
+import { SpermNorm } from './Models/SpermNorm';
+import { EmailsComponent } from "./Components/emails/emails.component";
+import { getBiologyTypeById } from './Models/BiologyEnums';
+import { EmailAnalysesListComponent } from './Components/email-analyses-list/email-analyses-list.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MedicalBackgroundFormComponent, MedicalBackgroundListComponent, MedicalRecordFormComponent, GynecologySubRecordFormComponent, ObstetricsRecordFormComponent, FertilitySubRecordFormComponent, EditorComponent, NgxSummernoteModule, ReactiveFormsModule, ConsultationFormComponent, TabsComponent, GynecologySubRecordDetailComponent, ObstetricsRecordDetailComponent, FertilitySubRecordDetailComponent, MedicalRecordPreviewComponent, ConsultationDetailComponent, ConsultationListComponent, MedicalBackgroundTableComponent, EchographieFormComponent, LoginOauthComponent, BacteriologyFormComponent, BiologyFormComponent, SpermAnalysisListComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'front';
+  
+  // Sample ExtractionResponse to test analyses-list component
+  sampleExtractionResponse: ExtractionResponse = {
+    documents: [
+      {
+        biologies: [
+          {
+            id: 1,
+            date: new Date('2024-01-15'),
+            type: BiologyType.ALANINE_AMINOTRANSFERASE_IU_L,
+            value: 95,
+            interpretation: BiologyInterpretation.NORMAL,
+            comment: 'Normal fasting glucose level',
+            consultationId: 1
+          },
+          {
+            id: 2,
+            date: new Date('2024-01-15'),
+            type: getBiologyTypeById(-55)!, 
+            value: 6.2,
+            interpretation: BiologyInterpretation.NORMAL,
+            comment: 'Good glycemic control',
+            consultationId: 1
+          }
+        ],
+        bacteriologies: [
+          {
+            id: 1,
+            date: new Date('2024-01-10'),
+            type: BacteriologyType.URINE_CULTURE,
+            germs: [Germ.ESCHERICHIA_COLI, Germ.STAPHYLOCOCCUS_AUREUS],
+            interpretation: BacteriologyInterpretation.POSITIVE,
+            comment: 'UTI detected',
+            consultationId: 1
+          }
+        ],
+        bloodgroups: [
+          {
+            id: 1,
+            date: new Date('2024-01-05'),
+            type: BloodType.A_POSITIVE,
+            comment: 'Blood type confirmed',
+            consultationId: 1
+          }
+        ],
+        radiologies: [
+          {
+            id: 1,
+            date: new Date('2024-01-20'),
+            type: RadiologyType.PELVIC_SCAN,
+            conclusion: 'Normal pelvic anatomy',
+            comment: 'No abnormalities detected',
+            consultationId: 1
+          }
+        ],
+        serologies: [
+          {
+            id: 1,
+            date: new Date('2024-01-12'),
+            type: SerologyType.RUBELLA_SEROLOGY_IGG,
+            value: 250,
+            interpretation: SerologyInterpretation.POSITIVE,
+            comment: 'Immune to rubella',
+            consultationId: 1
+          },
+          {
+            id: 2,
+            date: new Date('2024-01-12'),
+            type: SerologyType.TOXOPLASMA_SEROLOGY_IGG,
+            value: 5,
+            interpretation: SerologyInterpretation.NEGATIVE,
+            comment: 'Not immune to toxoplasma',
+            consultationId: 1
+          }
+        ],
+        spermAnalyses: [
+          {
+            id: 1,
+            date: new Date('2024-01-25'),
+            abstinence: 3,
+            ph: 7.8,
+            volume: 3.5,
+            concentration: 25,
+            progressivemobility: 45,
+            totalmotility: 65,
+            totalcount: 87.5,
+            roundcells: 2,
+            leukocytes: 1,
+            morphology: 8,
+            norm: SpermNorm.DAVID,
+            vitality: 85,
+            tms: 40,
+            consultationId: 1
+          }
+        ]
+      }
+    ]
+  };
+
   medicalBackgrounds: MedicalBackground[] = [
   new MedicalBackground(1, FamilialPathology.OVARIAN_CANCER, Allergies.Drug, MedicalPathology.BONE_CANCER, ChirurgicalPathology.APPENDECTOMY, '', 'Family history of ovarian cancer', new Date('2023-01-05'), 'Familial', 1),
   new MedicalBackground(2, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.DEPRESSION, ChirurgicalPathology.APPENDECTOMY, '', 'Peanut allergy', new Date('2023-05-10'), 'Allergies', 1),

@@ -1,7 +1,39 @@
-<div>
-    <button (click)="addBloodGroupForm()">Add Blood Group Form</button>
-    <div *ngFor="let bloodGroup of bloodGroups; let i = index" style="display: inline;">
-    <app-blood-group-form [bloodGroup]="bloodGroup" (bloodGroupSubmitted)="updateBloodGroup($event, i)"></app-blood-group-form>
-    <button (click)="deleteBloodGroupForm(i)">Delete</button>
+<div class="analysis-list">
+  <div class="analysis-list-header">
+    <h3 class="analysis-list-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+      </svg>
+      Blood Group Analyses
+    </h3>
+    <button type="button" (click)="addBloodGroupForm()" class="analysis-list-add-button" title="Add Blood Group Form">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="analysis-list-content">
+    <div *ngFor="let bloodGroup of bloodGroups; let i = index" class="analysis-list-item">
+      <div class="analysis-list-item-header">
+        <span class="text-sm text-[#6b7280]"></span>
+        <div class="analysis-list-item-actions">
+          <button type="button" (click)="deleteBloodGroupForm(i)" class="analysis-list-delete-button" title="Delete Analysis">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <app-blood-group-form [bloodGroup]="bloodGroup" (bloodGroupSubmitted)="updateBloodGroup($event, i)"></app-blood-group-form>
     </div>
+    
+    <div *ngIf="bloodGroups.length === 0" class="analysis-list-empty">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-[#d1d5db]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="text-sm">No blood group analyses yet</p>
+      <p class="text-xs mt-1">Click the + button to add your first analysis</p>
+    </div>
+  </div>
 </div>

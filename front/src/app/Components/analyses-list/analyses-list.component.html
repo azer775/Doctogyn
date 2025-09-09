@@ -1,0 +1,79 @@
+<div class="analyses-lists-container">
+  <div class="analyses-lists-header">
+    <h3 class="analyses-lists-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd" />
+      </svg>
+      Medical Analyses
+    </h3>
+    
+    <!-- Toggle Buttons -->
+    <div class="flex flex-wrap gap-2">
+      <button (click)="toggle('biology')" class="analyses-lists-toggle-button" 
+              [class.bg-[#58b0b0]]="visibility.biology" [class.bg-[#6fdcdc]]="!visibility.biology">
+        Biology
+      </button>
+      <button (click)="toggle('bacteriology')" class="analyses-lists-toggle-button"
+              [class.bg-[#58b0b0]]="visibility.bacteriology" [class.bg-[#6fdcdc]]="!visibility.bacteriology">
+        Bacteriology
+      </button>
+      <button (click)="toggle('bloodGroup')" class="analyses-lists-toggle-button"
+              [class.bg-[#58b0b0]]="visibility.bloodGroup" [class.bg-[#6fdcdc]]="!visibility.bloodGroup">
+        Blood Group
+      </button>
+      <button (click)="toggle('radiology')" class="analyses-lists-toggle-button"
+              [class.bg-[#58b0b0]]="visibility.radiology" [class.bg-[#6fdcdc]]="!visibility.radiology">
+        Radiology
+      </button>
+      <button (click)="toggle('serology')" class="analyses-lists-toggle-button"
+              [class.bg-[#58b0b0]]="visibility.serology" [class.bg-[#6fdcdc]]="!visibility.serology">
+        Serology
+      </button>
+      <button (click)="toggle('spermAnalysis')" class="analyses-lists-toggle-button"
+              [class.bg-[#58b0b0]]="visibility.spermAnalysis" [class.bg-[#6fdcdc]]="!visibility.spermAnalysis">
+        Sperm Analysis
+      </button>
+    </div>
+  </div>
+
+  <!-- Check if any analysis lists are visible -->
+  <div *ngIf="hasVisibleLists(); else noVisibleLists" class="analyses-lists-content">
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.biology">
+      <app-biology-list [biologies]="biologies"></app-biology-list>
+    </div>
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.bacteriology">
+      <app-bacteriology-list [bacteriologies]="bacteriologies"></app-bacteriology-list>
+    </div>
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.bloodGroup">
+      <app-blood-group-list [bloodGroups]="bloodGroups"></app-blood-group-list>
+    </div>
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.radiology">
+      <app-radiology-list [radiologies]="radiologies"></app-radiology-list>
+    </div>
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.serology">
+      <app-serology-list [serologies]="serologies"></app-serology-list>
+    </div>
+    
+    <div class="analyses-lists-grid-item" *ngIf="visibility.spermAnalysis">
+      <app-sperm-analysis-list [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
+    </div>
+    
+  </div>
+
+  <!-- Empty state when no lists are visible -->
+  <ng-template #noVisibleLists>
+    <div class="analyses-lists-empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="mb-2">No analyses selected</p>
+      <p class="text-xs">Click the buttons above to show different analysis types</p>
+    </div>
+  </ng-template>
+  
+</div>

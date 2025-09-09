@@ -26,7 +26,7 @@ export class BiologyFormComponent implements OnInit {
       type: [null],
       value: [0],
       interpretation: [null],
-      conclusion: ['']
+      comment: ['']
     });
   }
 

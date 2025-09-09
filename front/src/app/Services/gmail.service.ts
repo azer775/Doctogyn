@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EmailAttachment } from '../Models/EmailAttachment';
 import { EmailMessage } from '../Models/EmailMessage';
+import { ExtractionResponse } from '../Models/ExtractionResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class GmailService {
       withCredentials: true
     });
   }
- processAttachment1(attachments: EmailAttachment[]): Observable<any> {
-        return this.http.post<EmailAttachment[]>(`${this.apiUrl}/gmail/process-attachment`, attachments, {
+ processAttachment1(attachments: EmailAttachment[]): Observable<ExtractionResponse> {
+        return this.http.post<ExtractionResponse>(`${this.apiUrl}/gmail/process-attachment`, attachments, {
       withCredentials: true
     });
     }

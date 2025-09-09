@@ -16,9 +16,15 @@ export class SerologyListComponent implements OnInit {
   @Output() serologiesChange = new EventEmitter<Serology[]>();
 
   ngOnInit(): void {
-    // Ensure serologies is initialized as an array
-    this.serologies = Array.isArray(this.serologies) ? [...this.serologies] : [];
-    this.emitSerologies();
+    // Ensure serologies is initialized as an array and filter out empty entries
+    this.serologies = Array.isArray(this.serologies) 
+      ? this.serologies.filter(s => s && Object.keys(s).length > 0)
+      : [];
+    
+    // Only emit if there are actual serologies
+    if (this.serologies.length > 0) {
+      this.emitSerologies();
+    }
   }
 
   addSerologyForm(): void {

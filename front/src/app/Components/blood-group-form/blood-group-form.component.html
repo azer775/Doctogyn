@@ -1,17 +1,24 @@
-<form [formGroup]="bloodGroupForm">
-    <div style="display: inline;">
-    <label for="id">ID:</label>
-    <input id="id" type="number" formControlName="id" readonly>
+<div class="analysis-form">
+  <form [formGroup]="bloodGroupForm">
+    <div class="analysis-form-fields">
+      
+      <div class="analysis-form-field">
+        <label for="date">Date:</label>
+        <input id="date" type="date" formControlName="date">
+      </div>
 
-    <label for="date">Date:</label>
-    <input id="date" type="date" formControlName="date">
+      <div class="analysis-form-field">
+        <label for="type">Type:</label>
+        <select id="type" formControlName="type">
+          <option *ngFor="let type of bloodTypes" [ngValue]="type">{{ type.name }}</option>
+        </select>
+      </div>
 
-    <label for="type">Type:</label>
-    <select id="type" formControlName="type">
-        <option *ngFor="let type of bloodTypes" [ngValue]="type">{{ type.name }}</option>
-    </select>
+      <div class="analysis-form-field analysis-form-comment">
+        <label for="comment">Comment:</label>
+        <input id="comment" type="text" formControlName="comment">
+      </div>
 
-    <label for="comment">Comment:</label>
-    <input id="comment" type="text" formControlName="comment">
     </div>
-</form>
+  </form>
+</div>
