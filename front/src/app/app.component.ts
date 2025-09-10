@@ -51,7 +51,7 @@ import { EmailAnalysesListComponent } from './Components/email-analyses-list/ema
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent,EmailAnalysesListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

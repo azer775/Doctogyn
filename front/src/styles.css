@@ -821,9 +821,7 @@
 }
 
 /* Analysis Form Component Styles */
-.analysis-form {
-  @apply bg-white p-4 rounded-lg shadow-sm border border-[#e5e7eb] mb-4;
-}
+
 
 .analysis-form form {
   @apply space-y-0;
@@ -920,7 +918,7 @@
 }
 
 .analysis-list-item {
-  @apply relative bg-[#f8fafc] rounded-lg border border-[#e2e8f0] p-4;
+  @apply relative  bg-white rounded-lg border border-[#e2e8f0] p-4;
 }
 
 .analysis-list-item-header {
@@ -989,4 +987,213 @@
 
 .analyses-lists-empty-state p {
   @apply text-[#6b7280] text-sm;
+}
+
+/* Email Analyses List Component Styles (single column layout) */
+.email-analyses-container {
+  @apply w-full p-6 rounded-lg border border-[#d1d5db] bg-white/90 shadow-sm mt-4;
+}
+
+.email-analyses-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.email-analyses-title {
+  @apply text-lg font-semibold text-[#374151] flex items-center;
+}
+
+.email-analyses-title svg {
+  @apply h-5 w-5 mr-2 text-[#6fdcdc];
+}
+
+.email-analyses-content {
+  @apply space-y-6;
+}
+
+.email-analyses-list-item {
+  @apply w-full;
+}
+
+.email-analyses-content .analysis-list {
+  @apply bg-[#f8fafc] border-[#e2e8f0] shadow-xs;
+}
+
+.email-analyses-empty-state {
+  @apply py-12 text-center;
+}
+
+.email-analyses-empty-state svg {
+  @apply h-16 w-16 mx-auto mb-4 text-[#d1d5db];
+}
+
+.email-analyses-empty-state p {
+  @apply text-[#6b7280] text-sm;
+}
+
+/* Email Component Styles */
+.emails-container {
+  @apply h-screen p-6 relative flex flex-col bg-white;
+}
+
+.emails-close-button {
+  @apply absolute top-4 right-4 bg-[#f3f4f6] border-none rounded-full w-8 h-8 cursor-pointer text-base z-[1000];
+  @apply hover:bg-[#e5e7eb] flex items-center justify-center text-[#374151];
+}
+
+.emails-controls {
+  @apply flex flex-wrap gap-3 mb-6 pt-12;
+}
+
+.emails-control-button {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm;
+  @apply text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply disabled:bg-[#d1d5db] disabled:text-[#6b7280] disabled:cursor-not-allowed disabled:hover:bg-[#d1d5db];
+}
+
+.emails-exit-processing-button {
+  @apply bg-[#10b981] hover:bg-[#059669];
+}
+
+.emails-main-content {
+  @apply flex gap-6 flex-1 overflow-hidden;
+}
+
+.emails-section {
+  @apply flex-1 overflow-y-auto transition-all duration-300;
+}
+
+.emails-section.with-pdf {
+  @apply flex-none w-1/2;
+}
+
+.emails-section.hidden {
+  @apply hidden;
+}
+
+.emails-selected-summary {
+  @apply bg-white p-4 rounded-lg shadow-sm border border-[#e5e7eb] mb-6;
+}
+
+.emails-selected-summary h4 {
+  @apply text-base font-semibold text-[#111827] mb-3 flex items-center;
+}
+
+.emails-selected-items {
+  @apply flex flex-wrap gap-2;
+}
+
+.emails-selected-item {
+  @apply bg-[#f0fdf4] border border-[#6fdcdc] rounded-full px-3 py-1 text-sm flex items-center gap-2;
+  @apply text-[#374151];
+}
+
+.emails-selected-item button {
+  @apply bg-none border-none cursor-pointer text-[#6b7280] hover:text-[#374151];
+}
+
+.emails-card {
+  @apply bg-white p-4 rounded-lg shadow-sm border border-[#e5e7eb] mb-4;
+}
+
+.emails-card-header {
+  @apply mb-4 pb-3 border-b border-[#f3f4f6];
+}
+
+.emails-card-header h3 {
+  @apply text-lg font-semibold text-[#111827] mb-2 flex items-center;
+}
+
+.emails-card-meta {
+  @apply flex gap-6 text-sm text-[#6b7280];
+}
+
+.emails-attachments-section {
+  @apply mt-4;
+}
+
+.emails-attachments-section h4 {
+  @apply text-sm font-medium text-[#374151] mb-3 flex items-center;
+}
+
+.emails-attachments-grid {
+  @apply grid gap-3;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.emails-attachment-item {
+  @apply border border-[#d1d5db] rounded-lg p-3 cursor-pointer relative bg-white transition-all;
+  @apply hover:border-[#6fdcdc] hover:shadow-sm;
+}
+
+.emails-attachment-item.selected {
+  @apply border-[#6fdcdc] bg-[#f0fdf4] shadow-sm;
+}
+
+.emails-attachment-info {
+  @apply text-center relative;
+}
+
+.emails-file-name {
+  @apply text-sm font-medium text-[#111827] mb-1;
+}
+
+.emails-file-size {
+  @apply text-xs text-[#6b7280];
+}
+
+.emails-selected-indicator {
+  @apply absolute -top-2 -right-2 bg-[#10b981] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs;
+}
+
+.emails-progress-bar {
+  @apply w-full h-1.5 bg-[#f3f4f6] rounded-full mt-2;
+}
+
+.emails-progress-fill {
+  @apply h-full bg-[#6fdcdc] rounded-full transition-all duration-300;
+}
+
+.emails-pdf-section {
+  @apply flex-none w-1/2 border-l border-[#e5e7eb] bg-white flex flex-col;
+}
+
+.emails-pdf-section.full-width {
+  @apply flex-1 border-l-0;
+}
+
+.emails-pdf-header {
+  @apply p-4 border-b border-[#e5e7eb] bg-[#f8fafc] flex justify-between items-center;
+}
+
+.emails-pdf-header h4 {
+  @apply text-base font-semibold text-[#111827] flex items-center;
+}
+
+.emails-pdf-close-button {
+  @apply inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md;
+  @apply text-white bg-[#ef4444] hover:bg-[#dc2626] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ef4444];
+}
+
+.emails-pdf-viewers-container {
+  @apply flex-1 overflow-y-auto p-4;
+}
+
+.emails-pdf-viewer-item {
+  @apply mb-6 bg-white rounded-lg shadow-sm border border-[#e5e7eb];
+}
+
+.emails-pdf-item-header {
+  @apply p-3 bg-[#f8fafc] border-b border-[#e5e7eb] flex justify-between items-center;
+}
+
+.emails-pdf-item-header h5 {
+  @apply text-sm font-medium text-[#111827];
+}
+
+.emails-pdf-item-size {
+  @apply text-xs text-[#6b7280];
+}
+
+.emails-pdf-viewer-container {
+  @apply h-[500px] bg-[#f8fafc];
 }

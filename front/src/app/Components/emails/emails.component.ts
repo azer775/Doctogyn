@@ -422,17 +422,21 @@ export class EmailsComponent  {
 
   /**
    * Closes the PDF viewer and cleans up all associated URLs
+   * If in processing mode, only closes PDFs but keeps the analyses list
    */
   closePdfViewer(): void {
     this.cleanupAllPdfUrls();
-    this.isProcessingMode = false;
+    // Don't exit processing mode when just closing PDFs
+    // Let the user explicitly use "Back to Emails" button
   }
 
   /**
    * Exits processing mode and returns to emails list view
+   * Closes PDF viewer and resets to initial email list state
    */
   exitProcessingMode(): void {
     this.isProcessingMode = false;
+    this.analysesList = null; // Clear the analyses list
     this.closePdfViewer();
   }
 
@@ -455,6 +459,21 @@ export class EmailsComponent  {
   
 
   // ===== EVENT HANDLERS =====
+
+  /**
+   * Handles collected analyses data from EmailAnalysesListComponent
+   * Closes the dialog and passes the data back to the parent component
+   * @param collectedData - All analyses data collected from forms
+   */
+  onAnalysesCollected(collectedData: any): void {
+    console.log('Received collected analyses data:', collectedData);
+    
+    // Close the dialog and pass the collected data as the result
+    this.dialogRef.close({
+      type: 'analysesCollected',
+      data: collectedData
+    });
+  }
 
   /**
    * Handles PDF viewer errors and logs them for debugging

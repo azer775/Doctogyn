@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Bacteriology } from '../../Models/Bacteriology';
 import { Biology } from '../../Models/Biology';
 import { BloodGroup } from '../../Models/BloodGroup';
@@ -29,6 +29,22 @@ import { SpermAnalysisListComponent } from '../sperm-analysis-list/sperm-analysi
 })
 export class EmailAnalysesListComponent implements OnInit {
   @Input() extractionResponse: ExtractionResponse | null = null;
+  @Output() allAnalysesCollected = new EventEmitter<{
+    biologies: Biology[],
+    bacteriologies: Bacteriology[],
+    bloodGroups: BloodGroup[],
+    radiologies: Radiology[],
+    serologies: Serology[],
+    spermAnalyses: SpermAnalysis[]
+  }>();
+
+  // ViewChild references to access child list components
+  @ViewChild(BiologyListComponent) biologyListComponent?: BiologyListComponent;
+  @ViewChild(BacteriologyListComponent) bacteriologyListComponent?: BacteriologyListComponent;
+  @ViewChild(BloodGroupListComponent) bloodGroupListComponent?: BloodGroupListComponent;
+  @ViewChild(RadiologyListComponent) radiologyListComponent?: RadiologyListComponent;
+  @ViewChild(SerologyListComponent) serologyListComponent?: SerologyListComponent;
+  @ViewChild(SpermAnalysisListComponent) spermAnalysisListComponent?: SpermAnalysisListComponent;
 
   biologies: Biology[] = [];
   bacteriologies: Bacteriology[] = [];
@@ -63,5 +79,50 @@ export class EmailAnalysesListComponent implements OnInit {
         .flatMap(d => d.spermAnalyses || [])
         .filter(sa => sa && Object.keys(sa).length > 0);
     }
+  }
+
+  hasAnyAnalyses(): boolean {
+    return this.biologies.length > 0 || 
+           this.bacteriologies.length > 0 || 
+           this.bloodGroups.length > 0 || 
+           this.radiologies.length > 0 || 
+           this.serologies.length > 0 || 
+           this.spermAnalyses.length > 0;
+  }
+
+  /**
+   * Collects all current data from the analysis forms
+   * This method gathers data from all child list components
+   */
+  collectAllAnalyses(): void {
+    const collectedData = {
+      biologies: this.biologyListComponent?.biologies || this.biologies,
+      bacteriologies: this.bacteriologyListComponent?.bacteriologies || this.bacteriologies,
+      bloodGroups: this.bloodGroupListComponent?.bloodGroups || this.bloodGroups,
+      radiologies: this.radiologyListComponent?.radiologies || this.radiologies,
+      serologies: this.serologyListComponent?.serologies || this.serologies,
+      spermAnalyses: this.spermAnalysisListComponent?.spermAnalyses || this.spermAnalyses
+    };
+
+    // Emit the collected data to parent component
+    this.allAnalysesCollected.emit(collectedData);
+    
+    // Log for debugging
+    console.log('Collected all analyses data:', collectedData);
+    
+    // Optional: Show success message
+    alert(`Collected data: ${this.getTotalAnalysesCount(collectedData)} analyses`);
+  }
+
+  /**
+   * Counts total number of analyses across all types
+   */
+  private getTotalAnalysesCount(data: any): number {
+    return (data.biologies?.length || 0) +
+           (data.bacteriologies?.length || 0) +
+           (data.bloodGroups?.length || 0) +
+           (data.radiologies?.length || 0) +
+           (data.serologies?.length || 0) +
+           (data.spermAnalyses?.length || 0);
   }
 }

@@ -1,20 +1,63 @@
-<div >
-      <div  *ngIf="biologies.length > 0">
-        <app-biology-list [biologies]="biologies"></app-biology-list>
-      </div>
-      <div  *ngIf="bacteriologies.length > 0">
-        <app-bacteriology-list [bacteriologies]="bacteriologies"></app-bacteriology-list>
-      </div>
-      <div  *ngIf="bloodGroups.length > 0">
-        <app-blood-group-list [bloodGroups]="bloodGroups"></app-blood-group-list>
-      </div>
-      <div  *ngIf="radiologies.length > 0">
-        <app-radiology-list [radiologies]="radiologies"></app-radiology-list>
-      </div>
-      <div  *ngIf="serologies.length > 0">
-        <app-serology-list [serologies]="serologies"></app-serology-list>
-      </div>
-      <div  *ngIf="spermAnalyses.length > 0">
-        <app-sperm-analysis-list [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
-      </div>
+<div class="email-analyses-container">
+  <div class="email-analyses-header">
+    <h3 class="email-analyses-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+      </svg>
+      Email Medical Analyses
+    </h3>
+    
+    <!-- Collect All Data Button -->
+    <button *ngIf="hasAnyAnalyses()" 
+            (click)="collectAllAnalyses()" 
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc]"
+            title="Collect all analyses data">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 mr-2">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+      </svg>
+      Collect All Data
+    </button>
+  </div>
+
+  <!-- Check if any analyses exist -->
+  <div *ngIf="hasAnyAnalyses(); else noAnalyses" class="email-analyses-content">
+    
+    <div class="email-analyses-list-item" *ngIf="biologies.length > 0">
+      <app-biology-list #biologyList [biologies]="biologies"></app-biology-list>
+    </div>
+    
+    <div class="email-analyses-list-item" *ngIf="bacteriologies.length > 0">
+      <app-bacteriology-list #bacteriologyList [bacteriologies]="bacteriologies"></app-bacteriology-list>
+    </div>
+    
+    <div class="email-analyses-list-item" *ngIf="bloodGroups.length > 0">
+      <app-blood-group-list #bloodGroupList [bloodGroups]="bloodGroups"></app-blood-group-list>
+    </div>
+    
+    <div class="email-analyses-list-item" *ngIf="radiologies.length > 0">
+      <app-radiology-list #radiologyList [radiologies]="radiologies"></app-radiology-list>
+    </div>
+    
+    <div class="email-analyses-list-item" *ngIf="serologies.length > 0">
+      <app-serology-list #serologyList [serologies]="serologies"></app-serology-list>
+    </div>
+    
+    <div class="email-analyses-list-item" *ngIf="spermAnalyses.length > 0">
+      <app-sperm-analysis-list #spermAnalysisList [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
+    </div>
+    
+  </div>
+
+  <!-- Empty state when no analyses exist -->
+  <ng-template #noAnalyses>
+    <div class="email-analyses-empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m8-8V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v1M9 7h6"/>
+      </svg>
+      <p class="mb-2">No medical analyses found</p>
+      <p class="text-xs">The email does not contain any extractable medical analysis data</p>
+    </div>
+  </ng-template>
+  
 </div>

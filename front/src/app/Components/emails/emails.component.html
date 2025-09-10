@@ -1,40 +1,40 @@
-<div class="email-container">
+<div class="emails-container">
   <!-- Close Button -->
-  <button class="close-btn" (click)="dialogRef.close()">✕</button>
+  <button class="emails-close-button" (click)="dialogRef.close()">✕</button>
 
   <!-- Control Buttons -->
-  <div class="control-buttons">
-    <button (click)="displayPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
+  <div class="emails-controls">
+    <button (click)="displayPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode" class="emails-control-button">
       View {{selectedAttachments.length}} Selected PDF{{selectedAttachments.length > 1 ? 's' : ''}}
     </button>
     
-    <button (click)="displayAndProcessPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
+    <button (click)="displayAndProcessPdfAttachment()" [disabled]="selectedAttachments.length === 0 || isProcessingMode" class="emails-control-button">
       Process {{selectedAttachments.length}} Selected PDF{{selectedAttachments.length > 1 ? 's' : ''}}
     </button>
 
-    <button (click)="selectAllAttachments()" [disabled]="getAllAttachments().length === 0 || isProcessingMode">
+    <button (click)="selectAllAttachments()" [disabled]="getAllAttachments().length === 0 || isProcessingMode" class="emails-control-button">
       Select All ({{getAllAttachments().length}})
     </button>
 
-    <button (click)="clearSelection()" [disabled]="selectedAttachments.length === 0 || isProcessingMode">
+    <button (click)="clearSelection()" [disabled]="selectedAttachments.length === 0 || isProcessingMode" class="emails-control-button">
       Clear Selection
     </button>
 
-    <button *ngIf="isProcessingMode" (click)="exitProcessingMode()" class="exit-processing-btn">
+    <button *ngIf="isProcessingMode" (click)="exitProcessingMode()" class="emails-control-button emails-exit-processing-button">
       Back to Emails
     </button>
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="emails-main-content">
     <!-- Emails List -->
     <div class="emails-section" [class.with-pdf]="displayedPdfUrls.length > 0" [class.hidden]="isProcessingMode">
       
       <!-- Selected Attachments Summary -->
-      <div *ngIf="selectedAttachments.length > 0" class="selected-summary">
+      <div *ngIf="selectedAttachments.length > 0" class="emails-selected-summary">
         <h4>Selected Attachments ({{selectedAttachments.length}})</h4>
-        <div class="selected-items">
-          <span *ngFor="let attachment of selectedAttachments" class="selected-item">
+        <div class="emails-selected-items">
+          <span *ngFor="let attachment of selectedAttachments" class="emails-selected-item">
             {{attachment.fileName}}
             <button (click)="removeFromSelection(attachment)">×</button>
           </span>
@@ -42,32 +42,32 @@
       </div>
 
       <!-- Email Cards -->
-      <div *ngFor="let email of emails" class="email-card">
-        <div class="email-header">
+      <div *ngFor="let email of emails" class="emails-card">
+        <div class="emails-card-header">
           <h3>{{email.subject}}</h3>
-          <div class="email-meta">
+          <div class="emails-card-meta">
             <span>From: {{email.from}}</span>
             <span>Date: {{email.date | date:'medium'}}</span>
           </div>
         </div>
 
-        <div *ngIf="email.attachments?.length" class="attachments-section">
+        <div *ngIf="email.attachments?.length" class="emails-attachments-section">
           <h4>Attachments ({{email.attachments.length}})</h4>
-          <div class="attachments-grid">
+          <div class="emails-attachments-grid">
             <div *ngFor="let attachment of email.attachments" 
-                 class="attachment-item"
+                 class="emails-attachment-item"
                  [class.selected]="isAttachmentSelected(attachment)"
                  (click)="toggleAttachmentSelection(attachment, email.id)"
                  (contextmenu)="fetchAndDisplayPdf(email.id, attachment); $event.preventDefault()">
               
-              <div class="attachment-info">
-                <div class="file-name">{{attachment.fileName }}</div>
-                <div class="file-size">{{attachment.fileSize }}</div>
-                <div *ngIf="isAttachmentSelected(attachment)" class="selected-indicator">✓</div>
+              <div class="emails-attachment-info">
+                <div class="emails-file-name">{{attachment.fileName }}</div>
+                <div class="emails-file-size">{{attachment.fileSize }}</div>
+                <div *ngIf="isAttachmentSelected(attachment)" class="emails-selected-indicator">✓</div>
               </div>
 
-              <div *ngIf="uploadProgress !== null" class="progress-bar">
-                <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+              <div *ngIf="uploadProgress !== null" class="emails-progress-bar">
+                <div class="emails-progress-fill" [style.width.%]="uploadProgress"></div>
               </div>
             </div>
           </div>
@@ -75,19 +75,24 @@
       </div>
     </div>
 
+    <!-- Email Analyses List Component (Processing Mode) -->
+    <div class="emails-section" *ngIf="isProcessingMode && analysesList" [class.with-pdf]="displayedPdfUrls.length > 0">
+      <app-email-analyses-list [extractionResponse]="analysesList" (allAnalysesCollected)="onAnalysesCollected($event)"></app-email-analyses-list>
+    </div>
+
     <!-- PDF Viewer Section -->
-    <div class="pdf-section" *ngIf="displayedPdfUrls.length > 0" [class.full-width]="isProcessingMode">
-      <div class="pdf-header">
+    <div class="emails-pdf-section" *ngIf="displayedPdfUrls.length > 0" [class.full-width]="!isProcessingMode && displayedPdfUrls.length > 0">
+      <div class="emails-pdf-header">
         <h4>PDF Viewers ({{displayedPdfUrls.length}})</h4>
-        <button (click)="closePdfViewer()">Close</button>
+        <button (click)="closePdfViewer()" class="emails-pdf-close-button">Close</button>
       </div>
-      <div class="pdf-viewers-container">
-        <div *ngFor="let pdfData of displayedPdfUrls; let i = index" class="pdf-viewer-item">
-          <div class="pdf-item-header">
+      <div class="emails-pdf-viewers-container">
+        <div *ngFor="let pdfData of displayedPdfUrls; let i = index" class="emails-pdf-viewer-item">
+          <div class="emails-pdf-item-header">
             <h5>{{pdfData.attachment.fileName }}</h5>
-            <span class="pdf-item-size">{{pdfData.attachment.fileSize }}</span>
+            <span class="emails-pdf-item-size">{{pdfData.attachment.fileSize }}</span>
           </div>
-          <div class="pdf-viewer-container">
+          <div class="emails-pdf-viewer-container">
             <pdf-viewer [src]="pdfData.url" 
                         [render-text]="true" 
                         [original-size]="false"
@@ -100,8 +105,6 @@
         </div>
       </div>
     </div>
-    <div *ngIf="analysesList">
-            <app-email-analyses-list [extractionResponse]="analysesList"></app-email-analyses-list>
-    </div>
+    
   </div>
 </div>
