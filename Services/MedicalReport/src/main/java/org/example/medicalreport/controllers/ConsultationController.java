@@ -1,6 +1,8 @@
 package org.example.medicalreport.controllers;
 
+import org.example.medicalreport.Models.AnalyseDTOs.ExtractionResponse;
 import org.example.medicalreport.Models.DTOs.ConsultationDTO;
+import org.example.medicalreport.services.Analyse;
 import org.example.medicalreport.services.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class ConsultationController
 
     @Autowired
     private ConsultationService consultationService;
+    @Autowired
+    private Analyse analyseService;
 
     @PostMapping("/add")
     public ResponseEntity<ConsultationDTO> createConsultation(@RequestBody ConsultationDTO dto) {
@@ -45,4 +49,9 @@ public class ConsultationController
         consultationService.deleteConsultation(id);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/testFeign")
+    public ResponseEntity<?> testFeign(@RequestBody ExtractionResponse dto) {
+        return analyseService.test(dto) != null ? ResponseEntity.ok(analyseService.test(dto)) : ResponseEntity.notFound().build();
+    }
+
 }

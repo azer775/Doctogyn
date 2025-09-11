@@ -10,7 +10,7 @@
       <div class="analysis-form-field">
         <label for="type">Type:</label>
         <select id="type" formControlName="type">
-          <option *ngFor="let type of bloodTypes" [ngValue]="type">{{ type.name }}</option>
+          <option *ngFor="let type of bloodTypes" [ngValue]="type.id">{{ type.name }}</option>
         </select>
       </div>
 

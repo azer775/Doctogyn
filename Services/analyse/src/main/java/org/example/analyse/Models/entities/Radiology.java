@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
+@ToString
+
 public class Radiology {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

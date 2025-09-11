@@ -25,7 +25,7 @@ export class SerologyFormComponent implements OnInit {
       date: [''],
       type: [null],
       interpretation: [null],
-      conclusion: ['']
+      comment: ['']
     });
   }
 

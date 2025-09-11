@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Getter
+@ToString
 @Setter
 public class BloodGroup {
     @Id

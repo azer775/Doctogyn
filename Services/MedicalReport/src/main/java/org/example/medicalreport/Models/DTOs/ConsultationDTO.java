@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.medicalreport.Models.AnalyseDTOs.ExtractionResponse;
 import org.example.medicalreport.Models.enums.ConsultationType;
 import org.example.medicalreport.Models.enums.State;
 
@@ -29,4 +30,5 @@ public class ConsultationDTO {
     private Long fertilitySubRecordId;
     private Long obstetricsRecordId;
     private List<EchographieDTO> echographies;
+    private ExtractionResponse extractionAnalyses;
 }

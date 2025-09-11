@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
+@ToString
 public class Biology {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

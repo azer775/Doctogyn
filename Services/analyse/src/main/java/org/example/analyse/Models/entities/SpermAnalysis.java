@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
+@ToString
 public class SpermAnalysis {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

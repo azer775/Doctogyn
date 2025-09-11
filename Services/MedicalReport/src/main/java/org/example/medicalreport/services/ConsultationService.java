@@ -32,10 +32,17 @@ public class ConsultationService {
     private ObstetricsRecordRepository obstetricsRecordRepository;
     @Autowired
     EchographieService echographieService;
+    @Autowired
+    Analyse analyseService;
 
     public ConsultationDTO createConsultation(ConsultationDTO dto) {
         Consultation consultation = mapToEntity(dto);
         Consultation saved = consultationRepository.save(consultation);
+        System.out.println("*****analyses******"+dto.getExtractionAnalyses());
+        if (dto.getExtractionAnalyses() != null) {
+            System.out.println("inside if");
+            analyseService.test(dto.getExtractionAnalyses());
+        }
         return mapToDTO(saved);
     }
 
@@ -55,6 +62,11 @@ public class ConsultationService {
         if (existing.isPresent()) {
             Consultation consultation = mapToEntity(dto);
             consultation.setId(id); // Ensure the ID is preserved for update
+            System.out.println("*****analyses******"+dto.getExtractionAnalyses());
+            if (dto.getExtractionAnalyses() != null) {
+                System.out.println("inside if");
+                analyseService.test(dto.getExtractionAnalyses());
+            }
             System.out.println("before"+consultation.getEchographies());
             Consultation updated = consultationRepository.save(consultation);
             System.out.println("after"+updated.getEchographies());

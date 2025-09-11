@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Data
 @Setter
+@ToString
 public class Bacteriology {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
