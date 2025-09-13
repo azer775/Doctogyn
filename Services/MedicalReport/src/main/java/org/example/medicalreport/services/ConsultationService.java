@@ -48,7 +48,12 @@ public class ConsultationService {
 
     public ConsultationDTO getConsultation(Long id) {
         Optional<Consultation> consultation = consultationRepository.findById(id);
-        return consultation.map(this::mapToDTO).orElse(null);
+        ConsultationDTO dto=consultation.map(this::mapToDTO).orElse(null);
+        if(dto!=null) {
+            dto.setExtractionAnalyses(analyseService.getByConsultation(id));
+            return dto;
+        }
+        return null;
     }
 
     public List<ConsultationDTO> getAllConsultations() {
@@ -65,7 +70,7 @@ public class ConsultationService {
             System.out.println("*****analyses******"+dto.getExtractionAnalyses());
             if (dto.getExtractionAnalyses() != null) {
                 System.out.println("inside if");
-                analyseService.test(dto.getExtractionAnalyses());
+                System.out.println(analyseService.test(dto.getExtractionAnalyses()));
             }
             System.out.println("before"+consultation.getEchographies());
             Consultation updated = consultationRepository.save(consultation);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Consultation } from '../../Models/Consultation';
 import { ConsultationType, Status } from '../../Models/enums';
@@ -30,6 +30,10 @@ import { SpermAnalysis } from '../../Models/SpermAnalysis';
 export class ConsultationFormComponent  implements OnInit {
   @Input() consultationId: number | null = null;
   @Output() formSubmitted = new EventEmitter<void>(); // New output
+  
+  // ViewChild reference to access AnalysesListComponent
+  @ViewChild(AnalysesListComponent) analysesListComponent?: AnalysesListComponent;
+  
   consultationForm: FormGroup;
   consultationTypes = Object.values(ConsultationType);
   Status = Object.values(Status);
@@ -164,16 +168,25 @@ export class ConsultationFormComponent  implements OnInit {
 
   onSubmit() {
     if (this.consultationForm.valid) {
+      console.log('=== CONSULTATION FORM SUBMIT ===');
+      console.log('AnalysesListComponent reference:', this.analysesListComponent);
+      console.log('Original collectedAnalysesData:', this.collectedAnalysesData);
+      
+      // Get current analyses data from the AnalysesListComponent
+      const currentAnalysesData = this.getCurrentAnalysesData();
+      
+      console.log('Current analyses data from getCurrentAnalysesData():', currentAnalysesData);
+      
       const consultation: Consultation = {
         ...this.consultationForm.value,
         date: new Date(this.consultationForm.value.date),
         examination: this.consultationForm.get('examination')?.value,
         echographies: this.echographies,
-        extractionAnalyses: this.collectedAnalysesData || null
+        extractionAnalyses: currentAnalysesData || null
       };
 
       console.log('Consultation object being submitted:', consultation);
-      console.log('Analyses data being included:', this.collectedAnalysesData);
+      console.log('Current analyses data being included:', currentAnalysesData);
 
       if (this.consultationId) {
         this.consultationService.updateConsultation(this.consultationId, consultation).subscribe({
@@ -275,12 +288,53 @@ export class ConsultationFormComponent  implements OnInit {
     
     // Create a Document object with all the collected data
     const document = new Document();
-    document.biologies = collectedData.biologies || [];
-    document.bacteriologies = collectedData.bacteriologies || [];
-    document.bloodgroups = collectedData.bloodGroups || []; // Note: using 'bloodgroups' to match Document model
-    document.radiologies = collectedData.radiologies || [];
-    document.serologies = collectedData.serologies || [];
-    document.spermAnalyses = collectedData.spermAnalyses || [];
+    
+    // Assign consultation ID to all analyses if consultation has an ID
+    if (this.consultationId !== null) {
+      // Assign consultation ID to biologies
+      document.biologies = (collectedData.biologies || []).map(biology => ({
+        ...biology,
+        consultationId: this.consultationId!
+      }));
+      
+      // Assign consultation ID to bacteriologies
+      document.bacteriologies = (collectedData.bacteriologies || []).map(bacteriology => ({
+        ...bacteriology,
+        consultationId: this.consultationId!
+      }));
+      
+      // Assign consultation ID to blood groups
+      document.bloodgroups = (collectedData.bloodGroups || []).map(bloodGroup => ({
+        ...bloodGroup,
+        consultationId: this.consultationId!
+      }));
+      
+      // Assign consultation ID to radiologies
+      document.radiologies = (collectedData.radiologies || []).map(radiology => ({
+        ...radiology,
+        consultationId: this.consultationId!
+      }));
+      
+      // Assign consultation ID to serologies
+      document.serologies = (collectedData.serologies || []).map(serology => ({
+        ...serology,
+        consultationId: this.consultationId!
+      }));
+      
+      // Assign consultation ID to sperm analyses
+      document.spermAnalyses = (collectedData.spermAnalyses || []).map(spermAnalysis => ({
+        ...spermAnalysis,
+        consultationId: this.consultationId!
+      }));
+    } else {
+      // If no consultation ID, assign without ID (for new consultations)
+      document.biologies = collectedData.biologies || [];
+      document.bacteriologies = collectedData.bacteriologies || [];
+      document.bloodgroups = collectedData.bloodGroups || []; // Note: using 'bloodgroups' to match Document model
+      document.radiologies = collectedData.radiologies || [];
+      document.serologies = collectedData.serologies || [];
+      document.spermAnalyses = collectedData.spermAnalyses || [];
+    }
 
     // Create ExtractionResponse with the document
     const extractionResponse = new ExtractionResponse();
@@ -290,6 +344,7 @@ export class ConsultationFormComponent  implements OnInit {
     this.collectedAnalysesData = extractionResponse;
     
     console.log('Created ExtractionResponse for consultation AnalysesListComponent:', this.collectedAnalysesData);
+    console.log('Consultation ID assigned to analyses:', this.consultationId);
     
     // Optional: Show success message
     const totalAnalyses = this.getTotalAnalysesCount(collectedData);
@@ -325,5 +380,71 @@ export class ConsultationFormComponent  implements OnInit {
         (document.serologies?.length || 0) +
         (document.spermAnalyses?.length || 0);
     }, 0);
+  }
+
+  /**
+   * Collects current analyses data from the AnalysesListComponent
+   * Similar to the approach used in EmailAnalysesListComponent
+   */
+  private getCurrentAnalysesData(): ExtractionResponse | null {
+    if (!this.analysesListComponent) {
+      return this.collectedAnalysesData;
+    }
+
+    // Collect current data from the AnalysesListComponent
+    const currentData = this.analysesListComponent.getCurrentAnalysesData();
+
+    console.log('Current analyses data from AnalysesListComponent:', currentData);
+
+    // Create a Document object with the current data
+    const document = new Document();
+    
+    // Assign consultation ID to all analyses if consultation has an ID
+    if (this.consultationId !== null) {
+      document.biologies = currentData.biologies.map(biology => ({
+        ...biology,
+        consultationId: this.consultationId!
+      }));
+      
+      document.bacteriologies = currentData.bacteriologies.map(bacteriology => ({
+        ...bacteriology,
+        consultationId: this.consultationId!
+      }));
+      
+      document.bloodgroups = currentData.bloodGroups.map(bloodGroup => ({
+        ...bloodGroup,
+        consultationId: this.consultationId!
+      }));
+      
+      document.radiologies = currentData.radiologies.map(radiology => ({
+        ...radiology,
+        consultationId: this.consultationId!
+      }));
+      
+      document.serologies = currentData.serologies.map(serology => ({
+        ...serology,
+        consultationId: this.consultationId!
+      }));
+      
+      document.spermAnalyses = currentData.spermAnalyses.map(spermAnalysis => ({
+        ...spermAnalysis,
+        consultationId: this.consultationId!
+      }));
+    } else {
+      document.biologies = currentData.biologies;
+      document.bacteriologies = currentData.bacteriologies;
+      document.bloodgroups = currentData.bloodGroups;
+      document.radiologies = currentData.radiologies;
+      document.serologies = currentData.serologies;
+      document.spermAnalyses = currentData.spermAnalyses;
+    }
+
+    // Create ExtractionResponse with the current document
+    const extractionResponse = new ExtractionResponse();
+    extractionResponse.documents = [document];
+
+    console.log('Generated ExtractionResponse from current data:', extractionResponse);
+
+    return extractionResponse;
   }
 }
