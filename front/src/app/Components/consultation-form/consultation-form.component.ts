@@ -273,7 +273,7 @@ export class ConsultationFormComponent  implements OnInit {
 
   /**
    * Handles collected analyses data from the emails dialog
-   * Transforms the data into ExtractionResponse format for AnalysesListComponent
+   * Merges new data with existing analyses and assigns consultation ID if available
    * @param collectedData - Raw collected analyses data
    */
   handleCollectedAnalyses(collectedData: {
@@ -286,69 +286,114 @@ export class ConsultationFormComponent  implements OnInit {
   }): void {
     console.log('Processing collected analyses data in consultation form:', collectedData);
     
-    // Create a Document object with all the collected data
-    const document = new Document();
-    
-    // Assign consultation ID to all analyses if consultation has an ID
+    // Get existing analyses data
+    let existingBiologies: Biology[] = [];
+    let existingBacteriologies: Bacteriology[] = [];
+    let existingBloodGroups: BloodGroup[] = [];
+    let existingRadiologies: Radiology[] = [];
+    let existingSerologies: Serology[] = [];
+    let existingSpermAnalyses: SpermAnalysis[] = [];
+
+    // Extract existing data if available
+    if (this.collectedAnalysesData && this.collectedAnalysesData.documents) {
+      existingBiologies = this.collectedAnalysesData.documents.flatMap(d => d.biologies) || [];
+      existingBacteriologies = this.collectedAnalysesData.documents.flatMap(d => d.bacteriologies) || [];
+      existingBloodGroups = this.collectedAnalysesData.documents.flatMap(d => d.bloodgroups) || [];
+      existingRadiologies = this.collectedAnalysesData.documents.flatMap(d => d.radiologies) || [];
+      existingSerologies = this.collectedAnalysesData.documents.flatMap(d => d.serologies) || [];
+      existingSpermAnalyses = this.collectedAnalysesData.documents.flatMap(d => d.spermAnalyses) || [];
+    }
+
+    console.log('Existing analyses before merge:', {
+      biologies: existingBiologies.length,
+      bacteriologies: existingBacteriologies.length,
+      bloodGroups: existingBloodGroups.length,
+      radiologies: existingRadiologies.length,
+      serologies: existingSerologies.length,
+      spermAnalyses: existingSpermAnalyses.length
+    });
+
+    // Prepare new analyses with consultation ID if available
+    let newBiologies: Biology[] = [];
+    let newBacteriologies: Bacteriology[] = [];
+    let newBloodGroups: BloodGroup[] = [];
+    let newRadiologies: Radiology[] = [];
+    let newSerologies: Serology[] = [];
+    let newSpermAnalyses: SpermAnalysis[] = [];
+
     if (this.consultationId !== null) {
-      // Assign consultation ID to biologies
-      document.biologies = (collectedData.biologies || []).map(biology => ({
+      // Assign consultation ID to new analyses
+      newBiologies = (collectedData.biologies || []).map(biology => ({
         ...biology,
         consultationId: this.consultationId!
       }));
       
-      // Assign consultation ID to bacteriologies
-      document.bacteriologies = (collectedData.bacteriologies || []).map(bacteriology => ({
+      newBacteriologies = (collectedData.bacteriologies || []).map(bacteriology => ({
         ...bacteriology,
         consultationId: this.consultationId!
       }));
       
-      // Assign consultation ID to blood groups
-      document.bloodgroups = (collectedData.bloodGroups || []).map(bloodGroup => ({
+      newBloodGroups = (collectedData.bloodGroups || []).map(bloodGroup => ({
         ...bloodGroup,
         consultationId: this.consultationId!
       }));
       
-      // Assign consultation ID to radiologies
-      document.radiologies = (collectedData.radiologies || []).map(radiology => ({
+      newRadiologies = (collectedData.radiologies || []).map(radiology => ({
         ...radiology,
         consultationId: this.consultationId!
       }));
       
-      // Assign consultation ID to serologies
-      document.serologies = (collectedData.serologies || []).map(serology => ({
+      newSerologies = (collectedData.serologies || []).map(serology => ({
         ...serology,
         consultationId: this.consultationId!
       }));
       
-      // Assign consultation ID to sperm analyses
-      document.spermAnalyses = (collectedData.spermAnalyses || []).map(spermAnalysis => ({
+      newSpermAnalyses = (collectedData.spermAnalyses || []).map(spermAnalysis => ({
         ...spermAnalysis,
         consultationId: this.consultationId!
       }));
     } else {
-      // If no consultation ID, assign without ID (for new consultations)
-      document.biologies = collectedData.biologies || [];
-      document.bacteriologies = collectedData.bacteriologies || [];
-      document.bloodgroups = collectedData.bloodGroups || []; // Note: using 'bloodgroups' to match Document model
-      document.radiologies = collectedData.radiologies || [];
-      document.serologies = collectedData.serologies || [];
-      document.spermAnalyses = collectedData.spermAnalyses || [];
+      // If no consultation ID, use new data as is
+      newBiologies = collectedData.biologies || [];
+      newBacteriologies = collectedData.bacteriologies || [];
+      newBloodGroups = collectedData.bloodGroups || [];
+      newRadiologies = collectedData.radiologies || [];
+      newSerologies = collectedData.serologies || [];
+      newSpermAnalyses = collectedData.spermAnalyses || [];
     }
 
-    // Create ExtractionResponse with the document
+    console.log('New analyses to merge:', {
+      biologies: newBiologies.length,
+      bacteriologies: newBacteriologies.length,
+      bloodGroups: newBloodGroups.length,
+      radiologies: newRadiologies.length,
+      serologies: newSerologies.length,
+      spermAnalyses: newSpermAnalyses.length
+    });
+
+    // Create a Document object with merged data
+    const document = new Document();
+    document.biologies = [...existingBiologies, ...newBiologies];
+    document.bacteriologies = [...existingBacteriologies, ...newBacteriologies];
+    document.bloodgroups = [...existingBloodGroups, ...newBloodGroups]; // Note: using 'bloodgroups' to match Document model
+    document.radiologies = [...existingRadiologies, ...newRadiologies];
+    document.serologies = [...existingSerologies, ...newSerologies];
+    document.spermAnalyses = [...existingSpermAnalyses, ...newSpermAnalyses];
+
+    // Create ExtractionResponse with the merged document
     const extractionResponse = new ExtractionResponse();
     extractionResponse.documents = [document];
 
-    // Set the data for the analyses list component
+    // Set the merged data for the analyses list component
     this.collectedAnalysesData = extractionResponse;
     
-    console.log('Created ExtractionResponse for consultation AnalysesListComponent:', this.collectedAnalysesData);
-    console.log('Consultation ID assigned to analyses:', this.consultationId);
+    console.log('Created merged ExtractionResponse for consultation AnalysesListComponent:', this.collectedAnalysesData);
+    console.log('Consultation ID assigned to new analyses:', this.consultationId);
     
-    // Optional: Show success message
-    const totalAnalyses = this.getTotalAnalysesCount(collectedData);
-    alert(`Successfully collected ${totalAnalyses} analyses and loaded into consultation form.`);
+    // Show success message with counts
+    const newAnalysesCount = this.getTotalAnalysesCount(collectedData);
+    const totalAnalysesCount = this.getTotalAnalysesCountFromExtraction();
+    alert(`Successfully collected ${newAnalysesCount} new analyses. Total analyses: ${totalAnalysesCount}`);
   }
 
   /**
