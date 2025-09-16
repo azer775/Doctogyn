@@ -7,16 +7,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/extraction")
+@CrossOrigin("*")
 public class ExtractionController {
     @Autowired
     ExtractionService extractionService;
-    @PostMapping("test")
-    public ExtractionResponse Extract(@RequestBody ExtractionResponse response) {
+    @PostMapping("/test/{id}")
+    public ExtractionResponse Extract(@RequestBody ExtractionResponse response,@PathVariable int id) {
         System.out.println("Received ExtractionResponse: " + response);
-        return extractionService.test(response);
+        return extractionService.addanalyses(response,id);
     }
     @GetMapping("/byConsultation/{id}")
     public ExtractionResponse getByConsultation(@PathVariable long id) {
         return extractionService.getByConsultation(id);
+    }
+    @PutMapping("/update")
+    public ExtractionResponse updateExtract(@RequestBody ExtractionResponse response) {
+        System.out.println("Received ExtractionResponse for update: " + response);
+        return extractionService.updateanalyses(response);
     }
 }

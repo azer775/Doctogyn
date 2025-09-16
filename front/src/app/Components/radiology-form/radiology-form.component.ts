@@ -34,8 +34,7 @@ export class RadiologyFormComponent implements OnInit {
         id: this.radiology.id,
         date: this.formatDate(this.radiology.date),
         type: this.radiology.type,
-        comment: this.radiology.comment,
-        conclusion: this.radiology.conclusion
+        comment: this.radiology.comment
       });
     }
   }
@@ -47,10 +46,23 @@ export class RadiologyFormComponent implements OnInit {
       date: formValue.date ? new Date(formValue.date) : new Date(),
       type: formValue.type,
       comment: formValue.comment,
-      conclusion: formValue.conclusion,
       consultationId: this.radiology ? this.radiology.consultationId : 0
     };
     this.radiologySubmitted.emit(radiology);
+  }
+
+  getFormData(): Radiology | null {
+    if (this.radiologyForm.valid) {
+      const formValue = this.radiologyForm.value;
+      return {
+        id: formValue.id,
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        type: formValue.type,
+        comment: formValue.comment,
+        consultationId: this.radiology ? this.radiology.consultationId : 0
+      };
+    }
+    return null;
   }
 
   private formatDate(date: Date | string): string {

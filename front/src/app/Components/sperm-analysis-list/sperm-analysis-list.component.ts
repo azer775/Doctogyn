@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { SpermAnalysisFormComponent } from '../sperm-analysis-form/sperm-analysis-form.component';
 import { CommonModule } from '@angular/common';
 import { SpermAnalysis } from '../../Models/SpermAnalysis';
@@ -14,6 +14,7 @@ import { SpermNorm } from '../../Models/SpermNorm';
 export class SpermAnalysisListComponent implements OnInit {
   @Input() spermAnalyses: SpermAnalysis[] = [];
   @Output() spermAnalysesChange = new EventEmitter<SpermAnalysis[]>();
+  @ViewChildren(SpermAnalysisFormComponent) formComponents!: QueryList<SpermAnalysisFormComponent>;
 
   ngOnInit(): void {
     // Ensure spermAnalyses is initialized as an array and filter out empty entries
@@ -83,5 +84,16 @@ export class SpermAnalysisListComponent implements OnInit {
       id: 0
     }));
     this.spermAnalysesChange.emit(spermAnalysesToEmit);
+  }
+
+  getCurrentFormData(): SpermAnalysis[] {
+    const currentData: SpermAnalysis[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

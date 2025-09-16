@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { Biology } from '../../Models/Biology';
 import { BiologyType, BiologyInterpretation } from '../../Models/BiologyEnums';
 import { comment } from 'postcss';
@@ -16,6 +16,7 @@ import { BiologyFormComponent } from '../biology-form/biology-form.component';
 export class BiologyListComponent implements OnInit {
   @Input() biologies: Biology[] = [];
   @Output() biologiesChange = new EventEmitter<Biology[]>();
+  @ViewChildren(BiologyFormComponent) formComponents!: QueryList<BiologyFormComponent>;
 
   ngOnInit(): void {
     // Ensure biologies is initialized as an array and filter out empty entries
@@ -67,5 +68,16 @@ export class BiologyListComponent implements OnInit {
       consultationId: biology.consultationId || 0
     }));
     this.biologiesChange.emit(biologiesToEmit);
+  }
+
+  getCurrentFormData(): Biology[] {
+    const currentData: Biology[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

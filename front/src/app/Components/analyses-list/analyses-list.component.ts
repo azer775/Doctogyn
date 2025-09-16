@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import { SpermAnalysisListComponent } from '../sperm-analysis-list/sperm-analysis-list.component';
 import { CommonModule } from '@angular/common';
 import { BacteriologyListComponent } from '../bacteriology-list/bacteriology-list.component';
@@ -23,6 +23,14 @@ import { SpermAnalysis } from '../../Models/SpermAnalysis';
 })
 export class AnalysesListComponent implements OnInit, OnChanges {
   @Input() extractionResponse: ExtractionResponse | null = null;
+  @Output() allAnalysesCollected = new EventEmitter<{
+    biologies: Biology[],
+    bacteriologies: Bacteriology[],
+    bloodGroups: BloodGroup[],
+    radiologies: Radiology[],
+    serologies: Serology[],
+    spermAnalyses: SpermAnalysis[]
+  }>();
 
   // ViewChild references to access child list components
   @ViewChild(BiologyListComponent) biologyListComponent?: BiologyListComponent;
@@ -106,7 +114,7 @@ export class AnalysesListComponent implements OnInit, OnChanges {
 
   /**
    * Collects current data from all child list components
-   * Similar to EmailAnalysesListComponent approach
+   * Uses the same approach as EmailAnalysesListComponent
    */
   getCurrentAnalysesData(): {
     biologies: Biology[],
@@ -117,12 +125,12 @@ export class AnalysesListComponent implements OnInit, OnChanges {
     spermAnalyses: SpermAnalysis[]
   } {
     return {
-      biologies: this.biologyListComponent?.biologies || this.biologies,
-      bacteriologies: this.bacteriologyListComponent?.bacteriologies || this.bacteriologies,
-      bloodGroups: this.bloodGroupListComponent?.bloodGroups || this.bloodGroups,
-      radiologies: this.radiologyListComponent?.radiologies || this.radiologies,
-      serologies: this.serologyListComponent?.serologies || this.serologies,
-      spermAnalyses: this.spermAnalysisListComponent?.spermAnalyses || this.spermAnalyses
+      biologies: this.biologyListComponent?.getCurrentFormData() || [],
+      bacteriologies: this.bacteriologyListComponent?.getCurrentFormData() || [],
+      bloodGroups: this.bloodGroupListComponent?.getCurrentFormData() || [],
+      radiologies: this.radiologyListComponent?.getCurrentFormData() || [],
+      serologies: this.serologyListComponent?.getCurrentFormData() || [],
+      spermAnalyses: this.spermAnalysisListComponent?.getCurrentFormData() || []
     };
   }
 }

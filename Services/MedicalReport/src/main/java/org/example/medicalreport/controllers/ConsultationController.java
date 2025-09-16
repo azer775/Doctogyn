@@ -51,7 +51,7 @@ public class ConsultationController
     }
     @PostMapping("/testFeign")
     public ResponseEntity<?> testFeign(@RequestBody ExtractionResponse dto) {
-        return analyseService.test(dto) != null ? ResponseEntity.ok(analyseService.test(dto)) : ResponseEntity.notFound().build();
+        return analyseService.test(dto,1) != null ? ResponseEntity.ok(analyseService.test(dto,1)) : ResponseEntity.notFound().build();
     }
 
 }

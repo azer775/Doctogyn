@@ -41,7 +41,7 @@ public class ConsultationService {
         System.out.println("*****analyses******"+dto.getExtractionAnalyses());
         if (dto.getExtractionAnalyses() != null) {
             System.out.println("inside if");
-            analyseService.test(dto.getExtractionAnalyses());
+            analyseService.test(dto.getExtractionAnalyses(), saved.getId());
         }
         return mapToDTO(saved);
     }
@@ -59,7 +59,7 @@ public class ConsultationService {
     public List<ConsultationDTO> getAllConsultations() {
         return consultationRepository.findAll().stream()
                 .map(this::mapToDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public ConsultationDTO updateConsultation(Long id, ConsultationDTO dto) {
@@ -70,7 +70,7 @@ public class ConsultationService {
             System.out.println("*****analyses******"+dto.getExtractionAnalyses());
             if (dto.getExtractionAnalyses() != null) {
                 System.out.println("inside if");
-                System.out.println(analyseService.test(dto.getExtractionAnalyses()));
+                System.out.println(analyseService.update(dto.getExtractionAnalyses()));
             }
             System.out.println("before"+consultation.getEchographies());
             Consultation updated = consultationRepository.save(consultation);

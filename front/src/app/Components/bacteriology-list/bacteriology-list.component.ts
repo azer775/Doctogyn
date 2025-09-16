@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { Bacteriology } from '../../Models/Bacteriology';
 import { BacteriologyType, BacteriologyInterpretation } from '../../Models/BacteriologyEnums';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { BacteriologyFormComponent } from '../bacteriology-form/bacteriology-for
 export class BacteriologyListComponent implements OnInit {
   @Input() bacteriologies: Bacteriology[] = [];
   @Output() bacteriologiesChange = new EventEmitter<Bacteriology[]>();
+  @ViewChildren(BacteriologyFormComponent) formComponents!: QueryList<BacteriologyFormComponent>;
 
   ngOnInit(): void {
     // Ensure bacteriologies is initialized as an array and filter out empty entries
@@ -59,12 +60,23 @@ export class BacteriologyListComponent implements OnInit {
     const bacteriologiesToEmit = this.bacteriologies.map(bacteriology => ({
       date: bacteriology.date,
       type: bacteriology.type,
-      germs: bacteriology.germs,
+      germs: bacteriology.germs, // Filter out empty germs
       interpretation: bacteriology.interpretation,
       comment: bacteriology.comment,
       consultationId: 0,
       id: 0
     }));
     this.bacteriologiesChange.emit(bacteriologiesToEmit);
+  }
+
+  getCurrentFormData(): Bacteriology[] {
+    const currentData: Bacteriology[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

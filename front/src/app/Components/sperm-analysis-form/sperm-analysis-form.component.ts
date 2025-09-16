@@ -82,6 +82,31 @@ export class SpermAnalysisFormComponent implements OnInit {
     this.spermAnalysisSubmitted.emit(spermAnalysis);
   }
 
+  getFormData(): SpermAnalysis | null {
+    if (this.spermAnalysisForm.valid) {
+      const formValue = this.spermAnalysisForm.value;
+      return {
+        id: 0, // Default value, as id is excluded from form
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        abstinence: formValue.abstinence,
+        ph: formValue.ph,
+        volume: formValue.volume,
+        concentration: formValue.concentration,
+        progressivemobility: formValue.progressivemobility,
+        totalmotility: formValue.totalmotility,
+        totalcount: formValue.totalcount,
+        roundcells: formValue.roundcells,
+        leukocytes: formValue.leukocytes,
+        morphology: formValue.morphology,
+        norm: formValue.norm,
+        vitality: formValue.vitality,
+        tms: formValue.tms,
+        consultationId: this.spermAnalysis ? this.spermAnalysis.consultationId : 0
+      };
+    }
+    return null;
+  }
+
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

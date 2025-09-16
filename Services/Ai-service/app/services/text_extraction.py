@@ -45,7 +45,7 @@ class TextExtractionService:
     async def extract_text(self,files: List[UploadFile]) -> str:
         """Extract text from multiple files; try structured first, fallback to OCR."""
         all_text = ""
-        i=0
+        i=0 
         for file in files:
             print(f"Processing file: {file.filename}")
             text, content = await self.extract_text1(file)

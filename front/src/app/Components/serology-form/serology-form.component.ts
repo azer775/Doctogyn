@@ -56,6 +56,22 @@ export class SerologyFormComponent implements OnInit {
     this.serologySubmitted.emit(serology);
   }
 
+  getFormData(): Serology | null {
+    if (this.serologyForm.valid) {
+      const formValue = this.serologyForm.value;
+      return {
+        id: formValue.id,
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        type: formValue.type,
+        value: formValue.value,
+        interpretation: formValue.interpretation,
+        comment: formValue.comment,
+        consultationId: this.serology ? this.serology.consultationId : 0
+      };
+    }
+    return null;
+  }
+
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

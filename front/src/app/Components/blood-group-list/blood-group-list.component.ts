@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BloodGroupFormComponent } from '../blood-group-form/blood-group-form.component';
 import { BloodGroup } from '../../Models/BloodGroup';
@@ -15,6 +15,7 @@ import { BloodType } from '../../Models/BloodType';
 export class BloodGroupListComponent implements OnInit {
   @Input() bloodGroups: BloodGroup[] = [];
   @Output() bloodGroupsChange = new EventEmitter<BloodGroup[]>();
+  @ViewChildren(BloodGroupFormComponent) formComponents!: QueryList<BloodGroupFormComponent>;
 
   ngOnInit(): void {
     // Ensure bloodGroups is initialized as an array and filter out empty entries
@@ -62,5 +63,16 @@ export class BloodGroupListComponent implements OnInit {
       id: 0
     }));
     this.bloodGroupsChange.emit(bloodGroupsToEmit);
+  }
+
+  getCurrentFormData(): BloodGroup[] {
+    const currentData: BloodGroup[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

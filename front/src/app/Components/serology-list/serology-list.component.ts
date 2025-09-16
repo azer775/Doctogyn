@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { SerologyFormComponent } from '../serology-form/serology-form.component';
 import { CommonModule } from '@angular/common';
 import { Serology } from '../../Models/Serology';
@@ -14,6 +14,7 @@ import { SerologyType, SerologyInterpretation } from '../../Models/SerologyEnums
 export class SerologyListComponent implements OnInit {
   @Input() serologies: Serology[] = [];
   @Output() serologiesChange = new EventEmitter<Serology[]>();
+  @ViewChildren(SerologyFormComponent) formComponents!: QueryList<SerologyFormComponent>;
 
   ngOnInit(): void {
     // Ensure serologies is initialized as an array and filter out empty entries
@@ -65,5 +66,16 @@ export class SerologyListComponent implements OnInit {
       id: 0
     }));
     this.serologiesChange.emit(serologiesToEmit);
+  }
+
+  getCurrentFormData(): Serology[] {
+    const currentData: Serology[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

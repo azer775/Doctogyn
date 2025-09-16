@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { RadiologyFormComponent } from '../radiology-form/radiology-form.component';
 import { Radiology } from '../../Models/Radiology';
 import { RadiologyType } from '../../Models/RadiologyType';
@@ -14,6 +14,7 @@ import { RadiologyType } from '../../Models/RadiologyType';
 export class RadiologyListComponent implements OnInit {
   @Input() radiologies: Radiology[] = [];
   @Output() radiologiesChange = new EventEmitter<Radiology[]>();
+  @ViewChildren(RadiologyFormComponent) formComponents!: QueryList<RadiologyFormComponent>;
 
   ngOnInit(): void {
     // Ensure radiologies is initialized as an array and filter out empty entries
@@ -32,7 +33,6 @@ export class RadiologyListComponent implements OnInit {
       id: 0,
       date: new Date(),
       type: Object.values(RadiologyType)[0] || null,
-      conclusion: '',
       comment: '',
       consultationId: 0
     };
@@ -57,11 +57,21 @@ export class RadiologyListComponent implements OnInit {
     const radiologiesToEmit = this.radiologies.map(radiology => ({
       date: radiology.date,
       type: radiology.type,
-      conclusion: radiology.conclusion,
       comment: radiology.comment,
       consultationId: 0,
       id: 0
     }));
     this.radiologiesChange.emit(radiologiesToEmit);
+  }
+
+  getCurrentFormData(): Radiology[] {
+    const currentData: Radiology[] = [];
+    this.formComponents.forEach(form => {
+      const formData = form.getFormData();
+      if (formData) {
+        currentData.push(formData);
+      }
+    });
+    return currentData;
   }
 }

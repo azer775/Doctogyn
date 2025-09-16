@@ -95,21 +95,33 @@ export class BacteriologyFormComponent implements OnInit {
   submitForm(): void {
     const formValue = this.bacteriologyForm.value;
     
-    // Convert germ IDs back to germ objects
-    const germObjects = (formValue.germs || [])
-      .map((id: number) => getGermById(id))
-      .filter(Boolean); // Remove any undefined results
-    
     const bacteriology: Bacteriology = {
       id: formValue.id,
       date: formValue.date ? new Date(formValue.date) : new Date(),
       type: formValue.type,
-      germs: germObjects,
+      germs: formValue.germs || [],
       interpretation: formValue.interpretation,
       comment: formValue.comment,
       consultationId: this.bacteriology ? this.bacteriology.consultationId : 0
     };
     this.bacteriologySubmitted.emit(bacteriology);
+  }
+
+  getFormData(): Bacteriology | null {
+    if (this.bacteriologyForm.valid) {
+      const formValue = this.bacteriologyForm.value;
+      
+      return {
+        id: formValue.id,
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        type: formValue.type,
+        germs: formValue.germs || [],
+        interpretation: formValue.interpretation,
+        comment: formValue.comment,
+        consultationId: this.bacteriology ? this.bacteriology.consultationId : 0
+      };
+    }
+    return null;
   }
 
   private formatDate(date: Date | string): string {

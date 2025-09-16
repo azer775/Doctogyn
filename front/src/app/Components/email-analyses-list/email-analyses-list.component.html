@@ -24,27 +24,27 @@
   <div *ngIf="hasAnyAnalyses(); else noAnalyses" class="email-analyses-content">
     
     <div class="email-analyses-list-item" *ngIf="biologies.length > 0">
-      <app-biology-list #biologyList [biologies]="biologies"></app-biology-list>
+      <app-biology-list  [biologies]="biologies"></app-biology-list>
     </div>
     
     <div class="email-analyses-list-item" *ngIf="bacteriologies.length > 0">
-      <app-bacteriology-list #bacteriologyList [bacteriologies]="bacteriologies"></app-bacteriology-list>
+      <app-bacteriology-list  [bacteriologies]="bacteriologies"></app-bacteriology-list>
     </div>
     
     <div class="email-analyses-list-item" *ngIf="bloodGroups.length > 0">
-      <app-blood-group-list #bloodGroupList [bloodGroups]="bloodGroups"></app-blood-group-list>
+      <app-blood-group-list  [bloodGroups]="bloodGroups"></app-blood-group-list>
     </div>
     
     <div class="email-analyses-list-item" *ngIf="radiologies.length > 0">
-      <app-radiology-list #radiologyList [radiologies]="radiologies"></app-radiology-list>
+      <app-radiology-list  [radiologies]="radiologies"></app-radiology-list>
     </div>
     
     <div class="email-analyses-list-item" *ngIf="serologies.length > 0">
-      <app-serology-list #serologyList [serologies]="serologies"></app-serology-list>
+      <app-serology-list  [serologies]="serologies"></app-serology-list>
     </div>
     
     <div class="email-analyses-list-item" *ngIf="spermAnalyses.length > 0">
-      <app-sperm-analysis-list #spermAnalysisList [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
+      <app-sperm-analysis-list  [spermAnalyses]="spermAnalyses"></app-sperm-analysis-list>
     </div>
     
   </div>

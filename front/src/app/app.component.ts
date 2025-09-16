@@ -87,7 +87,7 @@ export class AppComponent {
             id: 1,
             date: new Date('2024-01-10'),
             type: BacteriologyType.URINE_CULTURE,
-            germs: [Germ.ESCHERICHIA_COLI, Germ.STAPHYLOCOCCUS_AUREUS],
+            germs: [Germ.ESCHERICHIA_COLI.id, Germ.STAPHYLOCOCCUS_AUREUS.id],
             interpretation: BacteriologyInterpretation.POSITIVE,
             comment: 'UTI detected',
             consultationId: 1
@@ -107,7 +107,6 @@ export class AppComponent {
             id: 1,
             date: new Date('2024-01-20'),
             type: RadiologyType.PELVIC_SCAN,
-            conclusion: 'Normal pelvic anatomy',
             comment: 'No abnormalities detected',
             consultationId: 1
           }

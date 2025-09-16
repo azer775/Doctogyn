@@ -96,12 +96,12 @@ export class EmailAnalysesListComponent implements OnInit {
    */
   collectAllAnalyses(): void {
     const collectedData = {
-      biologies: this.biologyListComponent?.biologies || this.biologies,
-      bacteriologies: this.bacteriologyListComponent?.bacteriologies || this.bacteriologies,
-      bloodGroups: this.bloodGroupListComponent?.bloodGroups || this.bloodGroups,
-      radiologies: this.radiologyListComponent?.radiologies || this.radiologies,
-      serologies: this.serologyListComponent?.serologies || this.serologies,
-      spermAnalyses: this.spermAnalysisListComponent?.spermAnalyses || this.spermAnalyses
+      biologies: this.biologyListComponent?.getCurrentFormData() || [],
+      bacteriologies: this.bacteriologyListComponent?.getCurrentFormData() || [],
+      bloodGroups: this.bloodGroupListComponent?.getCurrentFormData() || [],
+      radiologies: this.radiologyListComponent?.getCurrentFormData() || [],
+      serologies: this.serologyListComponent?.getCurrentFormData() || [],
+      spermAnalyses: this.spermAnalysisListComponent?.getCurrentFormData() || []
     };
 
     // Emit the collected data to parent component

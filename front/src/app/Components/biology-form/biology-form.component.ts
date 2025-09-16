@@ -57,6 +57,22 @@ export class BiologyFormComponent implements OnInit {
     this.biologySubmitted.emit(biology);
   }
 
+  getFormData(): Biology | null {
+    if (this.biologyForm.valid) {
+      const formValue = this.biologyForm.value;
+      return {
+        id: formValue.id,
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        type: formValue.type,
+        value: formValue.value,
+        interpretation: formValue.interpretation,
+        comment: formValue.comment,
+        consultationId: this.biology ? this.biology.consultationId : 0
+      };
+    }
+    return null;
+  }
+
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;

@@ -50,6 +50,20 @@ export class BloodGroupFormComponent implements OnInit {
     this.bloodGroupSubmitted.emit(bloodGroup);
   }
 
+  getFormData(): BloodGroup | null {
+    if (this.bloodGroupForm.valid) {
+      const formValue = this.bloodGroupForm.value;
+      return {
+        id: formValue.id,
+        date: formValue.date ? new Date(formValue.date) : new Date(),
+        type: formValue.type,
+        comment: formValue.comment,
+        consultationId: this.bloodGroup ? this.bloodGroup.consultationId : 0
+      };
+    }
+    return null;
+  }
+
   private formatDate(date: Date | string): string {
     if (!date) return '';
     const d = typeof date === 'string' ? new Date(date) : date;
