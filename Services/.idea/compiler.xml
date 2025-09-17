@@ -7,18 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="analyse" />
         <module name="config-server" />
         <module name="gateaway" />
         <module name="discovery" />
       </profile>
-      <profile name="Annotation profile for MedicalReport" enabled="true">
+      <profile name="Annotation profile for analyse" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
+        <processorPath>
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
+        <module name="analyse" />
         <module name="MedicalReport" />
       </profile>
     </annotationProcessing>
