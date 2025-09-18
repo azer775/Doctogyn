@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { Consultation } from '../../Models/Consultation';
 import { ConsultationType, Status } from '../../Models/enums';
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ConsultationDetailComponent implements OnInit , OnChanges {
   @Input() consultationId!: number;
+  @Output() closeDetail = new EventEmitter<void>();
   consultation: Consultation | null = null;
   error: string | null = null;
   ConsultationTypes = Object.values(ConsultationType);
@@ -42,6 +43,10 @@ export class ConsultationDetailComponent implements OnInit , OnChanges {
       this.consultationId = changes['consultationId'].currentValue;
       this.ngOnInit();
     }
+  }
+
+  onClose() {
+    this.closeDetail.emit();
   }
 
 }

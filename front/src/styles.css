@@ -689,15 +689,15 @@
 }
 
 .consultation-item-card {
-  @apply bg-white rounded-lg border border-[#e5e7eb] p-4 shadow-xs hover:shadow-sm transition-shadow;
+  @apply bg-white rounded-lg border border-[#e5e7eb] p-3 sm:p-4 shadow-xs hover:shadow-sm transition-shadow;
 }
 
 .consultation-item-content {
-  @apply flex justify-between items-center;
+  @apply flex justify-between items-center gap-2;
 }
 
 .consultation-date-container {
-  @apply flex items-center;
+  @apply flex items-center flex-shrink-0;
 }
 
 .consultation-date-icon {
@@ -705,15 +705,15 @@
 }
 
 .consultation-date-text {
-  @apply text-lg font-medium text-[#111827];
+  @apply text-sm sm:text-base md:text-lg font-medium text-[#111827] truncate;
 }
 
 .consultation-actions-container {
-  @apply flex items-center space-x-2;
+  @apply flex items-center justify-end space-x-1 sm:space-x-2 flex-shrink-0;
 }
 
 .consultation-action-button {
-  @apply p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors;
+  @apply p-2 sm:p-2 min-w-[40px] min-h-[40px] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors flex items-center justify-center;
 }
 
 .consultation-details-button {
@@ -729,7 +729,7 @@
 }
 
 .consultation-action-icon {
-  @apply h-4 w-4;
+  @apply h-5 w-5 sm:h-4 sm:w-4;
 }
 
 .empty-state-container {
@@ -754,6 +754,11 @@
 
 .sub-record-main-content {
   @apply w-3/4;
+}
+
+/* Full width when sidebar is hidden */
+.sub-record-main-content-full {
+  @apply w-full;
 }
 
 .sub-record-sidebar {
@@ -792,16 +797,58 @@
   @apply text-[#9ca3af] italic;
 }
 
+/* Compact grid layout for sub-record details */
+.sub-record-detail-compact-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+/* Make comment or long text fields span across multiple columns on larger screens */
+.sub-record-detail-span-2 {
+  @apply lg:col-span-2;
+}
+
+/* Full width span for very long content */
+.sub-record-detail-span-full {
+  @apply lg:col-span-3;
+}
+
 .consultation-detail-container {
   @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
 }
 
 .consultation-detail-header {
-  @apply text-xl font-semibold text-[#111827] p-4 bg-[#f8fafc] border-b border-[#e5e7eb] flex items-center;
+  @apply text-xl font-semibold text-[#111827] p-4 bg-[#f8fafc] border-b border-[#e5e7eb] flex items-center justify-between;
 }
 
 .consultation-detail-content {
   @apply p-4;
+}
+
+/* Close button styles */
+.close-button {
+  @apply p-2 rounded-full hover:bg-[#f3f4f6] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200;
+}
+
+.close-icon {
+  @apply h-5 w-5 text-[#6b7280] hover:text-[#374151];
+}
+
+/* Consultation form header */
+.consultation-form-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+/* Consultation list header with add button */
+.consultation-list-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.add-consultation-button {
+  @apply p-2 bg-[#6fdcdc] text-white rounded-full hover:bg-[#5cc5c5] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200;
+}
+
+.add-consultation-icon {
+  @apply h-5 w-5;
 }
 
 .loading-container {

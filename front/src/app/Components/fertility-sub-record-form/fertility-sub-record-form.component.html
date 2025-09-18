@@ -16,7 +16,7 @@
     </div>
     <div class="sub-record-form-field-group">
       <label for="duration">Duration:</label>
-      <input type="text" id="duration" formControlName="duration" class="sub-record-form-input-field">
+      <input type="number" id="duration" formControlName="duration" class="sub-record-form-input-field">
       <div *ngIf="fertilityForm.get('duration')?.invalid && fertilityForm.get('duration')?.touched" class="sub-record-form-error-text">
         Duration is required
       </div>

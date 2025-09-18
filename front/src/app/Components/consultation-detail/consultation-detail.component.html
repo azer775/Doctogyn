@@ -1,18 +1,27 @@
 <div *ngIf="consultation; else loading">
-    <h2>Consultation Details</h2>
-    <p>ID: {{ consultation.id }}</p>
-    <p>Date: {{ consultation.date | date:'yyyy-MM-dd' }}</p>
-    <p>Signs Negates: {{ consultation.signsNegates || 'None' }}</p>
-    <p>Weight: {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
-    <p>Length: {{ consultation.length }} cm</p>
-    <p>BMI: {{ consultation.bmi }}</p>
-    <p>Breasts: {{ consultation.breasts }}</p>
-    <p>Examination: {{ consultation.examination || 'None' }}</p>
-    <p>Vagina: {{ consultation.vagina }}</p>
-    <p>Consultation Type: {{ consultation.consultationType }}</p>
-    <p>Gynecology Sub-Record ID: {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
-    <p>Fertility Sub-Record ID: {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
-    <p>Obstetrics Record ID: {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
+    <div class="consultation-detail-header">
+        <h2>Consultation Details</h2>
+        <button type="button" class="close-button" (click)="onClose()" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" class="close-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+    <div class="consultation-detail-content">
+        <p>ID: {{ consultation.id }}</p>
+        <p>Date: {{ consultation.date | date:'yyyy-MM-dd' }}</p>
+        <p>Signs Negates: {{ consultation.signsNegates || 'None' }}</p>
+        <p>Weight: {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
+        <p>Length: {{ consultation.length }} cm</p>
+        <p>BMI: {{ consultation.bmi }}</p>
+        <p>Breasts: {{ consultation.breasts }}</p>
+        <p>Examination: {{ consultation.examination || 'None' }}</p>
+        <p>Vagina: {{ consultation.vagina }}</p>
+        <p>Consultation Type: {{ consultation.consultationType }}</p>
+        <p>Gynecology Sub-Record ID: {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
+        <p>Fertility Sub-Record ID: {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
+        <p>Obstetrics Record ID: {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
+    </div>
 </div>
 <ng-template #loading>
     <p>Loading...</p>

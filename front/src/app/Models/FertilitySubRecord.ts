@@ -6,7 +6,7 @@ export class FertilitySubRecord {
   public age!: number;
   public infertility!: Date | null;
   public date!: Date | null;
-  public duration!: Duration; // Using string for Duration; clarify actual type
+  public duration!: number; // Using string for Duration; clarify actual type
   public cycleLength!: number;
   public cycleMin!: number;
   public cycleMax!: number;

@@ -20,6 +20,7 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
   error: string | null = null;
   selectedConsultationId = signal<number | null>(null);
   selectedEditConsultationId = signal<number | null>(null); // New signal for editing
+  showCreateConsultationForm = signal<boolean>(false); // New signal for creating
 
   constructor(private obstetricsRecordService: ObstetricsRecordService) {}
 
@@ -45,6 +46,7 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
     this.selectedConsultationId.set(id);
     if (id !== null) {
       this.selectedEditConsultationId.set(null); // Hide edit form when showing details
+      this.showCreateConsultationForm.set(false); // Hide create form when showing details
     }
   }
 
@@ -52,6 +54,27 @@ export class ObstetricsRecordDetailComponent  implements OnInit {
     this.selectedEditConsultationId.set(id);
     if (id !== null) {
       this.selectedConsultationId.set(null); // Hide details when editing
+      this.showCreateConsultationForm.set(false); // Hide create form when editing
+    }
+  }
+
+  setShowCreateConsultationForm(show: boolean) {
+    this.showCreateConsultationForm.set(show);
+    if (show) {
+      this.selectedConsultationId.set(null); // Hide details when creating
+      this.selectedEditConsultationId.set(null); // Hide edit form when creating
+    }
+  }
+
+  onCreateConsultation() {
+    this.setShowCreateConsultationForm(true);
+  }
+
+  onCreateConsultationFormSubmitted() {
+    this.setShowCreateConsultationForm(false);
+    // Optionally reload the obstetrics record to get updated consultations
+    if (this.subRecordId) {
+      this.ngOnInit();
     }
   }
 }

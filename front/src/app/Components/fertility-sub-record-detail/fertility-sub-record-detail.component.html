@@ -1,38 +1,183 @@
-<div class="flex container mx-auto p-4">
-  <!-- Left Side Content -->
-  <div class="w-1/2 pr-4">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">Additional Content</h2>
-    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-          <div *ngIf="fertilitySubRecord; else loading">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">Fertility Sub-Record Details</h2>
-      <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
-        <p class="text-gray-600"><strong>ID:</strong> {{ fertilitySubRecord.id }}</p>
-        <p class="text-gray-600"><strong>Age:</strong> {{ fertilitySubRecord.age }}</p>
-        <p class="text-gray-600"><strong>Infertility Date:</strong> {{ fertilitySubRecord.infertility ? (fertilitySubRecord.infertility | date:'yyyy-MM-dd') : 'None' }}</p>
-        <p class="text-gray-600"><strong>Date:</strong> {{ fertilitySubRecord.date ? (fertilitySubRecord.date | date:'yyyy-MM-dd') : 'None' }}</p>
-        <p class="text-gray-600"><strong>Duration:</strong> {{ fertilitySubRecord.duration }}</p>
-        <p class="text-gray-600"><strong>Cycle Length (days):</strong> {{ fertilitySubRecord.cycleLength }}</p>
-        <p class="text-gray-600"><strong>Cycle Min (days):</strong> {{ fertilitySubRecord.cycleMin }}</p>
-        <p class="text-gray-600"><strong>Cycle Max (days):</strong> {{ fertilitySubRecord.cycleMax }}</p>
-        <p class="text-gray-600"><strong>Dysmenorrhea:</strong> {{ fertilitySubRecord.dysmenorrhea ? 'Yes' : 'No' }}</p>
-        <p class="text-gray-600"><strong>Menorrhagia:</strong> {{ fertilitySubRecord.menorrhagia ? 'Yes' : 'No' }}</p>
-        <p class="text-gray-600"><strong>Metrorrhagia:</strong> {{ fertilitySubRecord.metrorrhagia ? 'Yes' : 'No' }}</p>
-        <p class="text-gray-600"><strong>Civil State:</strong> {{ fertilitySubRecord.civilState }}</p>
-        <p class="text-gray-600"><strong>Comment:</strong> {{ fertilitySubRecord.comment || 'None' }}</p>
-        <p class="text-gray-600"><strong>Medical Record ID:</strong> {{ fertilitySubRecord.medicalRecordId }}</p>
+<div class="sub-record-detail-container">
+  <!-- Left Side: Fertility Sub-Record and Consultation Details -->
+  <div class="sub-record-main-content" 
+       [class.sub-record-main-content-full]="selectedConsultationId() || selectedEditConsultationId() || showCreateConsultationForm()">
+    <div *ngIf="fertilitySubRecord; else loading">
+      <!-- Fertility Sub-Record Details (always shown) -->
+      <div class="sub-record-section">
+        <h2 class="sub-record-section-header">
+          Fertility Sub-Record Details
+        </h2>
+        <div class="sub-record-detail-compact-grid">
+          <!-- Row 1: IDs and Basic Info -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">ID</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.id }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Medical Record ID</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.medicalRecordId }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Age</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.age }}</span>
+          </div>
+          
+          <!-- Row 2: Dates and Duration -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Infertility Date</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!fertilitySubRecord.infertility">
+              {{ fertilitySubRecord.infertility ? (fertilitySubRecord.infertility | date:'yyyy-MM-dd') : 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Record Date</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!fertilitySubRecord.date">
+              {{ fertilitySubRecord.date ? (fertilitySubRecord.date | date:'yyyy-MM-dd') : 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Duration</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.duration }}</span>
+          </div>
+          
+          <!-- Row 3: Cycle Information -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Cycle Length (days)</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.cycleLength }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Cycle Min (days)</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.cycleMin }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Cycle Max (days)</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.cycleMax }}</span>
+          </div>
+          
+          <!-- Row 4: Medical Conditions -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Dysmenorrhea</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.dysmenorrhea ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Menorrhagia</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.menorrhagia ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Metrorrhagia</span>
+            <span class="sub-record-detail-value">{{ fertilitySubRecord.metrorrhagia ? 'Yes' : 'No' }}</span>
+          </div>
+          
+          <!-- Row 5: Civil State and Comment -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Civil State</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!fertilitySubRecord.civilState">
+              {{ fertilitySubRecord.civilState || 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item sub-record-detail-span-2">
+            <span class="sub-record-detail-label">Comment</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!fertilitySubRecord.comment">
+              {{ fertilitySubRecord.comment || 'None' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consultation Details (shown when a consultation is selected) -->
+      <div *ngIf="selectedConsultationId()" class="sub-record-section">
+        <h2 class="sub-record-section-header">
+          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+          </svg>
+          Consultation Details
+        </h2>
+        <div class="consultation-detail-container">
+          <div class="consultation-detail-content">
+            <app-consultation-detail 
+              [consultationId]="selectedConsultationId()!" 
+              (closeDetail)="setSelectedConsultationId(null)">
+            </app-consultation-detail>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consultation Edit Form -->
+      <div *ngIf="selectedEditConsultationId()" class="sub-record-section">
+        <h2 class="sub-record-section-header">
+          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" clip-rule="evenodd" />
+          </svg>
+          Edit Consultation
+        </h2>
+        <div class="consultation-detail-container">
+          <app-consultation-form
+            [consultationId]="selectedEditConsultationId()!"
+            (formSubmitted)="setSelectedEditConsultationId(null)"
+          />
+        </div>
+      </div>
+
+      <!-- Create New Consultation Form -->
+      <div *ngIf="showCreateConsultationForm()" class="sub-record-section">
+        <h2 class="sub-record-section-header">
+          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Add New Consultation
+        </h2>
+        <div class="consultation-detail-container">
+          <app-consultation-form
+            [consultationId]="null"
+            [fertilityRecordId]="fertilitySubRecord.id"
+            (formSubmitted)="onCreateConsultationFormSubmitted()"
+            [type]="'fertility'"
+          />
+        </div>
       </div>
     </div>
-    </div>
+    
+    <ng-template #loading>
+      <div class="loading-container">
+        <p class="loading-text">Loading fertility sub-record...</p>
+      </div>
+    </ng-template>
   </div>
 
-  <!-- Right Side: Existing Fertility Sub-Record Component -->
-  <div class="w-1/2 pl-4">
-    <div *ngIf="fertilitySubRecord; else loading">
-      <app-consultation-list [consultations]="fertilitySubRecord.consultations"></app-consultation-list>
+  <!-- Right Side: Consultation List -->
+  <div class="sub-record-sidebar" *ngIf="!selectedConsultationId() && !selectedEditConsultationId() && !showCreateConsultationForm()">
+    <div *ngIf="fertilitySubRecord; else loadingSidebar">
+      <div class="sub-record-section">
+        <div class="consultation-list-header">
+          <h2 class="sub-record-section-header">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+            </svg>
+            Consultations
+          </h2>
+          <button type="button" class="add-consultation-button" (click)="onCreateConsultation()" title="Add New Consultation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="add-consultation-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+        <app-consultation-list 
+          [consultations]="fertilitySubRecord.consultations" 
+          [setSelectedConsultationId]="setSelectedConsultationId.bind(this)" 
+          [setSelectedEditConsultationId]="setSelectedEditConsultationId.bind(this)">
+        </app-consultation-list>
+      </div>
     </div>
-    <ng-template #loading>
-      <p class="text-gray-500">Loading...</p>
+    
+    <ng-template #loadingSidebar>
+      <div class="loading-container">
+        <p class="loading-text">Loading consultations...</p>
+      </div>
     </ng-template>
-    <div *ngIf="error" class="text-red-500 mt-4">{{ error }}</div>
+    
+    <div *ngIf="error" class="error-container">
+      <p class="error-text">{{ error }}</p>
+    </div>
   </div>
 </div>

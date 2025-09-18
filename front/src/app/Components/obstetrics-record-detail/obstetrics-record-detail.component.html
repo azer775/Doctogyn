@@ -1,55 +1,58 @@
 <div class="sub-record-detail-container">
   <!-- Left Side: Obstetrics Record and Consultation Details -->
-  <div class="sub-record-main-content">
+  <div class="sub-record-main-content" 
+       [class.sub-record-main-content-full]="selectedConsultationId() || selectedEditConsultationId() || showCreateConsultationForm()">
     <div *ngIf="obstetricsRecord; else loading">
       <!-- Obstetrics Record Details (always shown) -->
       <div class="sub-record-section">
         <h2 class="sub-record-section-header">
-          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-          </svg>
           Obstetrics Record Details
         </h2>
-        <div class="sub-record-detail-grid">
+        <div class="sub-record-detail-compact-grid">
+          <!-- Row 1: IDs and Basic Info -->
           <div class="sub-record-detail-item">
             <span class="sub-record-detail-label">ID</span>
             <span class="sub-record-detail-value">{{ obstetricsRecord.id }}</span>
           </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Medical Record ID</span>
+            <span class="sub-record-detail-value">{{ obstetricsRecord.medicalRecordId }}</span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Number of Fetuses</span>
+            <span class="sub-record-detail-value">{{ obstetricsRecord.nfoetus }}</span>
+          </div>
+          
+          <!-- Row 2: Conception Info -->
           <div class="sub-record-detail-item">
             <span class="sub-record-detail-label">Conception Type</span>
             <span class="sub-record-detail-value">{{ obstetricsRecord.conceptionType }}</span>
           </div>
           <div class="sub-record-detail-item">
             <span class="sub-record-detail-label">Conception Date</span>
-            <span class="sub-record-detail-value" [class.obstetrics-detail-value-empty]="!obstetricsRecord.conceptionDate">
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!obstetricsRecord.conceptionDate">
               {{ obstetricsRecord.conceptionDate ? (obstetricsRecord.conceptionDate | date:'yyyy-MM-dd') : 'None' }}
             </span>
           </div>
           <div class="sub-record-detail-item">
             <span class="sub-record-detail-label">Last Menstrual Period</span>
-            <span class="sub-record-detail-value" [class.obstetrics-detail-value-empty]="!obstetricsRecord.ddr">
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!obstetricsRecord.ddr">
               {{ obstetricsRecord.ddr ? (obstetricsRecord.ddr | date:'yyyy-MM-dd') : 'None' }}
             </span>
           </div>
+          
+          <!-- Row 3: Record Date and Comment -->
           <div class="sub-record-detail-item">
             <span class="sub-record-detail-label">Record Date</span>
-            <span class="sub-record-detail-value" [class.obstetrics-detail-value-empty]="!obstetricsRecord.date">
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!obstetricsRecord.date">
               {{ obstetricsRecord.date ? (obstetricsRecord.date | date:'yyyy-MM-dd') : 'None' }}
             </span>
           </div>
-          <div class="sub-record-detail-item">
-            <span class="sub-record-detail-label">Number of Fetuses</span>
-            <span class="sub-record-detail-value">{{ obstetricsRecord.nfoetus }}</span>
-          </div>
-          <div class="sub-record-detail-item">
+          <div class="sub-record-detail-item sub-record-detail-span-2">
             <span class="sub-record-detail-label">Comment</span>
-            <span class="sub-record-detail-value" [class.obstetrics-detail-value-empty]="!obstetricsRecord.comment">
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!obstetricsRecord.comment">
               {{ obstetricsRecord.comment || 'None' }}
             </span>
-          </div>
-          <div class="sub-record-detail-item">
-            <span class="sub-record-detail-label">Medical Record ID</span>
-            <span class="sub-record-detail-value">{{ obstetricsRecord.medicalRecordId }}</span>
           </div>
         </div>
       </div>
@@ -64,7 +67,10 @@
         </h2>
         <div class="consultation-detail-container">
           <div class="consultation-detail-content">
-            <app-consultation-detail [consultationId]="selectedConsultationId()!"></app-consultation-detail>
+            <app-consultation-detail 
+              [consultationId]="selectedConsultationId()!" 
+              (closeDetail)="setSelectedConsultationId(null)">
+            </app-consultation-detail>
           </div>
         </div>
       </div>
@@ -78,12 +84,29 @@
           Edit Consultation
         </h2>
         <div class="consultation-detail-container">
-          <div class="consultation-detail-content">
+          
             <app-consultation-form
               [consultationId]="selectedEditConsultationId()!"
               (formSubmitted)="setSelectedEditConsultationId(null)"
             />
-          </div>
+        </div>
+      </div>
+
+      <!-- Create New Consultation Form -->
+      <div *ngIf="showCreateConsultationForm()" class="sub-record-section">
+        <h2 class="sub-record-section-header">
+          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Add New Consultation
+        </h2>
+        <div class="consultation-detail-container">
+          <app-consultation-form
+            [consultationId]="null"
+            [obstetricsRecordId]="obstetricsRecord.id"
+            (formSubmitted)="onCreateConsultationFormSubmitted()"
+            [type]="'obstetrics'"
+          />
         </div>
       </div>
     </div>
@@ -96,15 +119,22 @@
   </div>
 
   <!-- Right Side: Consultation List -->
-  <div class="sub-record-sidebar">
+  <div class="sub-record-sidebar" *ngIf="!selectedConsultationId() && !selectedEditConsultationId() && !showCreateConsultationForm()">
     <div *ngIf="obstetricsRecord; else loadingSidebar">
       <div class="sub-record-section">
-        <h2 class="sub-record-section-header">
-          <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-          </svg>
-          Consultations
-        </h2>
+        <div class="consultation-list-header">
+          <h2 class="sub-record-section-header">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sub-record-section-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+            </svg>
+            Consultations
+          </h2>
+          <button type="button" class="add-consultation-button" (click)="onCreateConsultation()" title="Add New Consultation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="add-consultation-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
         <app-consultation-list 
           [consultations]="obstetricsRecord.consultations" 
           [setSelectedConsultationId]="setSelectedConsultationId.bind(this)" 

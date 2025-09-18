@@ -29,7 +29,11 @@ import { SpermAnalysis } from '../../Models/SpermAnalysis';
 })
 export class ConsultationFormComponent  implements OnInit {
   @Input() consultationId: number | null = null;
+  @Input() obstetricsRecordId: number | null = null;
+  @Input() fertilityRecordId: number | null = null;
+  @Input() gynecologyRecordId: number | null = null;
   @Output() formSubmitted = new EventEmitter<void>(); // New output
+  @Input() type: string | null = null;
   
   // ViewChild reference to access AnalysesListComponent
   @ViewChild(AnalysesListComponent) analysesListComponent?: AnalysesListComponent;
@@ -61,7 +65,7 @@ export class ConsultationFormComponent  implements OnInit {
       breasts: [Status.Normal, Validators.required],
       examination: [''],
       vagina: [Status.Normal, Validators.required],
-      consultationType: ['', Validators.required],
+      consultationType: [''],
       gynecologySubRecordId: [null],
       fertilitySubRecordId: [null],
       obstetricsRecordId: [null]
@@ -123,6 +127,25 @@ export class ConsultationFormComponent  implements OnInit {
         error: (error) => {
           console.error('Error fetching consultation:', error);
         }
+      });
+    } else if (this.obstetricsRecordId) {
+      // Set the obstetricsRecordId for new consultations
+      this.consultationForm.patchValue({
+        obstetricsRecordId: this.obstetricsRecordId,
+        consultationType: ConsultationType.OBSTETRICS
+        
+      });
+    } else if (this.gynecologyRecordId) {
+      // Set the gynecologyRecordId for new consultations
+      this.consultationForm.patchValue({
+        gynecologySubRecordId: this.gynecologyRecordId,
+        consultationType: ConsultationType.GYNECOLOGY
+      });
+    } else if (this.fertilityRecordId) {
+      // Set the fertilitySubRecordId for new consultations
+      this.consultationForm.patchValue({
+        fertilitySubRecordId: this.fertilityRecordId,
+        consultationType: ConsultationType.FERTILITY
       });
     }
   }
@@ -204,6 +227,13 @@ export class ConsultationFormComponent  implements OnInit {
           }
         });
       } else {
+        if (this.type === 'obstetrics') {
+          consultation.consultationType = ConsultationType.OBSTETRICS;
+        }else if (this.type === 'gynecology') {
+          consultation.consultationType = ConsultationType.GYNECOLOGY;
+        }else if (this.type === 'fertility') {
+          consultation.consultationType = ConsultationType.FERTILITY;
+        }
         this.consultationService.createConsultation(consultation).subscribe({
           next: (response) => {
             console.log('Consultation created successfully:', response);
@@ -221,6 +251,10 @@ export class ConsultationFormComponent  implements OnInit {
       console.log('Form is invalid');
       this.consultationForm.markAllAsTouched();
     }
+  }
+
+  onClose() {
+    this.formSubmitted.emit();
   }
 
   // ===== ANALYSES METHODS =====
