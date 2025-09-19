@@ -48,5 +48,22 @@ public class BacteriologyService {
     public List<Bacteriology> findByConsultationId(Long consultationId) {
         return bacteriologyRepository.findByConsultationId(consultationId);
     }
+    public String toHtmlRow(Bacteriology bacteriology) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+        html.append("<td>").append(bacteriology.getDate() != null ? bacteriology.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(bacteriology.getType() != null ? bacteriology.getType() : "N/A").append("</td>");
+        html.append("<td>")
+                .append(bacteriology.getGerms() != null && !bacteriology.getGerms().isEmpty()
+                        ? String.join(", ", bacteriology.getGerms().toString())
+                        : "N/A")
+                .append("</td>");
+        html.append("<td>").append(bacteriology.getInterpretation() != null ? bacteriology.getInterpretation() : "N/A").append("</td>");
+        html.append("<td>").append(bacteriology.getComment() != null ? bacteriology.getComment() : "N/A").append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }
 

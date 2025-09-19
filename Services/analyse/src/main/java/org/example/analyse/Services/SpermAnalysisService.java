@@ -57,4 +57,27 @@ public class SpermAnalysisService {
     public List<SpermAnalysis> findByConsultationId(Long consultationId) {
         return spermAnalysisRepository.findByConsultationId(consultationId);
     }
+    public static String toHtmlRow(SpermAnalysis spermAnalysis) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+
+        html.append("<td>").append(spermAnalysis.getDate() != null ? spermAnalysis.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(spermAnalysis.getAbstinence()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getPh()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getVolume()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getConcentration()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getProgressivemobility()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getTotalmotility()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getTotalcount()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getRoundcells()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getLeukocytes()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getMorphology()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getNorm() != null ? spermAnalysis.getNorm() : "N/A").append("</td>");
+        html.append("<td>").append(spermAnalysis.getVitality()).append("</td>");
+        html.append("<td>").append(spermAnalysis.getTms()).append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }

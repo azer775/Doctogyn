@@ -48,4 +48,16 @@ public class BiologyService {
     public List<Biology> findByConsultationId(Long consultationId) {
         return biologyRepository.findByConsultationId(consultationId);
     }
+    public String toHtmlRow(Biology biology) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+        html.append("<td>").append(biology.getDate() != null ? biology.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(biology.getType() != null ? biology.getType() : "N/A").append("</td>");
+        html.append("<td>").append(biology.getValue()).append("</td>");
+        html.append("<td>").append(biology.getInterpretation() != null ? biology.getInterpretation() : "N/A").append("</td>");
+        html.append("<td>").append(biology.getComment() != null ? biology.getComment() : "N/A").append("</td>");
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }

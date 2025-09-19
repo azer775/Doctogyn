@@ -48,4 +48,18 @@ public class SerologyService {
     public List<Serology> findByConsultationId(Long consultationId) {
         return serologyRepository.findByConsultationId(consultationId);
     }
+    public  String toHtmlRow(Serology serology) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+
+        html.append("<td>").append(serology.getDate() != null ? serology.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(serology.getType() != null ? serology.getType() : "N/A").append("</td>");
+        html.append("<td>").append(serology.getValue()).append("</td>");
+        html.append("<td>").append(serology.getInterpretation() != null ? serology.getInterpretation() : "N/A").append("</td>");
+        html.append("<td>").append(serology.getComment() != null ? serology.getComment() : "N/A").append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }

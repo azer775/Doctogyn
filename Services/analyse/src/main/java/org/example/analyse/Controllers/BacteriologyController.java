@@ -2,6 +2,9 @@ package org.example.analyse.Controllers;
 
 import org.example.analyse.Models.dtos.Document;
 import org.example.analyse.Models.entities.Bacteriology;
+import org.example.analyse.Models.enums.BacteriologyInterpretation;
+import org.example.analyse.Models.enums.BacteriologyType;
+import org.example.analyse.Models.enums.Germ;
 import org.example.analyse.Services.BacteriologyService;
 import org.example.analyse.Services.FastApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,19 +62,21 @@ public class BacteriologyController {
     public List<Bacteriology> getByConsultationId(@PathVariable Long consultationId) {
         return bacteriologyService.findByConsultationId(consultationId);
     }
-    /*@PostMapping(value = "/test", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> testApi(@RequestParam("file") MultipartFile file) {
-        List<MultipartFile> files = List.of(file);
-        try {
-            Object response = fastApi.uploadFile(files);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
-        }
+    @GetMapping("/html")
+    public String tohtml(){
+        Bacteriology bacteriology = Bacteriology.builder()
+                .id(1)
+                .date(LocalDate.of(2025, 9, 18))
+                .type(BacteriologyType.fromId(-1)) // Assuming BacteriologyType is an enum
+                .germs(List.of(Germ.fromId(5),Germ.fromId(2))) // Assuming Germ is an enum
+                .interpretation(BacteriologyInterpretation.POSITIVE) // Assuming BacteriologyInterpretation is an enum
+                .comment("Requires treatment")
+                .consultationId(100L)
+                .build();
+
+        String htmlRow = bacteriologyService.toHtmlRow(bacteriology);
+        System.out.println(htmlRow);
+        return htmlRow;
     }
-    @PostMapping("/test2")
-    public ResponseEntity<String> testEndpoint(@RequestBody List<Document> documents) {
-        return ResponseEntity.ok("Test endpoint is working!");
-    }*/
 
 }

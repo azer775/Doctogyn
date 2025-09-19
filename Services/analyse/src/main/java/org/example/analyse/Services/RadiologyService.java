@@ -47,4 +47,17 @@ public class RadiologyService {
     public List<Radiology> findByConsultationId(Long consultationId) {
         return radiologyRepository.findByConsultationId(consultationId);
     }
+    public String toHtmlRow(Radiology radiology) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+
+        html.append("<td>").append(radiology.getDate() != null ? radiology.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(radiology.getType() != null ? radiology.getType() : "N/A").append("</td>");
+        html.append("<td>").append(radiology.getConclusion() != null ? radiology.getConclusion() : "N/A").append("</td>");
+        html.append("<td>").append(radiology.getComment() != null ? radiology.getComment() : "N/A").append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }

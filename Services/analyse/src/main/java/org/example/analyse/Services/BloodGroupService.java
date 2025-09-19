@@ -46,4 +46,16 @@ public class BloodGroupService {
     public List<BloodGroup> findByConsultationId(Long consultationId) {
         return bloodGroupRepository.findByConsultationId(consultationId);
     }
+    public  String toHtmlRow(BloodGroup bloodGroup) {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+
+        html.append("<td>").append(bloodGroup.getDate() != null ? bloodGroup.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(bloodGroup.getType() != null ? bloodGroup.getType() : "N/A").append("</td>");
+        html.append("<td>").append(bloodGroup.getComment() != null ? bloodGroup.getComment() : "N/A").append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }
