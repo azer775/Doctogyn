@@ -1,6 +1,7 @@
 package org.example.medicalreport.services;
 
 import org.example.medicalreport.Models.DTOs.ConsultationDTO;
+import org.example.medicalreport.Models.DTOs.EchographieDTO;
 import org.example.medicalreport.Models.entities.Consultation;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.GynecologySubRecord;
@@ -135,6 +136,60 @@ public class ConsultationService {
             obstetricsRecord.ifPresent(consultation::setObstetricsRecord);
         }
         return consultation;
+    }
+    public String toHtmlStructured(ConsultationDTO consultation) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Main heading with date and type
+        html.append("<h3>Consultation - ")
+                .append(consultation.getDate() != null ? consultation.getDate() : "N/A")
+                .append(" (")
+                .append(consultation.getConsultationType() != null ? consultation.getConsultationType() : "N/A")
+                .append(")</h3>");
+
+        // General Section
+        html.append("<h4>General</h4>");
+        html.append("<p><strong>Signs Negated:</strong> ").append(consultation.getSignsNegates() != null ? consultation.getSignsNegates() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Physical Examination Section
+        html.append("<h4>Physical Examination</h4>");
+        html.append("<p><strong>Weight (kg):</strong> ").append(consultation.getWeight()).append("</p>");
+        html.append("<p><strong>Length (cm):</strong> ").append(consultation.getLength()).append("</p>");
+        html.append("<p><strong>BMI:</strong> ").append(consultation.getBmi()).append("</p>");
+        html.append("<br>");
+
+        // Gynecology Section
+        html.append("<h4>Gynecology</h4>");
+        html.append("<p><strong>Breasts:</strong> ").append(consultation.getBreasts() != null ? consultation.getBreasts() : "N/A").append("</p>");
+        html.append("<p><strong>Vagina:</strong> ").append(consultation.getVagina() != null ? consultation.getVagina() : "N/A").append("</p>");
+        html.append("<p><strong>Examination:</strong> ").append(consultation.getExamination() != null ? consultation.getExamination() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Echographies Section
+        html.append("<h4>Echographies</h4>");
+        if (consultation.getEchographies() != null && !consultation.getEchographies().isEmpty()) {
+            for (EchographieDTO echographie : consultation.getEchographies()) {
+                html.append(echographie.toHtmlStructured());
+            }
+        } else {
+            html.append("<p>No echographies available</p>");
+        }
+        html.append("<br>");
+
+        // Analyses Section
+        html.append("<h4>Analyses</h4>");
+        if (consultation.getExtractionAnalyses() != null) {
+            html.append(analyseService.getHtmlAnalyses(consultation.getId()));
+        } else {
+            html.append("<p>No analyses available</p>");
+        }
+        html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
     }
 
 }

@@ -1,5 +1,6 @@
 package org.example.medicalreport.services;
 
+import org.example.medicalreport.Models.DTOs.ConsultationDTO;
 import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
@@ -110,5 +111,47 @@ public class GynecologySubRecordService {
             medicalRecord.ifPresent(gynecologySubRecord::setMedicalRecord);
         }
         return gynecologySubRecord;
+    }
+    public String toHtmlStructured(GynecologySubRecordDTO gynecologyRecord) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Main heading with date
+        html.append("<h3>Gynecology Sub-Record - ")
+                .append(gynecologyRecord.getDate() != null ? gynecologyRecord.getDate() : "N/A")
+                .append("</h3>");
+
+        // General Section
+        html.append("<h4>General</h4>");
+        html.append("<p><strong>Work:</strong> ").append(gynecologyRecord.getWork() != null ? gynecologyRecord.getWork() : "N/A").append("</p>");
+        html.append("<p><strong>Civil Status:</strong> ").append(gynecologyRecord.getCivilState() != null ? gynecologyRecord.getCivilState() : "N/A").append("</p>");
+        html.append("<p><strong>Hormone Status:</strong> ").append(gynecologyRecord.getHormoneStatus() != null ? gynecologyRecord.getHormoneStatus() : "N/A").append("</p>");
+        html.append("<p><strong>Menopause Date:</strong> ").append(gynecologyRecord.getMenopause() != null ? gynecologyRecord.getMenopause() : "N/A").append("</p>");
+        html.append("<p><strong>Background:</strong> ").append(gynecologyRecord.getBackground() != null ? gynecologyRecord.getBackground() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Menstrual History Section
+        html.append("<h4>Menstrual History</h4>");
+        html.append("<p><strong>Dysmenorrhea:</strong> ").append(gynecologyRecord.getDysmenorrhea() != null ? gynecologyRecord.getDysmenorrhea() : "N/A").append("</p>");
+        html.append("<p><strong>Menorrhagia:</strong> ").append(gynecologyRecord.getMenorrhagia() != null ? gynecologyRecord.getMenorrhagia() : "N/A").append("</p>");
+        html.append("<p><strong>Metrorrhagia:</strong> ").append(gynecologyRecord.getMetrorrhagia() != null ? gynecologyRecord.getMetrorrhagia() : "N/A").append("</p>");
+        html.append("<p><strong>Period Minimum (days):</strong> ").append(gynecologyRecord.getPeriodMin()).append("</p>");
+        html.append("<p><strong>Period Maximum (days):</strong> ").append(gynecologyRecord.getPeriodMax()).append("</p>");
+        html.append("<br>");
+
+        // Consultations Section
+        html.append("<h4>Consultations</h4>");
+        if (gynecologyRecord.getConsultations() != null && !gynecologyRecord.getConsultations().isEmpty()) {
+            for (ConsultationDTO consultation : gynecologyRecord.getConsultations()) {
+                html.append(consultationService.toHtmlStructured(consultation));
+            }
+        } else {
+            html.append("<p>No consultations available</p>");
+        }
+        html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
     }
 }

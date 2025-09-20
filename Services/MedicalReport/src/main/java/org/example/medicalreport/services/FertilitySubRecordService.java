@@ -1,5 +1,6 @@
 package org.example.medicalreport.services;
 
+import org.example.medicalreport.Models.DTOs.ConsultationDTO;
 import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.MedicalRecord;
@@ -110,5 +111,52 @@ public class FertilitySubRecordService {
             medicalRecord.ifPresent(fertilitySubRecord::setMedicalRecord);
         }
         return fertilitySubRecord;
+    }
+    public String toHtmlStructured(FertilitySubRecordDTO fertilityRecord) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Main heading with date
+        html.append("<h3>Fertility Sub-Record - ")
+                .append(fertilityRecord.getDate() != null ? fertilityRecord.getDate() : "N/A")
+                .append("</h3>");
+
+        // General Section
+        html.append("<h4>General</h4>");
+        html.append("<p><strong>Age:</strong> ").append(fertilityRecord.getAge()).append("</p>");
+        html.append("<p><strong>Infertility Start Date:</strong> ").append(fertilityRecord.getInfertility() != null ? fertilityRecord.getInfertility() : "N/A").append("</p>");
+        html.append("<p><strong>Duration (months):</strong> ").append(fertilityRecord.getDuration()).append("</p>");
+        html.append("<p><strong>Comment:</strong> ").append(fertilityRecord.getComment() != null ? fertilityRecord.getComment() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Menstrual History Section
+        html.append("<h4>Menstrual History</h4>");
+        html.append("<p><strong>Cycle Length (days):</strong> ").append(fertilityRecord.getCycleLength()).append("</p>");
+        html.append("<p><strong>Cycle Minimum (days):</strong> ").append(fertilityRecord.getCycleMin()).append("</p>");
+        html.append("<p><strong>Cycle Maximum (days):</strong> ").append(fertilityRecord.getCycleMax()).append("</p>");
+        html.append("<p><strong>Dysmenorrhea:</strong> ").append(fertilityRecord.getDysmenorrhea() != null ? fertilityRecord.getDysmenorrhea() : "N/A").append("</p>");
+        html.append("<p><strong>Menorrhagia:</strong> ").append(fertilityRecord.getMenorrhagia() != null ? fertilityRecord.getMenorrhagia() : "N/A").append("</p>");
+        html.append("<p><strong>Metrorrhagia:</strong> ").append(fertilityRecord.getMetrorrhagia() != null ? fertilityRecord.getMetrorrhagia() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Civil Status Section
+        html.append("<h4>Civil Status</h4>");
+        html.append("<p><strong>Civil Status:</strong> ").append(fertilityRecord.getCivilState() != null ? fertilityRecord.getCivilState() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Consultations Section
+        html.append("<h4>Consultations</h4>");
+        if (fertilityRecord.getConsultations() != null && !fertilityRecord.getConsultations().isEmpty()) {
+            for (ConsultationDTO consultation : fertilityRecord.getConsultations()) {
+                html.append(consultationService.toHtmlStructured(consultation));
+            }
+        } else {
+            html.append("<p>No consultations available</p>");
+        }
+        html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
     }
 }

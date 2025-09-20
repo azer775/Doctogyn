@@ -48,18 +48,30 @@ public class SerologyService {
     public List<Serology> findByConsultationId(Long consultationId) {
         return serologyRepository.findByConsultationId(consultationId);
     }
-    public  String toHtmlRow(Serology serology) {
+
+    public String toHtmlTable(List<Serology> serologies) {
+        if (serologies == null || serologies.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"5\">No data available</td></tr></table>";
+        }
+
         StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
         html.append("<tr>");
-
-        html.append("<td>").append(serology.getDate() != null ? serology.getDate() : "N/A").append("</td>");
-        html.append("<td>").append(serology.getType() != null ? serology.getType() : "N/A").append("</td>");
-        html.append("<td>").append(serology.getValue()).append("</td>");
-        html.append("<td>").append(serology.getInterpretation() != null ? serology.getInterpretation() : "N/A").append("</td>");
-        html.append("<td>").append(serology.getComment() != null ? serology.getComment() : "N/A").append("</td>");
-
+        html.append("<th>Date</th>");
+        html.append("<th>Type</th>");
+        html.append("<th>Value</th>");
+        html.append("<th>Interpretation</th>");
+        html.append("<th>Comment</th>");
         html.append("</tr>");
 
+        // Data rows
+        for (Serology serology : serologies) {
+            html.append(serology.toHtmlRow());
+        }
+
+        html.append("</table>");
         return html.toString();
     }
 }

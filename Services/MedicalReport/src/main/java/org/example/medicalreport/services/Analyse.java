@@ -16,4 +16,6 @@ public interface Analyse {
     ExtractionResponse getByConsultation(@PathVariable long id);
     @PutMapping(value ="/extraction/update", consumes = "application/json")
     ExtractionResponse update(ExtractionResponse response);
+    @GetMapping("/extraction/getHtml/{id}")
+    String getHtmlAnalyses(@PathVariable long id);
 }

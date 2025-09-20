@@ -46,16 +46,27 @@ public class BloodGroupService {
     public List<BloodGroup> findByConsultationId(Long consultationId) {
         return bloodGroupRepository.findByConsultationId(consultationId);
     }
-    public  String toHtmlRow(BloodGroup bloodGroup) {
+    public String toHtmlTable(List<BloodGroup> bloodGroups) {
+        if (bloodGroups == null || bloodGroups.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"3\">No data available</td></tr></table>";
+        }
+
         StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
         html.append("<tr>");
-
-        html.append("<td>").append(bloodGroup.getDate() != null ? bloodGroup.getDate() : "N/A").append("</td>");
-        html.append("<td>").append(bloodGroup.getType() != null ? bloodGroup.getType() : "N/A").append("</td>");
-        html.append("<td>").append(bloodGroup.getComment() != null ? bloodGroup.getComment() : "N/A").append("</td>");
-
+        html.append("<th>Date</th>");
+        html.append("<th>Type</th>");
+        html.append("<th>Comment</th>");
         html.append("</tr>");
 
+        // Data rows
+        for (BloodGroup bloodGroup : bloodGroups) {
+            html.append(bloodGroup.toHtmlRow());
+        }
+
+        html.append("</table>");
         return html.toString();
     }
 }

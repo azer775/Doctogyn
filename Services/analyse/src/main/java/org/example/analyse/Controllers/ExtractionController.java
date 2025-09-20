@@ -25,4 +25,8 @@ public class ExtractionController {
         System.out.println("Received ExtractionResponse for update: " + response);
         return extractionService.updateanalyses(response);
     }
+    @GetMapping("/getHtml/{id}")
+    public String getHtmlAnalyses(@PathVariable long id) {
+        return extractionService.toHtml(id);
+    }
 }

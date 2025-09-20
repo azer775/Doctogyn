@@ -48,21 +48,30 @@ public class BacteriologyService {
     public List<Bacteriology> findByConsultationId(Long consultationId) {
         return bacteriologyRepository.findByConsultationId(consultationId);
     }
-    public String toHtmlRow(Bacteriology bacteriology) {
-        StringBuilder html = new StringBuilder();
-        html.append("<tr>");
-        html.append("<td>").append(bacteriology.getDate() != null ? bacteriology.getDate() : "N/A").append("</td>");
-        html.append("<td>").append(bacteriology.getType() != null ? bacteriology.getType() : "N/A").append("</td>");
-        html.append("<td>")
-                .append(bacteriology.getGerms() != null && !bacteriology.getGerms().isEmpty()
-                        ? String.join(", ", bacteriology.getGerms().toString())
-                        : "N/A")
-                .append("</td>");
-        html.append("<td>").append(bacteriology.getInterpretation() != null ? bacteriology.getInterpretation() : "N/A").append("</td>");
-        html.append("<td>").append(bacteriology.getComment() != null ? bacteriology.getComment() : "N/A").append("</td>");
 
+    public String toHtmlTable(List<Bacteriology> bacteriologyList) {
+        if (bacteriologyList == null || bacteriologyList.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"5\">No data available</td></tr></table>";
+        }
+
+        StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
+        html.append("<tr>");
+        html.append("<th>Date</th>");
+        html.append("<th>Type</th>");
+        html.append("<th>Germs</th>");
+        html.append("<th>Interpretation</th>");
+        html.append("<th>Comment</th>");
         html.append("</tr>");
 
+        // Data rows
+        for (Bacteriology bacteriology : bacteriologyList) {
+            html.append(bacteriology.toHtmlRow());
+        }
+
+        html.append("</table>");
         return html.toString();
     }
 }

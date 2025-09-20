@@ -60,4 +60,29 @@ public class BiologyService {
 
         return html.toString();
     }
+    public String toHtmlTable(List<Biology> biologies) {
+        if (biologies == null || biologies.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"5\">No data available</td></tr></table>";
+        }
+
+        StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
+        html.append("<tr>");
+        html.append("<th>Date</th>");
+        html.append("<th>Type</th>");
+        html.append("<th>Value</th>");
+        html.append("<th>Interpretation</th>");
+        html.append("<th>Comment</th>");
+        html.append("</tr>");
+
+        // Data rows
+        for (Biology biology : biologies) {
+            html.append(biology.toHtmlRow());
+        }
+
+        html.append("</table>");
+        return html.toString();
+    }
 }

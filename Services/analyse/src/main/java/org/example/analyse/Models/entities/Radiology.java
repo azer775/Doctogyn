@@ -26,4 +26,17 @@ public class Radiology {
     String conclusion;
     String comment;
     long consultationId;
+    public String toHtmlRow() {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+
+        html.append("<td>").append(this.getDate() != null ? this.getDate() : "N/A").append("</td>");
+        html.append("<td>").append(this.getType() != null ? this.getType() : "N/A").append("</td>");
+        html.append("<td>").append(this.getConclusion() != null ? this.getConclusion() : "N/A").append("</td>");
+        html.append("<td>").append(this.getComment() != null ? this.getComment() : "N/A").append("</td>");
+
+        html.append("</tr>");
+
+        return html.toString();
+    }
 }

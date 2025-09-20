@@ -57,27 +57,39 @@ public class SpermAnalysisService {
     public List<SpermAnalysis> findByConsultationId(Long consultationId) {
         return spermAnalysisRepository.findByConsultationId(consultationId);
     }
-    public static String toHtmlRow(SpermAnalysis spermAnalysis) {
+
+    public String toHtmlTable(List<SpermAnalysis> spermAnalyses) {
+        if (spermAnalyses == null || spermAnalyses.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"14\">No data available</td></tr></table>";
+        }
+
         StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
         html.append("<tr>");
-
-        html.append("<td>").append(spermAnalysis.getDate() != null ? spermAnalysis.getDate() : "N/A").append("</td>");
-        html.append("<td>").append(spermAnalysis.getAbstinence()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getPh()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getVolume()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getConcentration()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getProgressivemobility()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getTotalmotility()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getTotalcount()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getRoundcells()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getLeukocytes()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getMorphology()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getNorm() != null ? spermAnalysis.getNorm() : "N/A").append("</td>");
-        html.append("<td>").append(spermAnalysis.getVitality()).append("</td>");
-        html.append("<td>").append(spermAnalysis.getTms()).append("</td>");
-
+        html.append("<th>Date</th>");
+        html.append("<th>Abstinence</th>");
+        html.append("<th>pH</th>");
+        html.append("<th>Volume</th>");
+        html.append("<th>Concentration</th>");
+        html.append("<th>Progressive Mobility</th>");
+        html.append("<th>Total Motility</th>");
+        html.append("<th>Total Count</th>");
+        html.append("<th>Round Cells</th>");
+        html.append("<th>Leukocytes</th>");
+        html.append("<th>Morphology</th>");
+        html.append("<th>Norm</th>");
+        html.append("<th>Vitality</th>");
+        html.append("<th>TMS</th>");
         html.append("</tr>");
 
+        // Data rows
+        for (SpermAnalysis analysis : spermAnalyses) {
+            html.append(analysis.toHtmlRow());
+        }
+
+        html.append("</table>");
         return html.toString();
     }
 }

@@ -20,6 +20,18 @@ public class ExtractionService {
     SerologyRepository serologyRepository;
     @Autowired
     SpermAnalysisRepository spermAnalysisRepository;
+    @Autowired
+    BiologyService biologyService;
+    @Autowired
+    BacteriologyService bacteriologyService;
+    @Autowired
+    BloodGroupService bloodGroupService;
+    @Autowired
+    RadiologyService radiologyService;
+    @Autowired
+    SerologyService serologyService;
+    @Autowired
+    SpermAnalysisService spermAnalysisService;
 
     public ExtractionResponse addanalyses(ExtractionResponse response, long consultationId) {
         ExtractionResponse extractedResponse = new ExtractionResponse();
@@ -64,6 +76,60 @@ public class ExtractionService {
         document.setSpermAnalyses(spermAnalysisRepository.findByConsultationId(id));
         response.getDocuments().add(document);
         return response;
+    }
+    public String toHtml(long id) {
+        ExtractionResponse response = getByConsultation(id);
+        Document doc = response.getDocuments().getFirst();
+        StringBuilder html = new StringBuilder();
+
+        // Wrap content in a container div
+        html.append("<div>");
+
+        // Biology table
+        if (!doc.getBiologies().isEmpty()) {
+            html.append("<h2>Biology Results</h2>");
+            html.append(this.biologyService.toHtmlTable(doc.getBiologies()));
+            html.append("<br>");
+        }
+
+        // Bacteriology table
+        if (!doc.getBacteriologies().isEmpty()) {
+            html.append("<h2>Bacteriology Results</h2>");
+            html.append(this.bacteriologyService.toHtmlTable(doc.getBacteriologies()));
+            html.append("<br>");
+        }
+
+        // Blood Group table
+        if (!doc.getBloodgroups().isEmpty()) {
+            html.append("<h2>Blood Group Results</h2>");
+            html.append(this.bloodGroupService.toHtmlTable(doc.getBloodgroups()));
+            html.append("<br>");
+        }
+
+        // Radiology table
+        if (!doc.getRadiologies().isEmpty()) {
+            html.append("<h2>Radiology Results</h2>");
+            html.append(this.radiologyService.toHtmlTable(doc.getRadiologies()));
+            html.append("<br>");
+        }
+
+        // Serology table
+        if (!doc.getSerologies().isEmpty()) {
+            html.append("<h2>Serology Results</h2>");
+            html.append(this.serologyService.toHtmlTable(doc.getSerologies()));
+            html.append("<br>");
+        }
+
+        // Sperm Analysis table
+        if (!doc.getSpermAnalyses().isEmpty()) {
+            html.append("<h2>Sperm Analysis Results</h2>");
+            html.append(this.spermAnalysisService.toHtmlTable(doc.getSpermAnalyses()));
+            html.append("<br>");
+        }
+
+        html.append("</div>");
+
+        return html.toString();
     }
     public ExtractionResponse updateanalyses(ExtractionResponse response) {
         ExtractionResponse  extractedResponse = new ExtractionResponse();

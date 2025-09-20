@@ -47,17 +47,30 @@ public class RadiologyService {
     public List<Radiology> findByConsultationId(Long consultationId) {
         return radiologyRepository.findByConsultationId(consultationId);
     }
-    public String toHtmlRow(Radiology radiology) {
+
+
+    public String toHtmlTable(List<Radiology> radiologies) {
+        if (radiologies == null || radiologies.isEmpty()) {
+            return "<table border=\"1\"><tr><td colspan=\"4\">No data available</td></tr></table>";
+        }
+
         StringBuilder html = new StringBuilder();
+        html.append("<table border=\"1\">");
+
+        // Header row
         html.append("<tr>");
-
-        html.append("<td>").append(radiology.getDate() != null ? radiology.getDate() : "N/A").append("</td>");
-        html.append("<td>").append(radiology.getType() != null ? radiology.getType() : "N/A").append("</td>");
-        html.append("<td>").append(radiology.getConclusion() != null ? radiology.getConclusion() : "N/A").append("</td>");
-        html.append("<td>").append(radiology.getComment() != null ? radiology.getComment() : "N/A").append("</td>");
-
+        html.append("<th>Date</th>");
+        html.append("<th>Type</th>");
+        html.append("<th>Conclusion</th>");
+        html.append("<th>Comment</th>");
         html.append("</tr>");
 
+        // Data rows
+        for (Radiology radiology : radiologies) {
+            html.append(radiology.toHtmlRow());
+        }
+
+        html.append("</table>");
         return html.toString();
     }
 }

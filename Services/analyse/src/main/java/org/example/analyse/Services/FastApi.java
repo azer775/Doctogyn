@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@FeignClient(name = "fastapi-service", url = "http://localhost:8000", configuration = FeignConfig.class)
+@FeignClient(name = "fastapi-service", url = "http://localhost:8000/pdf", configuration = FeignConfig.class)
 public interface FastApi {
-    @PostMapping(value = "/pdf/extract-blood-data-with-embedding", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/extract-blood-data-with-embedding", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ExtractionResponse uploadFile(@RequestPart("files") List<MultipartFile> file);
 }

@@ -74,7 +74,7 @@ public class BacteriologyController {
                 .consultationId(100L)
                 .build();
 
-        String htmlRow = bacteriologyService.toHtmlRow(bacteriology);
+        String htmlRow = bacteriology.toHtmlRow();
         System.out.println(htmlRow);
         return htmlRow;
     }
