@@ -156,12 +156,12 @@ export class AppComponent {
   };
 
   medicalBackgrounds: MedicalBackground[] = [
-  new MedicalBackground(1, FamilialPathology.OVARIAN_CANCER, Allergies.Drug, MedicalPathology.BONE_CANCER, ChirurgicalPathology.APPENDECTOMY, '', 'Family history of ovarian cancer', new Date('2023-01-05'), 'Familial', 1),
-  new MedicalBackground(2, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.DEPRESSION, ChirurgicalPathology.APPENDECTOMY, '', 'Peanut allergy', new Date('2023-05-10'), 'Allergies', 1),
-  new MedicalBackground(3, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.HEART_DISEASE, ChirurgicalPathology.APPENDECTOMY, '', 'Diagnosed with hypertension', new Date('2022-11-15'), 'Medical', 1),
-  new MedicalBackground(4, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.HEPATITIS_B, ChirurgicalPathology.APPENDECTOMY, '', 'Appendix removal surgery', new Date('2021-03-22'), 'Chirurgical', 1),
-  new MedicalBackground(5, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.DEPRESSION, ChirurgicalPathology.APPENDECTOMY, '', 'Maternal breast cancer history', new Date('2022-01-01'), 'Familial', 1),
-  new MedicalBackground(6, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.BONE_CANCER, ChirurgicalPathology.APPENDECTOMY, '', 'Penicillin reaction', new Date('2024-01-30'), 'Allergies', 1)
+  new MedicalBackground(1, FamilialPathology.OVARIAN_CANCER, Allergies.Drug, MedicalPathology.BoneCancer, ChirurgicalPathology.APPENDECTOMY, '', 'Family history of ovarian cancer', new Date('2023-01-05'), 'Familial', 1),
+  new MedicalBackground(2, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.Depression, ChirurgicalPathology.APPENDECTOMY, '', 'Peanut allergy', new Date('2023-05-10'), 'Allergies', 1),
+  new MedicalBackground(3, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.HeartDisease, ChirurgicalPathology.APPENDECTOMY, '', 'Diagnosed with hypertension', new Date('2022-11-15'), 'Medical', 1),
+  new MedicalBackground(4, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.BoneCancer, ChirurgicalPathology.APPENDECTOMY, '', 'Appendix removal surgery', new Date('2021-03-22'), 'Chirurgical', 1),
+  new MedicalBackground(5, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.Depression, ChirurgicalPathology.APPENDECTOMY, '', 'Maternal breast cancer history', new Date('2022-01-01'), 'Familial', 1),
+  new MedicalBackground(6, FamilialPathology.COLON_CANCER, Allergies.Drug, MedicalPathology.BoneCancer, ChirurgicalPathology.APPENDECTOMY, '', 'Penicillin reaction', new Date('2024-01-30'), 'Allergies', 1)
 ]
 
 }

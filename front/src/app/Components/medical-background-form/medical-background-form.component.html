@@ -83,6 +83,10 @@
           Medical Pathology is required
         </div>
       </div>
+      <div class="form-field-group">
+        <label for="DateAllergies">Date</label>
+        <input type="date" id="DateAllergies" formControlName="date" class="form-input-field">
+      </div>
       
       <div class="form-field-group">
         <label for="commentMedical">Comment</label>
@@ -112,6 +116,10 @@
         <div *ngIf="medicalBackgroundForm.get('chirurgicalPathology')?.invalid && medicalBackgroundForm.get('chirurgicalPathology')?.touched" class="form-error-text">
           Chirurgical Pathology is required
         </div>
+      </div>
+      <div class="form-field-group">
+        <label for="DateAllergies">Date</label>
+        <input type="date" id="DateAllergies" formControlName="date" class="form-input-field">
       </div>
       
       <div class="form-field-group">

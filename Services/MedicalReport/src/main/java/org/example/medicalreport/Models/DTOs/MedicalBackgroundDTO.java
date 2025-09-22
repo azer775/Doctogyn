@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.medicalreport.Models.enums.*;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +20,7 @@ public class MedicalBackgroundDTO {
     private ChirurgicalPathology chirurgicalPathology;
     private String surgicalApproach;
     private String comment;
+    private LocalDate date;
     private BackgroundType backgroundType;
     private Long medicalRecordId;
 }

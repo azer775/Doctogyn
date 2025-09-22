@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.medicalreport.Models.enums.*;
 
+import java.time.LocalDate;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class MedicalBackground {
     private ChirurgicalPathology chirurgicalPathology;
     private String surgicalApproach;
     private BackgroundType backgroundType;
+    private LocalDate date;
     private String comment;
     @ManyToOne
     @JoinColumn(name = "medical_record_id")

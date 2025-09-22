@@ -58,7 +58,7 @@ public class GynecologySubRecordService {
         gynecologySubRecordRepository.deleteById(id);
     }
 
-    private GynecologySubRecordDTO mapToDTO(GynecologySubRecord gynecologySubRecord) {
+    public GynecologySubRecordDTO mapToDTO(GynecologySubRecord gynecologySubRecord) {
         return GynecologySubRecordDTO.builder()
                 .id(gynecologySubRecord.getId())
                 .work(gynecologySubRecord.getWork())
@@ -71,6 +71,24 @@ public class GynecologySubRecordService {
                 .periodMax(gynecologySubRecord.getPeriodMax())
                 .periodMin(gynecologySubRecord.getPeriodMin())
                 .date(gynecologySubRecord.getDate())
+                .background(gynecologySubRecord.getBackground())
+                .medicalRecordId(gynecologySubRecord.getMedicalRecord() != null ? gynecologySubRecord.getMedicalRecord().getId() : null)
+                .build();
+    }
+    public GynecologySubRecordDTO mapToCompleteDTO(GynecologySubRecord gynecologySubRecord) {
+        return GynecologySubRecordDTO.builder()
+                .id(gynecologySubRecord.getId())
+                .work(gynecologySubRecord.getWork())
+                .civilState(gynecologySubRecord.getCivilState())
+                .hormoneStatus(gynecologySubRecord.getHormoneStatus())
+                .menopause(gynecologySubRecord.getMenopause())
+                .dysmenorrhea(gynecologySubRecord.getDysmenorrhea())
+                .menorrhagia(gynecologySubRecord.getMenorrhagia())
+                .metrorrhagia(gynecologySubRecord.getMetrorrhagia())
+                .periodMax(gynecologySubRecord.getPeriodMax())
+                .periodMin(gynecologySubRecord.getPeriodMin())
+                .date(gynecologySubRecord.getDate())
+                .consultations(gynecologySubRecord.getConsultations().stream().map(consultationService::mapToDTO).toList())
                 .background(gynecologySubRecord.getBackground())
                 .medicalRecordId(gynecologySubRecord.getMedicalRecord() != null ? gynecologySubRecord.getMedicalRecord().getId() : null)
                 .build();
@@ -124,7 +142,7 @@ public class GynecologySubRecordService {
         // General Section
         html.append("<h4>General</h4>");
         html.append("<p><strong>Work:</strong> ").append(gynecologyRecord.getWork() != null ? gynecologyRecord.getWork() : "N/A").append("</p>");
-        html.append("<p><strong>Civil Status:</strong> ").append(gynecologyRecord.getCivilState() != null ? gynecologyRecord.getCivilState() : "N/A").append("</p>");
+        html.append("<p><strong>Civil Status:</strong> ").append(!gynecologyRecord.getCivilState().isEmpty() ? gynecologyRecord.getCivilState() : "N/A").append("</p>");
         html.append("<p><strong>Hormone Status:</strong> ").append(gynecologyRecord.getHormoneStatus() != null ? gynecologyRecord.getHormoneStatus() : "N/A").append("</p>");
         html.append("<p><strong>Menopause Date:</strong> ").append(gynecologyRecord.getMenopause() != null ? gynecologyRecord.getMenopause() : "N/A").append("</p>");
         html.append("<p><strong>Background:</strong> ").append(gynecologyRecord.getBackground() != null ? gynecologyRecord.getBackground() : "N/A").append("</p>");

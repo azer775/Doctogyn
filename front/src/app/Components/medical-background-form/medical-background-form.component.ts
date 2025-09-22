@@ -46,10 +46,10 @@ export class MedicalBackgroundFormComponent implements OnInit {
       this.medicalBackgroundForm.patchValue({
         familialPathology: this.medicalBackground.familialPathology || FamilialPathology.OVARIAN_CANCER,
         allergies: this.medicalBackground.allergies || Allergies.Drug,
-        medicalPathology: this.medicalBackground.medicalPathology || MedicalPathology.HEART_DISEASE,
+        medicalPathology: this.medicalBackground.medicalPathology || MedicalPathology.HeartDisease,
         chirurgicalPathology: this.medicalBackground.chirurgicalPathology || ChirurgicalPathology.APPENDECTOMY,
         comment: this.medicalBackground.comment || '',
-        date: this.medicalBackground.date ? this.medicalBackground.date.toISOString().split('T')[0] : null
+        date: this.medicalBackground.date ? this.medicalBackground.date : null
       });
     }
   }
@@ -75,7 +75,7 @@ export class MedicalBackgroundFormComponent implements OnInit {
         break;
       case 'Medical':
         controls['medicalPathology'].setValidators(Validators.required);
-        controls['date'].setValidators(Validators.required);
+//        controls['date'].setValidators(Validators.required);
         controls['comment'].setValidators(Validators.required);
         break;
       case 'Chirurgical':

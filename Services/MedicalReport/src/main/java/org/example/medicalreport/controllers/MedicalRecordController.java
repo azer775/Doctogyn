@@ -43,4 +43,9 @@ public class MedicalRecordController {
         medicalRecordService.deleteMedicalRecord(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/tohtml/{id}")
+    public ResponseEntity<String> getMedicalRecordAsHtml(@PathVariable Long id) {
+        String htmlContent = medicalRecordService.toHtmlStructured(id);
+        return htmlContent != null ? ResponseEntity.ok(htmlContent) : ResponseEntity.notFound().build();
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -180,8 +181,9 @@ public class ConsultationService {
 
         // Analyses Section
         html.append("<h4>Analyses</h4>");
-        if (consultation.getExtractionAnalyses() != null) {
-            html.append(analyseService.getHtmlAnalyses(consultation.getId()));
+        String analyses = analyseService.getHtmlAnalyses(consultation.getId());
+        if (!Objects.equals(analyses, "<div></div>")) {
+            html.append(analyses);
         } else {
             html.append("<p>No analyses available</p>");
         }

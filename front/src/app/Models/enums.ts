@@ -61,11 +61,11 @@ export enum Allergies {
 }
 
 export enum MedicalPathology {
-  HEART_DISEASE = 'HeartDisease',
-  BONE_CANCER = 'BoneCancer',
-  LIVER_DISEASE = 'LiverDisease',
-  HEPATITIS_B = 'HepatitisB',
-  DEPRESSION = 'Depression'
+  HeartDisease = 'HeartDisease',
+  BoneCancer = 'BoneCancer',
+  LiverDisease = 'LiverDisease',
+  HepatitisB = 'HepatitisB',
+  Depression = 'Depression'
 }
 
 export enum ChirurgicalPathology {

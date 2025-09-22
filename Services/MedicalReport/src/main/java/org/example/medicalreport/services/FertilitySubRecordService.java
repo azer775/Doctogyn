@@ -72,6 +72,26 @@ public class FertilitySubRecordService {
         return null;
     }
 
+    public FertilitySubRecordDTO mapToCompleteDTO(FertilitySubRecord fertilitySubRecord) {
+        return FertilitySubRecordDTO.builder()
+                .id(fertilitySubRecord.getId())
+                .age(fertilitySubRecord.getAge())
+                .infertility(fertilitySubRecord.getInfertility())
+                .date(fertilitySubRecord.getDate())
+                .duration(fertilitySubRecord.getDuration())
+                .cycleLength(fertilitySubRecord.getCycleLength())
+                .cycleMin(fertilitySubRecord.getCycleMin())
+                .cycleMax(fertilitySubRecord.getCycleMax())
+                .dysmenorrhea(fertilitySubRecord.getDysmenorrhea())
+                .menorrhagia(fertilitySubRecord.getMenorrhagia())
+                .metrorrhagia(fertilitySubRecord.getMetrorrhagia())
+                .civilState(fertilitySubRecord.getCivilState())
+                .comment(fertilitySubRecord.getComment())
+                .consultations(fertilitySubRecord.getConsultations().stream().map(consultationService::mapToDTO).toList())
+                .medicalRecordId(fertilitySubRecord.getMedicalRecord() != null ? fertilitySubRecord.getMedicalRecord().getId() : null)
+                .build();
+    }
+
     private FertilitySubRecordDTO mapToDTO(FertilitySubRecord fertilitySubRecord) {
         return FertilitySubRecordDTO.builder()
                 .id(fertilitySubRecord.getId())

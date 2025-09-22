@@ -85,6 +85,19 @@ public class ObstetricsRecordService {
                 .medicalRecordId(obstetricsRecord.getMedicalRecord() != null ? obstetricsRecord.getMedicalRecord().getId() : null)
                 .build();
     }
+    public ObstetricsRecordDTO mapToCompleteDTO(ObstetricsRecord obstetricsRecord) {
+        return ObstetricsRecordDTO.builder()
+                .id(obstetricsRecord.getId())
+                .date(obstetricsRecord.getDate())
+                .conceptionType(obstetricsRecord.getConceptionType())
+                .conceptionDate(obstetricsRecord.getConceptionDate())
+                .ddr(obstetricsRecord.getDdr())
+                .nfoetus(obstetricsRecord.getNfoetus())
+                .comment(obstetricsRecord.getComment())
+                .consultations(obstetricsRecord.getConsultations().stream().map(consultationService::mapToDTO).toList())
+                .medicalRecordId(obstetricsRecord.getMedicalRecord() != null ? obstetricsRecord.getMedicalRecord().getId() : null)
+                .build();
+    }
 
     private ObstetricsRecord mapToEntity(ObstetricsRecordDTO dto) {
         ObstetricsRecord obstetricsRecord = ObstetricsRecord.builder()
