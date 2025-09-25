@@ -4,6 +4,10 @@ import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
 import org.example.medicalreport.Models.DTOs.ObstetricsRecordDTO;
+import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
+import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
+import org.example.medicalreport.Models.SummaryDTOs.SummaryRequest;
+import org.example.medicalreport.Models.SummaryDTOs.UnrecognizedAbbreviation;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.GynecologySubRecord;
 import org.example.medicalreport.Models.entities.MedicalRecord;
@@ -30,6 +34,8 @@ public class MedicalRecordService {
     private ObstetricsRecordService obstetricsRecordService;
     @Autowired
     private MedicalBackgroundService medicalBackgroundService;
+    @Autowired
+    private AiService aiService;
 
     public MedicalRecordDTO createMedicalRecord(MedicalRecordDTO dto) {
         MedicalRecord medicalRecord = mapToEntity(dto);
@@ -129,6 +135,12 @@ public class MedicalRecordService {
 
     public void deleteMedicalRecord(Long id) {
         medicalRecordRepository.deleteById(id);
+    }
+    public FinalResponse getResume(long id){
+        SummaryRequest summaryRequest = new SummaryRequest();
+        summaryRequest.setText(this.toHtmlStructured(id));
+        summaryRequest.setAbbreviations(List.of(new AbbreviationDefinition("VGAA","Vagin anatomique anormal"),new AbbreviationDefinition("ABNP","Absence de battement non périodique"),new AbbreviationDefinition("LUV","Ligament utéro-vésical"),new AbbreviationDefinition("TWH","Test de Whiff")));
+        return aiService.toMarkdown(summaryRequest);
     }
     public String toHtmlStructured(long id) {
         MedicalRecordDTO medicalRecord = this.getMedicalRecord(id);

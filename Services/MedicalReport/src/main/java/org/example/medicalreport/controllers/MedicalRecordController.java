@@ -1,6 +1,7 @@
 package org.example.medicalreport.controllers;
 
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
+import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
 import org.example.medicalreport.services.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,10 @@ public class MedicalRecordController {
     public ResponseEntity<String> getMedicalRecordAsHtml(@PathVariable Long id) {
         String htmlContent = medicalRecordService.toHtmlStructured(id);
         return htmlContent != null ? ResponseEntity.ok(htmlContent) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/getresume/{id}")
+    public ResponseEntity<FinalResponse> getMedicalRecordSummary(@PathVariable Long id) {
+        FinalResponse summary = medicalRecordService.getResume(id);
+        return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
     }
 }

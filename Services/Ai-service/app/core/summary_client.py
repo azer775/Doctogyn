@@ -28,7 +28,7 @@ class SummaryClient:
                 "schema": {
                     "type": "object",
                     "properties": {
-                        "responsetype": {
+                        "responseType": {
                             "type": "string",
                             "enum": ["SUMMARY", "ABBREVIATION_ISSUE"]
                         },

@@ -18,7 +18,7 @@ class SummaryRequest(BaseModel):
     abbreviations: Optional[List[AbbreviationDefinition]] = None
 class FinalResponse(BaseModel):
     '''how to handle the output of the LLM'''
-    responsetype: ResponseType
+    responseType: ResponseType
     unrecognizedAbbreviation: Optional[List[UnrecognizedAbbreviation]] = Field(
         description="List of abbreviations and their possible meanings the model could not understand"
     )

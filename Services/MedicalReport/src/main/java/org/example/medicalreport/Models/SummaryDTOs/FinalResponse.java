@@ -8,5 +8,5 @@ import java.util.List;
 public class FinalResponse {
     ResponseType responseType;
     String summary;
-    List<AbbreviationDefinition> abbreviationDefinitions;
+    List<UnrecognizedAbbreviation> unrecognizedAbbreviation;
 }

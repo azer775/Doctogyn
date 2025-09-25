@@ -35,7 +35,7 @@ Example: Consultation gynécologie (02/05/2023) indicates the gynecology consult
 Each consultation may include the following information: reason for consultation, clinical examination, investigations, prescriptions, etc.
 Analyze this medical record of a gynecology patient and return JSON in EXACTLY this format:
     {{
-        "responsetype": "SUMMARY" OR "ABBREVIATION_ISSUE", 
+        "responseType": "SUMMARY" OR "ABBREVIATION_ISSUE", 
         "summary": "concise_summary_text" OR "",
         "unrecognizedAbbreviation": [
             {{
@@ -52,6 +52,7 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
     1. Read the medical record text and identify the language used.
     2. Identify any abbreviations in the text with taking into account the language.
     3. If there are any unrecognized abbreviations, use the provided abbreviations to replace them in the text.
+    5. If there are any unrecognized abbreviations and you don't have them in the provided abbreviations, don't summarize the medical record and populate the "unrecognizedAbbreviation" field.
     4. If only standard abbreviations are found, summarize the record.
     STRICT RULES:
     1. For abbreviations listed above (both standard and personalized):
@@ -62,11 +63,11 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
     - Provide 2-3 possible medical meanings
     - Meanings should be clinically relevant
     4. If you understand the text completely:
-    - Set "responsetype" to "summary"
+    - Set "responseType" to "summary"
     - Provide a concise summary in "summary"
     - Set "unrecognized_abbreviations" to null
     5. If you find unrecognized abbreviations:
-    - Set "responsetype" to "abbreviation_issue"
+    - Set "responseType" to "abbreviation_issue"
     - List all unrecognized abbreviations with possible meanings
     - Set "summary" to an empty string ""
     IMPORTANT:
@@ -90,7 +91,7 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
     Analyze this medical record of a gynecology patient and generate a comprehensive summary using the provided abbreviations.
     Return JSON in EXACTLY this format:
     {{
-        "responsetype": "summary",
+        "responseType": "summary",
         "summary": "comprehensive_summary_text",
         "unrecognizedAbbreviation": null
     }}
@@ -103,8 +104,8 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
     5. Focus ONLY on creating a meaningful summary using the abbreviations provided.
     
     STRICT RULES:
-    1. ALWAYS set "responsetype" to "summary"
-    2. ALWAYS set "unrecognized_abbreviations" to null
+    1. ALWAYS set "responseType" to "summary"
+    2. ALWAYS set "unrecognizedAbbreviation" to null
     3. Provide a detailed, informative summary in the "summary" field
     4. Use the provided abbreviations to interpret medical terms correctly
     5. Include relevant medical information such as:
@@ -115,8 +116,8 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
        - Follow-up instructions
     
     IMPORTANT:
-    - NEVER change responsetype from "summary"
-    - NEVER populate unrecognized_abbreviations field
+    - NEVER change responseType from "summary"
+    - NEVER populate unrecognizedAbbreviation field
     - Focus on creating a useful medical summary
     - Maintain exact JSON structure shown above
     
@@ -183,7 +184,7 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
             user_abbreviations (Optional[List[AbbreviationDefinition]]): User-defined abbreviations to use in summary generation
             
         Returns:
-            FinalResponse: Always returns responsetype="summary" with comprehensive summary text
+            FinalResponse: Always returns responseType="summary" with comprehensive summary text
         """
         # Convert HTML to markdown for better processing
         record_text = self.generate_summary(record_text)
@@ -227,7 +228,7 @@ Analyze this medical record of a gynecology patient and return JSON in EXACTLY t
                 if "summary" not in raw_data:
                     raw_data["summary"] = ""
                 # Force summary response type
-                raw_data["responsetype"] = "summary"
+                raw_data["responseType"] = "summary"
                 raw_data["unrecognizedAbbreviation"] = None
                 return FinalResponse.model_validate(raw_data)
             except Exception as e:
