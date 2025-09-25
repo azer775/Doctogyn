@@ -30,28 +30,28 @@ class SummaryClient:
                     "properties": {
                         "responsetype": {
                             "type": "string",
-                            "enum": ["summary", "abbreviation_issue"]
+                            "enum": ["SUMMARY", "ABBREVIATION_ISSUE"]
                         },
                         "summary": {
                             "type": "string"
                         },
-                        "unrecognized_abbreviations": {
+                        "unrecognizedAbbreviation": {
                             "type": ["array", "null"],
                             "items": {
                                 "type": "object",
                                 "properties": {
-                                    "Abbreviation": {"type": "string"},
-                                    "PossibleMeanings": {
+                                    "abbreviation": {"type": "string"},
+                                    "possibleMeanings": {
                                         "type": "array",
                                         "items": {"type": "string"}
                                     }
                                 },
-                                "required": ["Abbreviation", "PossibleMeanings"],
+                                "required": ["abbreviation", "possibleMeanings"],
                                 "additionalProperties": False
                             }
                         }
                     },
-                    "required": ["responsetype", "summary", "unrecognized_abbreviations"],
+                    "required": ["responsetype", "summary", "UnrecognizedAbbreviation"],
                     "additionalProperties": False
                 }
             }
