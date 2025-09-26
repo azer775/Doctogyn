@@ -139,7 +139,7 @@ public class MedicalRecordService {
     public FinalResponse getResume(long id){
         SummaryRequest summaryRequest = new SummaryRequest();
         summaryRequest.setText(this.toHtmlStructured(id));
-        summaryRequest.setAbbreviations(List.of(new AbbreviationDefinition("VGAA","Vagin anatomique anormal"),new AbbreviationDefinition("ABNP","Absence de battement non périodique"),new AbbreviationDefinition("LUV","Ligament utéro-vésical"),new AbbreviationDefinition("TWH","Test de Whiff")));
+       // summaryRequest.setAbbreviations(List.of(new AbbreviationDefinition("VGAA","Vagin anatomique anormal"),new AbbreviationDefinition("ABNP","Absence de battement non périodique"),new AbbreviationDefinition("LUV","Ligament utéro-vésical"),new AbbreviationDefinition("TWH","Test de Whiff")));
         return aiService.toMarkdown(summaryRequest);
     }
     public String toHtmlStructured(long id) {

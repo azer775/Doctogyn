@@ -47,11 +47,12 @@ import { SpermNorm } from './Models/SpermNorm';
 import { EmailsComponent } from "./Components/emails/emails.component";
 import { getBiologyTypeById } from './Models/BiologyEnums';
 import { EmailAnalysesListComponent } from './Components/email-analyses-list/email-analyses-list.component';
+import { SummaryComponent } from "./Components/summary/summary.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

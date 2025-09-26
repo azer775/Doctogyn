@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { MedicalRecord } from '../Models/MedicalRecord';
+import { FinalResponse } from '../Models/FinalResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,11 @@ private apiUrl = 'http://localhost:8080/medical-records';
 
   deleteMedicalRecord(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  getResume(id: number): Observable<FinalResponse> {
+    return this.http.get<FinalResponse>(`${this.apiUrl}/getresume/${id}`).pipe(
       catchError(this.handleError)
     );
   }

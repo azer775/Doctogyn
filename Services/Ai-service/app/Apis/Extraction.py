@@ -19,5 +19,4 @@ async def extract_blood_data_embedding(files: List[UploadFile] = File(...)):
 @router.post("/to-markdown")
 async def to_markdown(html_content: SummaryRequest) -> FinalResponse:
     summary = summary_service.analyze_medical_record(html_content.text, html_content.abbreviations)
-    print(summary)
     return summary

@@ -1,0 +1,54 @@
+<div class="summary-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="summary-loading">
+    <p class="summary-loading-text">Loading summary...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading && finalResponse" class="summary-content">
+    
+    <!-- Summary Section -->
+    <div *ngIf="(finalResponse.responseType === ResponseType.SUMMARY) && finalResponse.summary" 
+         class="summary-section">
+      <h2 class="summary-header">Medical Summary</h2>
+      <p class="summary-text">{{ finalResponse.summary }}</p>
+    </div>
+    
+    <!-- Abbreviations Section -->
+    <div *ngIf="finalResponse.responseType === ResponseType.ABBREVIATION_ISSUE && finalResponse.unrecognizedAbbreviation && finalResponse.unrecognizedAbbreviation.length > 0" 
+         class="summary-abbreviations-section">
+      <h2 class="summary-abbreviations-header">Unrecognized Abbreviations</h2>
+      
+      <div *ngFor="let abbrev of finalResponse.unrecognizedAbbreviation; let i = index" 
+           class="summary-abbreviation-item">
+        <h3 class="summary-abbreviation-title">{{ abbrev.abbreviation }}</h3>
+        <p class="summary-abbreviation-text">Please select or enter the meaning for this abbreviation:</p>
+        
+        <form [formGroup]="getAbbreviationForm(i)" class="summary-form-group">
+          <input type="text" 
+                 formControlName="meaning" 
+                 placeholder="Enter or select meaning..." 
+                 class="summary-input">
+          
+          <div class="summary-buttons-container">
+            <button *ngFor="let meaning of abbrev.possibleMeanings" 
+                    type="button" 
+                    (click)="setMeaning(i, meaning)"
+                    class="summary-meaning-button">
+              {{ meaning }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Unknown Response Type Fallback -->
+    <div *ngIf="finalResponse.responseType !== ResponseType.SUMMARY && finalResponse.responseType !== ResponseType.ABBREVIATION_ISSUE" 
+         class="summary-unknown-response">
+      <h2 class="summary-unknown-response-header">Unknown Response Type</h2>
+      <p class="summary-unknown-response-text">Response type: {{ finalResponse.responseType }}</p>
+      <pre class="summary-json-display">{{ finalResponse | json }}</pre>
+    </div>
+    
+  </div>
+</div>

@@ -126,3 +126,7 @@ export enum Diagnosticpresumption {
     Unidentified_presumed_benign = 'Unidentified_presumed_benign',
     Unidentified_presumed_malignant = 'Unidentified_presumed_malignant'
 }
+export enum ResponseType {
+    SUMMARY = 'SUMMARY',
+    ABBREVIATION_ISSUE = 'ABBREVIATION_ISSUE',
+}
