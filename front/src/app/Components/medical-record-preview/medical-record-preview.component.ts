@@ -6,6 +6,7 @@ import { MedicalBackgroundListComponent } from '../medical-background-list/medic
 import { MatDialog } from '@angular/material/dialog';
 import { MedicalBackgroundTableComponent } from "../medical-background-table/medical-background-table.component";
 import { MedicalRecordService } from '../../Services/medical-record.service';
+import { SummaryComponent } from "../summary/summary.component";
 
 @Component({
   selector: 'app-medical-record-preview',
@@ -37,6 +38,19 @@ export class MedicalRecordPreviewComponent implements OnInit {
         }
       });
     }
+  }
+
+  openSummaryDialog(): void {
+    if (!this.medicalRecord?.id) {
+      return;
+    }
+    this.dialog.open(SummaryComponent, {
+      data: { medicalRecordId: this.medicalRecord.id },
+      width: '80vw',
+      maxHeight: '90vh',
+      autoFocus: true,
+      panelClass: 'custom-dialog-container'
+    });
   }
 
   openMedicalBackgroundDialog(): void {

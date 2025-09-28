@@ -11,7 +11,7 @@ class SummaryClient:
         if SummaryClient._instance is None:
             SummaryClient()
         return SummaryClient._instance
-     
+
 
     def __init__(self):
         if SummaryClient._instance is not None:

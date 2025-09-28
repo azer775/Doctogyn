@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Observable, catchError } from 'rxjs';
 import { ResponseType } from '../../Models/enums';
@@ -6,6 +6,7 @@ import { FinalResponse } from '../../Models/FinalResponse';
 import { UnrecognizedAbbreviation } from '../../Models/UnrecognizedAbbreviation';
 import { MedicalRecordService } from '../../Services/medical-record.service';
 import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-summary',
@@ -23,11 +24,13 @@ export class SummaryComponent implements OnInit {
   constructor(
     private medicalRecordService: MedicalRecordService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data?: { medicalRecordId?: number }
   ) {}
 
   ngOnInit(): void {
-    this.getResumeData(1); // Assuming ID 1 for example
+    const id = this.data?.medicalRecordId ?? 1;
+    this.getResumeData(id);
   }
 
   getResumeData(id: number): void {
