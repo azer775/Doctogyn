@@ -3,6 +3,7 @@ package org.example.medicalreport.controllers;
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
 import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
 import org.example.medicalreport.services.MedicalRecordService;
+import org.example.medicalreport.services.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import java.util.List;
 public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
+    @Autowired
+    private User userService;
 
     @PostMapping("/add")
     public ResponseEntity<MedicalRecordDTO> createMedicalRecord(@RequestBody MedicalRecordDTO dto) {
@@ -53,5 +56,10 @@ public class MedicalRecordController {
     public ResponseEntity<FinalResponse> getMedicalRecordSummary(@PathVariable Long id) {
         FinalResponse summary = medicalRecordService.getResume(id);
         return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/testjwt")
+    public ResponseEntity<Integer> testJwt(@RequestHeader (value = "Authorization", required = false) String auth) {
+        System.out.println("Authorization header: " + auth);
+        return ResponseEntity.ok(userService.getCurrentUser(auth.replace("Bearer ", "")));
     }
 }

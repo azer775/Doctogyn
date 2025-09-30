@@ -57,9 +57,9 @@ public class AuthenticationController {
     }
 
     @GetMapping("/current")
-    public Doctor getCurrentUser(@RequestParam String token) {
+    public int getCurrentUser(@RequestParam String token) {
         // Get user from JWT token (for testing)
-        return authenticationService.getCurrentUser(token);
+        return authenticationService.getCurrentUser(token).getId();
     }
 
     @GetMapping("/userc")
