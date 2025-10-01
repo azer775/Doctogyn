@@ -49,7 +49,7 @@ public class BeansConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);  // Allow cookies/credentials
-        config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8090"));  // Allow frontend and gateway origins
+        config.setAllowedOrigins(List.of("http://localhost:4200/**", "http://localhost:8090"));  // Allow frontend and gateway origins
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.ORIGIN, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, HttpHeaders.AUTHORIZATION, HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
         ));

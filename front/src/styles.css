@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+/* Global Styles */
+body {
+  @apply bg-[#f3f4f6] m-0 p-0;
+}
+
 /* General Form Styles */
 /* .form-container {
   display: flex;
@@ -197,7 +202,7 @@
 
 /* Tabs Component Styles */
 .tabs-container {
-  @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
+  @apply bg-[#f3f4f6]  rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
 }
 
 .tab-header-wrapper {

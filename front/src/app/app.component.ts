@@ -48,11 +48,12 @@ import { EmailsComponent } from "./Components/emails/emails.component";
 import { getBiologyTypeById } from './Models/BiologyEnums';
 import { EmailAnalysesListComponent } from './Components/email-analyses-list/email-analyses-list.component';
 import { SummaryComponent } from "./Components/summary/summary.component";
+import { LoginComponent } from "./Components/login/login.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
