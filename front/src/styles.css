@@ -2,8 +2,35 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /* Global Styles */
-body {
-  @apply bg-[#f3f4f6] m-0 p-0;
+html, body {
+  @apply bg-[#f3f4f6] m-0 p-0 h-full;
+}
+
+app-root {
+  @apply block h-full;
+}
+
+/* Main content area (adjusted for sidebar) */
+.main-content {
+  margin-left: 64px;
+  height: 100vh;
+  padding: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  @apply h-full p-4;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive adjustments for sidebar */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 56px;
+  }
 }
 
 /* General Form Styles */
@@ -202,7 +229,10 @@ body {
 
 /* Tabs Component Styles */
 .tabs-container {
-  @apply bg-[#f3f4f6]  rounded-lg shadow-sm border border-[#e5e7eb] overflow-hidden;
+  @apply bg-white shadow-sm overflow-hidden;
+  @apply h-full flex flex-col;
+  border: none;
+  border-radius: 0;
 }
 
 .tab-header-wrapper {
@@ -254,11 +284,12 @@ body {
 }
 
 .tab-content {
-  @apply p-4 bg-white;
+  @apply p-4 bg-[#f3f4f6];
+  @apply flex-1 overflow-y-auto;
 }
 
 .tab-content-inner {
-  @apply space-y-4;
+  @apply space-y-4 h-full;
 }
 
 .empty-state {

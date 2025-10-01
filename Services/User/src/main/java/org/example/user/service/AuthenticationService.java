@@ -34,8 +34,6 @@ public class AuthenticationService {
     @Autowired
     private TokenRepository tokenRepository;  // Token repo
 
-    @Autowired
-    private MailingService mailingService;  // Email service (implement if missing; see below)
 
     @Autowired
     private AuthenticationManager authenticationManager;  // Manager from BeansConfig
@@ -64,7 +62,6 @@ public class AuthenticationService {
         // Send activation email
         sendValidationEmail(user);
     }
-
     private void sendValidationEmail(Doctor user)  {
         // Generate token and send email
         String newToken = generateAndSaveActivationToken(user);

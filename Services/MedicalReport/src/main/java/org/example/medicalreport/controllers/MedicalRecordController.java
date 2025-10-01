@@ -1,6 +1,7 @@
 package org.example.medicalreport.controllers;
 
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
+import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
 import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
 import org.example.medicalreport.services.MedicalRecordService;
 import org.example.medicalreport.services.User;
@@ -61,5 +62,12 @@ public class MedicalRecordController {
     public ResponseEntity<Integer> testJwt(@RequestHeader (value = "Authorization", required = false) String auth) {
         System.out.println("Authorization header: " + auth);
         return ResponseEntity.ok(userService.getCurrentUser(auth.replace("Bearer ", "")));
+    }
+    @GetMapping("/abbreviations" )
+    public ResponseEntity<AbbreviationDefinition> getAbbreviations(@RequestHeader (value = "Authorization", required = false) String auth) {
+        System.out.println("Authorization header: " + auth);
+        List<AbbreviationDefinition> defs = userService.getAbbreviationsByDoctor(auth);
+        System.out.println(defs);
+        return ResponseEntity.ok().build();
     }
 }
