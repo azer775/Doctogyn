@@ -6,6 +6,7 @@ import org.example.medicalreport.Models.enums.ConsultationType;
 import org.example.medicalreport.Models.enums.State;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Consultation {
     @Column(columnDefinition="TEXT")
     private String examination;
     private ConsultationType consultationType;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     private GynecologySubRecord gynecologySubRecord;
@@ -43,6 +45,14 @@ public class Consultation {
 
     @ManyToOne
     private ObstetricsRecord obstetricsRecord;
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
+    @PrePersist
+    public void prePersist() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }

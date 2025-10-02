@@ -2,12 +2,14 @@ package org.example.medicalreport.controllers;
 
 import org.example.medicalreport.Models.AnalyseDTOs.ExtractionResponse;
 import org.example.medicalreport.Models.DTOs.ConsultationDTO;
+import org.example.medicalreport.Models.entities.Consultation;
 import org.example.medicalreport.services.Analyse;
 import org.example.medicalreport.services.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -52,6 +54,10 @@ public class ConsultationController
     @PostMapping("/testFeign")
     public ResponseEntity<?> testFeign(@RequestBody ExtractionResponse dto) {
         return analyseService.test(dto,1) != null ? ResponseEntity.ok(analyseService.test(dto,1)) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("getlatest/{medicalRecordId}")
+    public Consultation getLatestConsultation(@PathVariable Long medicalRecordId) {
+        return consultationService.findLastUpdatedConsultation(medicalRecordId);
     }
 
 }

@@ -91,6 +91,10 @@ public class ConsultationService {
                 .date(consultation.getDate())
                 .build();
     }
+    public Consultation findLastUpdatedConsultation(long id){
+        System.out.println("Finding latest consultation for medical record ID: " + consultationRepository.findLatestConsultationByMedicalRecordId(id));
+        return consultationRepository.findLatestConsultationByMedicalRecordId(id).orElse(null);
+    }
 
     public ConsultationDTO mapToDTO(Consultation consultation) {
         return ConsultationDTO.builder()

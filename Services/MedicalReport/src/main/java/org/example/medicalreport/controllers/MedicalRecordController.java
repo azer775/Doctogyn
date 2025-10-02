@@ -55,7 +55,7 @@ public class MedicalRecordController {
     }
     @GetMapping("/getresume/{id}")
     public ResponseEntity<FinalResponse> getMedicalRecordSummary(@PathVariable Long id,@RequestHeader (value = "Authorization", required = false) String auth) {
-        FinalResponse summary = medicalRecordService.getResume(id, auth);
+        FinalResponse summary = medicalRecordService.getSummary(id, auth);
         return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
     }
     @PostMapping("getresabb/{id}")

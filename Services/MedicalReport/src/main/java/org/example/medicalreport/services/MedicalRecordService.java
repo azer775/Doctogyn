@@ -4,14 +4,8 @@ import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
 import org.example.medicalreport.Models.DTOs.ObstetricsRecordDTO;
-import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
-import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
-import org.example.medicalreport.Models.SummaryDTOs.SummaryRequest;
-import org.example.medicalreport.Models.SummaryDTOs.UnrecognizedAbbreviation;
-import org.example.medicalreport.Models.entities.FertilitySubRecord;
-import org.example.medicalreport.Models.entities.GynecologySubRecord;
-import org.example.medicalreport.Models.entities.MedicalRecord;
-import org.example.medicalreport.Models.entities.Sub;
+import org.example.medicalreport.Models.SummaryDTOs.*;
+import org.example.medicalreport.Models.entities.*;
 import org.example.medicalreport.repositories.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +32,10 @@ public class MedicalRecordService {
     private AiService aiService;
     @Autowired
     private User userService;
+    @Autowired
+    private ResumeService resumeService;
+    @Autowired
+    private ConsultationService consultationService;
 
     public MedicalRecordDTO createMedicalRecord(MedicalRecordDTO dto) {
         MedicalRecord medicalRecord = mapToEntity(dto);
@@ -138,6 +136,26 @@ public class MedicalRecordService {
     public void deleteMedicalRecord(Long id) {
         medicalRecordRepository.deleteById(id);
     }
+    public FinalResponse getSummary(long id, String auth){
+        Resume resume = resumeService.findByMedicalRecordId(id);
+        if(resume==null){
+            return this.getResume(id,auth);
+        }else {
+                Consultation lastConsultation = consultationService.findLastUpdatedConsultation(id);
+                if (lastConsultation != null && (resume.getUpdatedAt() == null || lastConsultation.getUpdatedAt().isAfter(resume.getUpdatedAt()))) {
+                    FinalResponse summary = this.getResume(id, auth);
+                    System.out.println("Generated Summary: " + summary.getSummary());
+                    resume.setMedicalRecord(MedicalRecord.builder().id(id).build());
+                    resume.setSummary(summary.getSummary());
+                    resume.setId(resume.getId());
+                    this.resumeService.update(Resume.builder().id(resume.getId()).medicalRecord(resume.getMedicalRecord()).summary(summary.getSummary()).build());
+                    return this.getResume(id, auth);
+                }else {
+                    return FinalResponse.builder().summary(resume.getSummary()).responseType(ResponseType.SUMMARY).unrecognizedAbbreviation(new ArrayList<>()).build();
+            }
+        }
+
+    }
     public FinalResponse getResume(long id, String auth){
         SummaryRequest summaryRequest = new SummaryRequest();
         summaryRequest.setText(this.toHtmlStructured(id));
@@ -151,8 +169,15 @@ public class MedicalRecordService {
         summaryRequest.setText(this.toHtmlStructured(id));
         userService.add(auth,definitions);
         summaryRequest.setAbbreviations(userService.getAbbreviationsByDoctor(auth));
+        FinalResponse finalResponse=aiService.toMarkdown(summaryRequest);
+        Resume resume = resumeService.findByMedicalRecordId(id);
+        if(resume!=null){
+            resumeService.update(Resume.builder().id(resume.getId()).medicalRecord(MedicalRecord.builder().id(id).build()).summary(resume.getSummary()).build());
+        }else {
+            resumeService.add(Resume.builder().medicalRecord(MedicalRecord.builder().id(id).build()).summary(finalResponse.getSummary()).build());
+        }
         System.out.println("Abbreviations from user service: " + summaryRequest.getAbbreviations());
-        return aiService.toMarkdown(summaryRequest);
+        return finalResponse;
     }
 
     public String toHtmlStructured(long id) {
