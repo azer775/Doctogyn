@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthentificationService } from '../../Services/authentification.service';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthentificationService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService
   ) {
     // Initialize login form
     this.loginForm = this.fb.group({
@@ -54,6 +56,11 @@ export class LoginComponent {
     this.authService.login(authRequest).subscribe({
       next: (response) => {
         console.log('Login successful', response);
+        
+        // Store token in localStorage using TokenService
+        if (response.token) {
+          this.tokenService.token = response.token;
+        }
         
         // Show success message if provided
         if (response.message) {

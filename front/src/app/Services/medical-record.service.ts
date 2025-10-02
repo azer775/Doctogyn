@@ -47,6 +47,11 @@ private apiUrl = 'http://localhost:8080/medical-records';
       catchError(this.handleError)
     );
   }
+  getResumewithAbbreviation(id: number, abbreviations: any[]): Observable<FinalResponse> {
+    return this.http.post<FinalResponse>(`${this.apiUrl}/getresabb/${id}`, abbreviations).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('An error occurred:', error.message);

@@ -1,11 +1,13 @@
 <div class="summary-container">
-  <!-- Loading State -->
-  <div *ngIf="isLoading" class="summary-loading">
-    <p class="summary-loading-text">Loading summary...</p>
+  <!-- Loading State (Initial or Submitting) -->
+  <div *ngIf="isLoading || isSubmitting" class="summary-loading">
+    <p class="summary-loading-text">
+      {{ isSubmitting ? 'Processing abbreviations...' : 'Loading summary...' }}
+    </p>
   </div>
 
   <!-- Main Content -->
-  <div *ngIf="!isLoading && finalResponse" class="summary-content">
+  <div *ngIf="!isLoading && !isSubmitting && finalResponse" class="summary-content">
     
     <!-- Summary Section -->
     <div *ngIf="(finalResponse.responseType === ResponseType.SUMMARY) && finalResponse.summary" 
@@ -39,6 +41,16 @@
             </button>
           </div>
         </form>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="summary-submit-container">
+        <button type="button" 
+                (click)="submitAbbreviations()" 
+                [disabled]="!allFormsValid()"
+                class="summary-submit-button">
+          Submit Meanings
+        </button>
       </div>
     </div>
 

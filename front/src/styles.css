@@ -1356,6 +1356,23 @@ app-root {
   @apply transform scale-105;
 }
 
+.summary-submit-container {
+  @apply mt-6 text-center;
+}
+
+.summary-submit-button {
+  @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg;
+  @apply text-white bg-[#6fdcdc] border border-[#6fdcdc];
+  @apply hover:bg-[#5ecccc] hover:border-[#5ecccc];
+  @apply focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-2;
+  @apply transition-all duration-200 cursor-pointer;
+  @apply disabled:bg-[#9ca3af] disabled:border-[#9ca3af] disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.summary-submit-button:hover:not(:disabled) {
+  @apply transform scale-105 shadow-md;
+}
+
 .summary-unknown-response {
   @apply bg-[#fef2f2] border border-[#fecaca] p-6 rounded-lg;
 }

@@ -54,8 +54,13 @@ public class MedicalRecordController {
         return htmlContent != null ? ResponseEntity.ok(htmlContent) : ResponseEntity.notFound().build();
     }
     @GetMapping("/getresume/{id}")
-    public ResponseEntity<FinalResponse> getMedicalRecordSummary(@PathVariable Long id) {
-        FinalResponse summary = medicalRecordService.getResume(id);
+    public ResponseEntity<FinalResponse> getMedicalRecordSummary(@PathVariable Long id,@RequestHeader (value = "Authorization", required = false) String auth) {
+        FinalResponse summary = medicalRecordService.getResume(id, auth);
+        return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
+    }
+    @PostMapping("getresabb/{id}")
+    public ResponseEntity<FinalResponse> getMedicalRecordSummarywithabb(@PathVariable Long id,@RequestHeader (value = "Authorization", required = false) String auth,@RequestBody List<AbbreviationDefinition> definitions) {
+        FinalResponse summary = medicalRecordService.getResume(id, auth, definitions);
         return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
     }
     @GetMapping("/testjwt")
@@ -69,5 +74,9 @@ public class MedicalRecordController {
         List<AbbreviationDefinition> defs = userService.getAbbreviationsByDoctor(auth);
         System.out.println(defs);
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/addabbreviations" )
+    public ResponseEntity<List<AbbreviationDefinition>> addAbbreviations(@RequestHeader (value = "Authorization", required = false) String auth, @RequestBody List<AbbreviationDefinition> definitions) {
+        return userService.add(auth, definitions);
     }
 }

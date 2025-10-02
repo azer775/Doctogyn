@@ -36,6 +36,8 @@ public class MedicalRecordService {
     private MedicalBackgroundService medicalBackgroundService;
     @Autowired
     private AiService aiService;
+    @Autowired
+    private User userService;
 
     public MedicalRecordDTO createMedicalRecord(MedicalRecordDTO dto) {
         MedicalRecord medicalRecord = mapToEntity(dto);
@@ -136,12 +138,23 @@ public class MedicalRecordService {
     public void deleteMedicalRecord(Long id) {
         medicalRecordRepository.deleteById(id);
     }
-    public FinalResponse getResume(long id){
+    public FinalResponse getResume(long id, String auth){
         SummaryRequest summaryRequest = new SummaryRequest();
         summaryRequest.setText(this.toHtmlStructured(id));
-        summaryRequest.setAbbreviations(List.of(new AbbreviationDefinition("VGAA","Vagin anatomique anormal"),new AbbreviationDefinition("ABNP","Absence de battement non périodique"),new AbbreviationDefinition("LUV","Ligament utéro-vésical"),new AbbreviationDefinition("TWH","Test de Whiff")));
+       // summaryRequest.setAbbreviations(List.of(new AbbreviationDefinition("VGAA","Vagin anatomique anormal"),new AbbreviationDefinition("ABNP","Absence de battement non périodique"),new AbbreviationDefinition("LUV","Ligament utéro-vésical"),new AbbreviationDefinition("TWH","Test de Whiff")));
+        summaryRequest.setAbbreviations(userService.getAbbreviationsByDoctor(auth));
+        System.out.println("Abbreviations from user service: " + summaryRequest.getAbbreviations());
         return aiService.toMarkdown(summaryRequest);
     }
+    public FinalResponse getResume(long id, String auth,List<AbbreviationDefinition> definitions){
+        SummaryRequest summaryRequest = new SummaryRequest();
+        summaryRequest.setText(this.toHtmlStructured(id));
+        userService.add(auth,definitions);
+        summaryRequest.setAbbreviations(userService.getAbbreviationsByDoctor(auth));
+        System.out.println("Abbreviations from user service: " + summaryRequest.getAbbreviations());
+        return aiService.toMarkdown(summaryRequest);
+    }
+
     public String toHtmlStructured(long id) {
         MedicalRecordDTO medicalRecord = this.getMedicalRecord(id);
         StringBuilder html = new StringBuilder();
