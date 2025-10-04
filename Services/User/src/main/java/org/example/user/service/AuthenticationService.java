@@ -56,6 +56,7 @@ public class AuthenticationService {
                 .locked(false)
                 .enable(false)  // Disabled until activation
                 .role(userRole)
+                .cabinet(request.getCabinet())
                 .build();
         userRepository.save(user);
 

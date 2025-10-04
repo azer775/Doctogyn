@@ -22,5 +22,5 @@ async def to_markdown(html_content: SummaryRequest) -> FinalResponse:
     return summary
 @router.post("/testvector")
 async def test_vector():
-    result = rag_service.load_and_store_documents(urls=["https://www.acog.org/clinical/clinical-guidance/clinical-consensus/articles/2025/04/tailored-prenatal-care-delivery-for-pregnant-individuals"])
+    result = rag_service.query_rag("Echographies gynécologiques et obstétriques régulières- Echographie mammaire normale- Sérologie rubéole: positive- Sérologie toxoplasmose: négative- Glycémie à jeun: normale- HGPO 75: normale- Prolactinémie, B HCG qualitative, et marqueurs sériques maternels effectués- ECBU: négative- Prélèvement vaginal: positif pour Candida non albicans- Sérologie toxoplasmose IgG: négative")
     return {"message": "Test vector endpoint", "result": result} 

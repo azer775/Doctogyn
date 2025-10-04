@@ -1,91 +1,96 @@
 <div class="sub-record-detail-container" *ngIf="medicalRecord">
-  <!-- Medical Record Details Section -->
-  <div class="sub-record-main-content-full">
-    <div class="sub-record-section">
-      <div class="flex items-center justify-between">
-        <h2 class="sub-record-section-header">
-          <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          Medical Record Preview
-        </h2>
-  <button class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200" 
-    (click)="openSummaryDialog()" 
-    title="View Summary">
-          <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-          </svg>
-        </button>
-      </div>
-      <div class="sub-record-detail-compact-grid">
-        <!-- Row 1: Basic Information -->
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Name</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.name">
-            {{ medicalRecord.name || 'None' }}
-          </span>
+  <!-- Horizontal Layout: 2/3 Medical Record + 1/3 Medical Background -->
+  <div class="medical-record-preview-layout">
+    <!-- Medical Record Details Section (2/3) -->
+    <div class="medical-record-preview-main">
+      <div class="sub-record-section">
+        <div class="flex items-center justify-between">
+          <h2 class="sub-record-section-header">
+            <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Medical Record Preview
+          </h2>
+          <button class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200" 
+            (click)="openSummaryDialog()" 
+            title="View Summary">
+            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </button>
         </div>
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Surname</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.surname">
-            {{ medicalRecord.surname || 'None' }}
-          </span>
-        </div>
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Birth Date</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.birthDate">
-            {{ medicalRecord.birthDate ? (medicalRecord.birthDate | date:'yyyy-MM-dd') : 'None' }}
-          </span>
-        </div>
-        
-        <!-- Row 2: Personal Details -->
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Sex</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.sex">
-            {{ medicalRecord.sex || 'None' }}
-          </span>
-        </div>
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Civil State</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.civilState">
-            {{ medicalRecord.civilState || 'None' }}
-          </span>
-        </div>
-        <div class="sub-record-detail-item">
-          <span class="sub-record-detail-label">Email</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.email">
-            {{ medicalRecord.email || 'None' }}
-          </span>
-        </div>
-        
-        <!-- Row 3: Comment (spanning full width) -->
-        <div class="sub-record-detail-item sub-record-detail-span-full">
-          <span class="sub-record-detail-label">Comment</span>
-          <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.comment">
-            {{ medicalRecord.comment || 'None' }}
-          </span>
+        <div class="sub-record-detail-compact-grid">
+          <!-- Row 1: Basic Information -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Name</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.name">
+              {{ medicalRecord.name || 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Surname</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.surname">
+              {{ medicalRecord.surname || 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Birth Date</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.birthDate">
+              {{ medicalRecord.birthDate ? (medicalRecord.birthDate | date:'yyyy-MM-dd') : 'None' }}
+            </span>
+          </div>
+          
+          <!-- Row 2: Personal Details -->
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Sex</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.sex">
+              {{ medicalRecord.sex || 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Civil State</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.civilState">
+              {{ medicalRecord.civilState || 'None' }}
+            </span>
+          </div>
+          <div class="sub-record-detail-item">
+            <span class="sub-record-detail-label">Email</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.email">
+              {{ medicalRecord.email || 'None' }}
+            </span>
+          </div>
+          
+          <!-- Row 3: Comment (spanning full width) -->
+          <div class="sub-record-detail-item sub-record-detail-span-full">
+            <span class="sub-record-detail-label">Comment</span>
+            <span class="sub-record-detail-value" [class.sub-record-detail-value-empty]="!medicalRecord.comment">
+              {{ medicalRecord.comment || 'None' }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
     
-    <!-- Medical Background Table Section -->
-    <div class="sub-record-section" *ngIf="medicalRecord.medicalBackgrounds && medicalRecord.medicalBackgrounds.length > 0">
-      <div class="flex items-center justify-between">
-        <h2 class="sub-record-section-header">
-          <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-          </svg>
-          Medical Backgrounds
-        </h2>
-        <button class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200" 
-                (click)="openMedicalBackgroundDialog()" 
-                title="View Medical Backgrounds">
-          <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-          </svg>
-        </button>
+    <!-- Medical Background Table Section (1/3) -->
+    <div class="medical-record-preview-sidebar" *ngIf="medicalRecord.medicalBackgrounds && medicalRecord.medicalBackgrounds.length > 0">
+      <div class="sub-record-section">
+        <div class="flex items-center justify-between">
+          <h2 class="sub-record-section-header">
+            <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+            Medical Backgrounds
+          </h2>
+          <button class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1 transition-colors duration-200" 
+                  (click)="openMedicalBackgroundDialog()" 
+                  title="View Medical Backgrounds">
+            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </button>
+        </div>
+        <app-medical-background-table [medicalBackgroundList]="medicalRecord.medicalBackgrounds"></app-medical-background-table>
       </div>
-      <app-medical-background-table [medicalBackgroundList]="medicalRecord.medicalBackgrounds"></app-medical-background-table>
     </div>
   </div>
 </div>

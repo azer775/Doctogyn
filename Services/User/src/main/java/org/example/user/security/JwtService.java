@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.example.user.model.entities.Doctor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .claim("authorities", authorities)  // Add roles as claim
+                .claim("cabinet", ((Doctor) userDetails).getCabinet()) // Add cabinet info
                 .signWith(getSignInKey())  // Sign with key
                 .compact();
     }

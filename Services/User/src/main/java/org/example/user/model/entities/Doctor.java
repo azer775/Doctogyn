@@ -36,12 +36,17 @@ public class Doctor implements UserDetails, Principal {
     String email;  // Unique email (username)
     boolean locked;  // Account locked
     boolean enable;  // Account enabled (after activation)
+
     @JsonIgnore  // Ignore in JSON to avoid cycles
     Role role;  // User roles
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private Cabinet cabinet;
+
     @Override
     public String getName() {
-        return null;
+        return prenom;
     }
 
     @Override
