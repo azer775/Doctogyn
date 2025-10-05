@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.example.user.model.dtos.AuthenticationRequest;
 import org.example.user.model.dtos.AuthenticationResponse;
+import org.example.user.model.dtos.Crew;
 import org.example.user.model.dtos.RegistrationRequest;
 import org.example.user.model.entities.Doctor;
 import org.example.user.repository.DoctorRepository;
@@ -67,6 +68,19 @@ public class AuthenticationController {
         // Extract token from header and get user
         String jwtToken = auth.replace("Bearer ", "");
         return authenticationService.getCurrentUser(jwtToken);
+    }
+    @PostMapping("/addcrew")
+    public void addCrew(@RequestBody Crew request, @RequestHeader(value = "Authorization", required = false) String auth) throws MessagingException {
+        // Register crew member (no email sent)
+        String jwtToken = auth.replace("Bearer ", "");
+        Doctor admin = authenticationService.getCurrentUser(jwtToken);
+        authenticationService.registerCrew(request,admin.getCabinet());
+    }
+    @PostMapping("getDoctorsByCabinet")
+    public List<Integer> getDoctorsByCabinet(@RequestHeader(value = "Authorization", required = false) String auth) {
+        String jwtToken = auth.replace("Bearer ", "");
+        // Get doctors by cabinet ID
+        return authenticationService.findByCabinetId(jwtToken);
     }
 
     @GetMapping("/all")

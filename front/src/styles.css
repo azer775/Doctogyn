@@ -833,6 +833,52 @@ app-root {
 .empty-state-subtitle {
   @apply text-[#9ca3af] text-sm;
 }
+
+/* Medical Records List Styles */
+.medical-records-container {
+  @apply p-6;
+}
+
+.medical-records-header {
+  @apply mb-6;
+}
+
+.medical-records-title {
+  @apply text-2xl font-bold text-[#111827];
+}
+
+.medical-records-actions {
+  @apply flex items-center space-x-2;
+}
+
+.medical-record-action-button {
+  @apply p-2 min-w-[40px] min-h-[40px] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors flex items-center justify-center;
+}
+
+.medical-record-show-button {
+  @apply text-[#1d4ed8] hover:bg-[#dbeafe] focus:ring-[#93c5fd];
+}
+
+.medical-record-delete-button {
+  @apply text-[#b91c1c] hover:bg-[#fee2e2] focus:ring-[#fca5a5];
+}
+
+.medical-record-action-icon {
+  @apply h-5 w-5;
+}
+
+.loading-container {
+  @apply flex flex-col items-center justify-center py-12;
+}
+
+.loading-spinner {
+  @apply w-12 h-12 border-4 border-[#6fdcdc] border-t-transparent rounded-full animate-spin;
+}
+
+.loading-text {
+  @apply mt-4 text-[#6b7280] text-sm;
+}
+
 /* Obstetric Details*/
 .sub-record-detail-container {
   @apply flex container mx-auto p-4 gap-4;

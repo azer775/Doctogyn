@@ -36,6 +36,7 @@ public class JwtService {
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         // Collect authorities (roles)
         var authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        extraClaims.put("cabinet", ((Doctor) userDetails).getCabinet());
         // Build and sign JWT
         return Jwts.builder()
                 .setClaims(extraClaims)
@@ -43,9 +44,18 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .claim("authorities", authorities)  // Add roles as claim
-                .claim("cabinet", ((Doctor) userDetails).getCabinet()) // Add cabinet info
+               // .claim("cabinet", ((Doctor) userDetails).getCabinet()) // Add cabinet info
                 .signWith(getSignInKey())  // Sign with key
                 .compact();
+    }
+    public Long extractCabinetId(String token) {
+        Claims claims = extractAllClaims(token);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> cabinetMap = (Map<String, Object>) claims.get("cabinet");
+        if (cabinetMap == null) {
+            return null;
+        }
+        return ((Number) cabinetMap.get("id")).longValue();
     }
 
     public String extractUsername(String token) {

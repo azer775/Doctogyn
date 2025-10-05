@@ -50,11 +50,12 @@ import { EmailAnalysesListComponent } from './Components/email-analyses-list/ema
 import { SummaryComponent } from "./Components/summary/summary.component";
 import { LoginComponent } from "./Components/login/login.component";
 import { NavbarComponent } from "./Components/navbar/navbar.component";
+import { MedicalRecordsListComponent } from "./Components/medical-records-list/medical-records-list.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

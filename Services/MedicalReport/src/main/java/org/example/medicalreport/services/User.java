@@ -19,4 +19,7 @@ public interface User {
     List<AbbreviationDefinition> getAbbreviationsByDoctor(@RequestHeader(value = "Authorization",required = false) String token);
     @PostMapping("/abbreviations/add")
     ResponseEntity<List<AbbreviationDefinition>> add(@RequestHeader(value = "Authorization",required = false) String token, List<AbbreviationDefinition> definitions);
+    @PostMapping("/auth/getDoctorsByCabinet")
+    List<Integer> getDoctorsByCabinet(@RequestHeader(value = "Authorization", required = false) String auth);
+
 }

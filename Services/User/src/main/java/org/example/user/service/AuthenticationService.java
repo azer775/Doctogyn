@@ -3,7 +3,9 @@ package org.example.user.service;
 import jakarta.transaction.Transactional;
 import org.example.user.model.dtos.AuthenticationResponse;
 import org.example.user.model.dtos.AuthenticationRequest;
+import org.example.user.model.dtos.Crew;
 import org.example.user.model.dtos.RegistrationRequest;
+import org.example.user.model.entities.Cabinet;
 import org.example.user.model.entities.Token;
 import org.example.user.model.entities.Doctor;
 import org.example.user.model.enums.Role;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class AuthenticationService {
@@ -63,6 +66,25 @@ public class AuthenticationService {
         // Send activation email
         sendValidationEmail(user);
     }
+    public void registerCrew(Crew request, Cabinet cabinet)  {
+        // Build and save user with hashed password
+        Doctor user = Doctor.builder()
+                .nom(request.getNom())
+                .prenom(request.getPrenom())
+                .email(request.getEmail())
+                .pwd(passwordEncoder.encode(request.getPwd()))
+                .datenaiss(request.getDatenaiss())  // Fixed typo from datenais
+                .locked(false)
+                .enable(true)  // Disabled until activation
+                .role(request.getRole())
+                .cabinet(cabinet)
+                .build();
+        userRepository.save(user);
+    }
+    public List<Integer> findByCabinetId(String token) {
+        Long cabinetId = jwtService.extractCabinetId(token);
+        return userRepository.findByCabinetId(cabinetId);
+    }
     private void sendValidationEmail(Doctor user)  {
         // Generate token and send email
         String newToken = generateAndSaveActivationToken(user);
@@ -98,11 +120,14 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         // Authenticate credentials
         var auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPwd()));
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPwd())
+        );
 
         // Prepare claims and generate JWT
         var claims = new HashMap<String, Object>();
         var user = (Doctor) auth.getPrincipal();
+        System.out.println("Cabinet info: " + user.getCabinet());
+        claims.put("cabinet", user.getCabinet());
         System.out.println("Authenticated user: " + user.getEmail());
         claims.put("nom", user.getNom());
         var jwtToken = jwtService.generateToken(claims, user);

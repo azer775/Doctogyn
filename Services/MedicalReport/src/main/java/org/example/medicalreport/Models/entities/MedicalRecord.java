@@ -26,6 +26,7 @@ public class MedicalRecord {
     private CivilState civilState;
     private String email;
     private String comment;
+    private int doctorId; // ID of the doctor associated with this record
 
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalBackground> medicalBackgrounds = new ArrayList<>();
@@ -133,5 +134,13 @@ public class MedicalRecord {
 
     public void setObstetricsRecords(List<ObstetricsRecord> obstetricsRecords) {
         this.obstetricsRecords = obstetricsRecords;
+    }
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
     }
 }

@@ -3,6 +3,7 @@ package org.example.medicalreport.controllers;
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
 import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
 import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
+import org.example.medicalreport.Models.entities.MedicalRecord;
 import org.example.medicalreport.services.MedicalRecordService;
 import org.example.medicalreport.services.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +79,9 @@ public class MedicalRecordController {
     @PostMapping("/addabbreviations" )
     public ResponseEntity<List<AbbreviationDefinition>> addAbbreviations(@RequestHeader (value = "Authorization", required = false) String auth, @RequestBody List<AbbreviationDefinition> definitions) {
         return userService.add(auth, definitions);
+    }
+    @GetMapping("/doctorsbycabinet" )
+    public List<MedicalRecordDTO> getbycabinet(@RequestHeader (value = "Authorization", required = false) String auth) {
+        return medicalRecordService.getMedicalRecordsByIds(auth);
     }
 }
