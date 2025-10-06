@@ -82,6 +82,33 @@ public class AuthenticationController {
         // Get doctors by cabinet ID
         return authenticationService.findByCabinetId(jwtToken);
     }
+    @GetMapping("getCrewByCabinet")
+    public List<Crew> getCrew(@RequestHeader(value = "Authorization", required = false) String auth){
+        String jwtToken = auth.replace("Bearer ", "");
+        // Get crew members by cabinet ID
+        return authenticationService.findCrewByCabinetId(jwtToken);
+    }
+    @PutMapping("/lockUnlock/{id}")
+    public ResponseEntity<String> lockUnlockUser(@PathVariable int id) {
+        // Lock or unlock user account
+        try {
+            authenticationService.lockUnlockUser(id);
+            return ResponseEntity.ok("User lock status toggled");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        // Delete user by ID
+        try {
+            authenticationService.deleteUser(id);
+            return ResponseEntity.ok("User deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
 
     @GetMapping("/all")
     public List<Doctor> getAllUsers() {

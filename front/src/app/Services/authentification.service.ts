@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { TokenService } from './token.service';
+import { Crew } from '../Models/Crew';
 
 export interface AuthenticationRequest {
   email: string;
@@ -62,6 +63,20 @@ export class AuthentificationService {
           }
         })
       );
+  }
+  addCrew(crew: Crew): Observable<Crew> {
+    return this.http.post<Crew>(`${this.apiUrl}/addcrew`, crew);
+  }
+  getAllCrews(): Observable<Crew[]> {
+    return this.http.get<Crew[]>(`${this.apiUrl}/getCrewByCabinet`);
+  }
+
+  lockUnlockCrew(id: number): Observable<string> {
+    return this.http.put(`${this.apiUrl}/lockUnlock/${id}`, null, { responseType: 'text' });
+  }
+
+  deleteCrew(id: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`, { responseType: 'text' });
   }
 
   /**

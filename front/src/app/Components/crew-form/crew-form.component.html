@@ -1,0 +1,61 @@
+<form [formGroup]="crewForm" (ngSubmit)="onSubmit()" class="sub-record-form-wrapper">
+  <h2 class="sub-record-form-section-title">Add Crew Member</h2>
+  
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="nom">Last Name:</label>
+      <input type="text" id="nom" formControlName="nom" class="sub-record-form-input-field">
+      <div *ngIf="crewForm.get('nom')?.invalid && crewForm.get('nom')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="crewForm.get('nom')?.errors?.['required']">Last Name is required</span>
+        <span *ngIf="crewForm.get('nom')?.errors?.['minlength']">Last Name must be at least 2 characters</span>
+      </div>
+    </div>
+    <div class="sub-record-form-field-group">
+      <label for="prenom">First Name:</label>
+      <input type="text" id="prenom" formControlName="prenom" class="sub-record-form-input-field">
+      <div *ngIf="crewForm.get('prenom')?.invalid && crewForm.get('prenom')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="crewForm.get('prenom')?.errors?.['required']">First Name is required</span>
+        <span *ngIf="crewForm.get('prenom')?.errors?.['minlength']">First Name must be at least 2 characters</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" class="sub-record-form-input-field">
+      <div *ngIf="crewForm.get('email')?.invalid && crewForm.get('email')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="crewForm.get('email')?.errors?.['required']">Email is required</span>
+        <span *ngIf="crewForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="pwd">Password:</label>
+      <input type="password" id="pwd" formControlName="pwd" class="sub-record-form-input-field">
+      <div *ngIf="crewForm.get('pwd')?.invalid && crewForm.get('pwd')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="crewForm.get('pwd')?.errors?.['required']">Password is required</span>
+        <span *ngIf="crewForm.get('pwd')?.errors?.['minlength']">Password must be at least 6 characters</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="role">Role:</label>
+      <select id="role" formControlName="role" class="sub-record-form-select-field">
+        <option *ngFor="let role of Roles" [value]="role">{{ role }}</option>
+      </select>
+      <div *ngIf="crewForm.get('role')?.invalid && crewForm.get('role')?.touched" class="sub-record-form-error-text">
+        Role is required
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-action-buttons">
+    <button type="button" (click)="onCancel()" class="sub-record-form-cancel-button">Cancel</button>
+    <button type="submit" [disabled]="crewForm.invalid" class="sub-record-form-submit-button">Submit</button>
+  </div>
+</form>

@@ -1,0 +1,15 @@
+/* Header with button */
+.header-content {
+  @apply flex justify-between items-center;
+}
+
+/* Lock/Unlock Button Styles (specific to crew-tab) */
+.medical-record-lock-button {
+  @apply text-[#f59e0b] hover:bg-[#fef3c7];
+  @apply focus:ring-[#f59e0b];
+}
+
+.medical-record-unlock-button {
+  @apply text-[#10b981] hover:bg-[#d1fae5];
+  @apply focus:ring-[#10b981];
+}

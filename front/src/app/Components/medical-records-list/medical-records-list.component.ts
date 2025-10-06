@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MedicalRecordService } from '../../Services/medical-record.service';
 import { MedicalRecord } from '../../Models/MedicalRecord';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-medical-records-list',
@@ -17,11 +18,13 @@ export class MedicalRecordsListComponent implements OnInit {
 
   constructor(
     private medicalRecordService: MedicalRecordService,
-    private router: Router
+    private router: Router,
+    private token: TokenService
   ) {}
 
   ngOnInit(): void {
     this.loadMedicalRecords();
+    console.log(this.token.userRoles);
   }
 
   loadMedicalRecords(): void {

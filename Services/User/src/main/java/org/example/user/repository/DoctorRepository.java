@@ -14,4 +14,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Doctor findByIdun(String idun);  // Find by idun
     @Query("SELECT d.id FROM Doctor d WHERE d.cabinet.id = :cabinetId AND (d.role =ADMIN OR d.role =DOCTOR)")
     List<Integer> findByCabinetId(long cabinetId);  // Find doctors by cabinet ID
+    @Query("SELECT d FROM Doctor d WHERE d.cabinet.id = :cabinetId AND (d.role =SECRETARY OR d.role =DOCTOR)")
+    List<Doctor> findCrewByCabinetId(long cabinetId);
+
 }

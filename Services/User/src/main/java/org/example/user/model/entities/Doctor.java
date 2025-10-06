@@ -40,7 +40,7 @@ public class Doctor implements UserDetails, Principal {
     @JsonIgnore  // Ignore in JSON to avoid cycles
     Role role;  // User roles
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn
     private Cabinet cabinet;
 

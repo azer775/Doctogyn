@@ -10,11 +10,13 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class Crew {
+    private int id;
     private String nom;
     private String prenom;
     private String email;
     private String pwd;
     private LocalDate datenaiss;
     private Cabinet cabinet;
+    boolean locked;
     private Role role;
 }

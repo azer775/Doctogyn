@@ -130,3 +130,8 @@ export enum ResponseType {
     SUMMARY = 'SUMMARY',
     ABBREVIATION_ISSUE = 'ABBREVIATION_ISSUE',
 }
+export enum Role {
+  DOCTOR="DOCTOR", 
+  ADMIN="ADMIN", 
+  SECRETARY="SECRETARY"
+}

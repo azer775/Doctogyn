@@ -85,6 +85,10 @@ public class AuthenticationService {
         Long cabinetId = jwtService.extractCabinetId(token);
         return userRepository.findByCabinetId(cabinetId);
     }
+    public List<Crew> findCrewByCabinetId(String token) {
+        Long cabinetId = jwtService.extractCabinetId(token);
+        return userRepository.findCrewByCabinetId(cabinetId).stream().map(this::mapToCrew).toList();
+    }
     private void sendValidationEmail(Doctor user)  {
         // Generate token and send email
         String newToken = generateAndSaveActivationToken(user);
@@ -135,7 +139,20 @@ public class AuthenticationService {
         // Build response
         return AuthenticationResponse.builder().token(jwtToken).message("Authentication successful").build();
     }
-
+    public void lockUnlockUser(int id) {
+        // Lock or unlock user account
+        Doctor user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setLocked(!user.isLocked());
+        userRepository.save(user);
+    }
+    public void deleteUser(int id) {
+        // Delete user by ID
+        if (!userRepository.existsById(id)) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        userRepository.deleteById(id);
+    }
     @Transactional
     public boolean activateAccount(String token)  {
         // Find token
@@ -175,5 +192,19 @@ public class AuthenticationService {
             throw new RuntimeException("User or role not found");  // Fault fix
         }
         return user.getRole().toString();  // Assume first role
+    }
+    public Crew mapToCrew(Doctor doctor) {
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor cannot be null");
+        }
+        return Crew.builder()
+                .id(doctor.getId())
+                .nom(doctor.getNom())
+                .prenom(doctor.getPrenom())
+                .email(doctor.getEmail())
+                .datenaiss(doctor.getDatenaiss())
+                .role(doctor.getRole())
+                .locked(doctor.isLocked())
+                .build();
     }
 }
