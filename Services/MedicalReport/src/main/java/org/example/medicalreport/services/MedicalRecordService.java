@@ -239,6 +239,21 @@ public class MedicalRecordService {
         List<Integer> integerIds = userService.getDoctorsByCabinet(jwtToken);
         return medicalRecordRepository.findByDoctorIdIn(integerIds).stream().map(this::mapToDTO).toList();
     }
+    public List<MedicalRecordDTO> getMedicalRecordsNameAndSurname(String auth) {
+        String jwtToken = auth.replace("Bearer ", "");
+        List<Integer> integerIds = userService.getDoctorsByCabinet(jwtToken);
+        return medicalRecordRepository.findByDoctorIdIn(integerIds)
+                .stream()
+                .map(this::mapToNameAndSurname)
+                .toList();
+    }
+    private MedicalRecordDTO mapToNameAndSurname(MedicalRecord medicalRecord) {
+        return MedicalRecordDTO.builder()
+                .id(medicalRecord.getId())
+                .name(medicalRecord.getName())
+                .surname(medicalRecord.getSurname())
+                .build();
+    }
 
     private MedicalRecordDTO mapToDTO(MedicalRecord medicalRecord) {
         return MedicalRecordDTO.builder()

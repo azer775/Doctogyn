@@ -23,6 +23,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Doctor implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@ToString
 public class Cabinet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

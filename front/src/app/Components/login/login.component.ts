@@ -66,7 +66,8 @@ export class LoginComponent {
         if (response.message) {
           console.log('Server message:', response.message);
         }
-        
+        console.log("User roles:", this.tokenService.userRoles);
+        console.log("User cabinet:", this.tokenService.cabinet);
         // Navigate to home or dashboard
         this.router.navigate(['/']);
       },

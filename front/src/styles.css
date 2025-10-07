@@ -944,6 +944,10 @@ app-root {
   @apply lg:col-span-2;
 }
 
+.sub-record-detail-span-3 {
+  @apply lg:col-span-3;
+}
+
 /* Full width span for very long content */
 .sub-record-detail-span-full {
   @apply lg:col-span-3;
@@ -1565,5 +1569,183 @@ app-root {
   
   .summary-buttons-container {
     @apply gap-3;
+  }
+}
+/* Settings Container */
+.settings-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+}
+
+.settings-title {
+  @apply text-3xl font-bold text-[#111827] mb-8;
+}
+
+/* Cabinet Information Card - Compact Design */
+.cabinet-info-card {
+  @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] p-4 mb-6;
+}
+
+.cabinet-info-header {
+  @apply flex items-center justify-between mb-3 pb-2 border-b border-[#e5e7eb];
+}
+
+.cabinet-info-title {
+  @apply text-base font-semibold text-[#111827] flex items-center gap-2 m-0;
+}
+
+.cabinet-info-icon {
+  @apply w-4 h-4 text-[#6fdcdc] flex-shrink-0;
+}
+
+.cabinet-edit-button {
+  @apply p-1.5 rounded-md transition-colors duration-200;
+  @apply text-[#6b7280] hover:text-[#6fdcdc] hover:bg-[#f0f9f9];
+  @apply focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1;
+}
+
+.cabinet-edit-icon {
+  @apply w-5 h-5;
+}
+
+/* Cabinet Info Grid - Inline Layout */
+.cabinet-info-grid {
+  @apply flex flex-wrap items-center gap-4;
+}
+
+.cabinet-info-item {
+  @apply flex items-center gap-2;
+}
+
+.cabinet-info-item-full {
+  @apply flex items-center gap-2;
+}
+
+.cabinet-info-label {
+  @apply text-xs font-medium text-[#6b7280] mb-0.5;
+}
+
+.cabinet-info-value {
+  @apply text-sm font-semibold text-[#111827];
+}
+
+/* Settings Top Section - Horizontal Split */
+.settings-top-section {
+  @apply flex gap-6 mb-6;
+}
+
+.settings-top-section > * {
+  @apply flex-1;
+}
+
+/* Google Authentication Card */
+.google-auth-card {
+  @apply bg-white rounded-lg shadow-sm border border-[#e5e7eb] p-4;
+}
+
+.google-auth-header {
+  @apply flex items-center justify-between mb-3 pb-2 border-b border-[#e5e7eb];
+}
+
+.google-auth-title {
+  @apply text-base font-semibold text-[#111827] flex items-center gap-2 m-0;
+}
+
+.google-auth-icon {
+  @apply w-4 h-4 text-[#6fdcdc] flex-shrink-0;
+}
+
+.google-auth-content {
+  @apply py-2;
+}
+
+.google-auth-not-connected {
+  @apply flex flex-col items-center justify-center py-4;
+}
+
+.google-auth-status {
+  @apply text-sm text-[#6b7280] mb-3;
+}
+
+.google-auth-button {
+  @apply flex items-center gap-2 px-4 py-2 bg-white border border-[#dadce0] rounded-md;
+  @apply text-[#3c4043] text-sm font-medium;
+  @apply hover:bg-[#f8f9fa] hover:border-[#d2e3fc] hover:shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-[#4285f4] focus:ring-offset-1;
+  @apply transition-all duration-200;
+}
+
+.google-icon {
+  @apply w-5 h-5;
+}
+
+.google-auth-connected {
+  @apply flex items-center justify-between py-2;
+}
+
+.google-user-info {
+  @apply flex items-center gap-3;
+}
+
+.google-user-avatar {
+  @apply w-10 h-10 rounded-full border-2 border-[#e5e7eb];
+}
+
+.google-user-details {
+  @apply flex flex-col;
+}
+
+.google-user-name {
+  @apply text-sm font-semibold text-[#111827] m-0;
+}
+
+.google-user-email {
+  @apply text-xs text-[#6b7280] m-0;
+}
+
+.google-auth-status-badge {
+  @apply flex items-center gap-1 px-3 py-1 bg-[#d1fae5] text-[#065f46] rounded-full text-xs font-medium;
+}
+
+.google-check-icon {
+  @apply w-4 h-4;
+}
+
+/* Crew Section */
+.crew-section {
+  @apply mt-8;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .settings-title {
+    @apply text-2xl mb-6;
+  }
+
+  .settings-top-section {
+    @apply flex-col;
+  }
+
+  .cabinet-info-card {
+    @apply p-3;
+  }
+
+  .google-auth-card {
+    @apply p-3;
+  }
+
+  .cabinet-info-grid {
+    @apply grid-cols-2 gap-2;
+  }
+
+  .cabinet-info-item-full {
+    @apply col-span-2;
+  }
+
+  .cabinet-info-label {
+    @apply text-xs;
+  }
+
+  .cabinet-info-value {
+    @apply text-sm;
   }
 }
