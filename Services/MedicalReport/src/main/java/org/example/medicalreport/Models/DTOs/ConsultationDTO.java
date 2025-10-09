@@ -25,6 +25,7 @@ public class ConsultationDTO {
     private State breasts;
     private State vagina;
     private String examination;
+    private String prescription;
     private ConsultationType consultationType;
     private Long gynecologySubRecordId;
     private Long fertilitySubRecordId;

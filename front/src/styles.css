@@ -1749,3 +1749,80 @@ app-root {
     @apply text-sm;
   }
 }
+
+/* Scheduler Component Styles */
+.scheduler-btn-primary {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm;
+  @apply text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply transition-all duration-150 cursor-pointer;
+}
+
+.scheduler-btn-success {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm;
+  @apply text-white bg-[#10b981] hover:bg-[#059669] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#10b981];
+  @apply transition-all duration-150 cursor-pointer;
+}
+
+.scheduler-btn-secondary {
+  @apply inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm;
+  @apply text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply transition-all duration-150 cursor-pointer;
+}
+
+.scheduler-btn-primary-active {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm;
+  @apply text-white bg-[#6fdcdc] hover:bg-[#58b0b0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply transition-all duration-150 cursor-pointer;
+}
+
+.scheduler-btn-secondary-inactive {
+  @apply inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm;
+  @apply text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fdcdc];
+  @apply transition-all duration-150 cursor-pointer;
+}
+
+.scheduler-container {
+  @apply p-6 w-full mx-auto bg-gray-100 min-h-screen;
+}
+
+.scheduler-header {
+  @apply flex justify-between items-center mb-6 flex-wrap gap-4 bg-white p-5 rounded-lg shadow-sm border border-gray-200;
+}
+
+.scheduler-title {
+  @apply text-2xl text-gray-900 font-semibold m-0;
+}
+
+.scheduler-nav-section {
+  @apply flex justify-between items-center mb-5 flex-wrap gap-3 bg-white p-4 rounded-lg shadow-sm border border-gray-200;
+}
+
+.scheduler-period-title {
+  @apply m-0 text-lg font-semibold text-gray-700 flex-1 text-center;
+}
+
+@media (max-width: 768px) {
+  .scheduler-header {
+    @apply p-3 gap-2;
+  }
+  
+  .scheduler-title {
+    @apply text-xl;
+  }
+  
+  .scheduler-btn-primary,
+  .scheduler-btn-success,
+  .scheduler-btn-secondary,
+  .scheduler-btn-primary-active,
+  .scheduler-btn-secondary-inactive {
+    @apply px-3 py-1.5 text-xs;
+  }
+  
+  .scheduler-nav-section {
+    @apply p-3 gap-2;
+  }
+  
+  .scheduler-period-title {
+    @apply text-base;
+  }
+}

@@ -142,19 +142,29 @@
     <div class="consultation-form-field-row">
       <div class="consultation-form-field-group full-width">
         <div class="consultation-form-subsection">
-          <div class="consultation-form-subsection-header">
-            <h3 class="consultation-form-subsection-title">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd" />
-              </svg>
-              Medical Analyses
-              <span *ngIf="collectedAnalysesData" class="ml-2 text-xs bg-[#10b981] text-white px-2 py-1 rounded-full">
-                {{getTotalAnalysesCountFromExtraction()}} analyses loaded
-              </span>
-            </h3>
+          <div class="consultation-form-subsection-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="flex items-center">
+              <button type="button" (click)="toggleAnalysesCollapse()" class="mr-2 p-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-1">
+                <svg *ngIf="isAnalysesCollapsed" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+                <svg *ngIf="!isAnalysesCollapsed" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <h3 class="consultation-form-subsection-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd" />
+                </svg>
+                Medical Analyses
+                <span *ngIf="collectedAnalysesData" class="ml-2 text-xs bg-[#10b981] text-white px-2 py-1 rounded-full">
+                  {{getTotalAnalysesCountFromExtraction()}} analyses loaded
+                </span>
+              </h3>
+            </div>
             
             <!-- 3-dots menu -->
-            <div class="relative">
+            <div class="relative" >
               <button type="button" 
                       (click)="toggleAnalysesDropdown(); $event.stopPropagation()" 
                       class="p-2 rounded-full hover:bg-[#f3f4f6] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-2">
@@ -187,11 +197,28 @@
             </div>
           </div>
           
-          <div class="consultation-form-analyses-content">
+          <div *ngIf="!isAnalysesCollapsed" class="consultation-form-analyses-content">
             <!-- Show collected data or default component -->
             <app-analyses-list [extractionResponse]="collectedAnalysesData"></app-analyses-list>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="consultation-form-field-row">
+      <div class="consultation-form-field-group full-width">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label for="prescription" class="consultation-form-label" style="margin-bottom: 0;">Prescription</label>
+          <button type="button" 
+                  (click)="collectConsultationData()" 
+                  class="px-3 py-1.5 text-sm bg-[#6fdcdc] text-white rounded-md hover:bg-[#5cc5c5] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-2 transition-colors flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Collect Data
+          </button>
+        </div>
+        <app-editor formControlName="prescription" [config]="defaultConfig" class="consultation-form-editor"></app-editor>
       </div>
     </div>
 

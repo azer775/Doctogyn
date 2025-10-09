@@ -247,7 +247,7 @@ public class MedicalRecordService {
                 .map(this::mapToNameAndSurname)
                 .toList();
     }
-    private MedicalRecordDTO mapToNameAndSurname(MedicalRecord medicalRecord) {
+    public MedicalRecordDTO mapToNameAndSurname(MedicalRecord medicalRecord) {
         return MedicalRecordDTO.builder()
                 .id(medicalRecord.getId())
                 .name(medicalRecord.getName())

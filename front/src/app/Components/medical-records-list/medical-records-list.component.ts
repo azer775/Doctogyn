@@ -42,7 +42,7 @@ export class MedicalRecordsListComponent implements OnInit {
   }
 
   showMedicalRecord(id: number): void {
-    this.router.navigate(['/medical-record', id]);
+    this.router.navigate(['/dashboard/medical-record', id]);
   }
 
   deleteMedicalRecord(id: number): void {

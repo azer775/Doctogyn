@@ -8,7 +8,6 @@ from langchain.docstore.document import Document
 class ChunkingService:
     def __init__(self, chunk_size: int = 1000, chunk_overlap: int = 200):
         """Initialize the text splitter and embeddings for chunking and storage."""
-        print("***********************Initializing ChunkingService*******************")
         # Use RecursiveCharacterTextSplitter for efficient, deterministic chunking
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
@@ -21,7 +20,6 @@ class ChunkingService:
 
     def chunk_text(self, text: str) -> list[str]:
         """Split text into chunks using RecursiveCharacterTextSplitter."""
-        print("***********************Chunking text*******************")
         try:
             chunks = self.text_splitter.split_text(text)
             if not chunks:  # Fallback if splitting fails
@@ -34,7 +32,6 @@ class ChunkingService:
 
     def add_documents_to_chroma(self, documents: list[Document], collection_name: str = "rag_collection") -> Chroma:
         """Add documents or their chunks to ChromaDB with OpenAI embeddings."""
-        print("***********************Adding documents to ChromaDB*******************")
         try:
             chroma_client = ChromaClient.get_instance().get_client()
             vector_store = Chroma(
@@ -57,3 +54,38 @@ class ChunkingService:
             return vector_store
         except Exception as e:
             raise ValueError(f"Failed to add documents to Chroma: {e}") 
+    
+    def get_urls_from_collection(self, collection_name: str = "rag_collection") -> list[str]:
+        """
+        Retrieve unique URLs from the metadata of all documents in the specified collection.
+        
+        Args:
+            collection_name: Name of the ChromaDB collection (default: "rag_collection")
+            
+        Returns:
+            A list of unique URLs found in the document metadata
+        """
+        try:
+            chroma_client = ChromaClient.get_instance().get_client()
+            vector_store = Chroma(
+                collection_name=collection_name,
+                embedding_function=self.embeddings,
+                persist_directory=self.persist_dir,
+                client=chroma_client
+            )
+            
+            # Get all documents from the collection
+            collection = chroma_client.get_collection(name=collection_name)
+            results = collection.get()
+            
+            # Extract unique URLs from metadata
+            urls = set()
+            if results and 'metadatas' in results:
+                for metadata in results['metadatas']:
+                    if metadata and 'url' in metadata:
+                        urls.add(metadata['url'])
+            
+            return sorted(list(urls))
+        except Exception as e:
+            raise ValueError(f"Failed to retrieve URLs from collection: {e}")
+    

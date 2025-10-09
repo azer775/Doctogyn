@@ -32,6 +32,8 @@ public class Consultation {
     private String examination;
     private ConsultationType consultationType;
     private LocalDateTime updatedAt;
+    @Column(columnDefinition="TEXT")
+    private String prescription;
 
     @ManyToOne
     private GynecologySubRecord gynecologySubRecord;

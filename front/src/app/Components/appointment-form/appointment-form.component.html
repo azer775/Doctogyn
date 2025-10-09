@@ -1,0 +1,60 @@
+<form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="sub-record-form-wrapper">
+  <h2 class="sub-record-form-section-title">{{ isEditMode ? 'Edit Appointment' : 'Create New Appointment' }}</h2>
+  
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="medicalRecordId">Medical Record:</label>
+      <select id="medicalRecordId" formControlName="medicalRecordId" class="sub-record-form-input-field">
+        <option value="">Select a medical record</option>
+        <option *ngFor="let record of medicalRecords" [value]="record.id">
+          {{ record.name }} {{ record.surname }}
+        </option>
+      </select>
+      <div *ngIf="appointmentForm.get('medicalRecordId')?.invalid && appointmentForm.get('medicalRecordId')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="appointmentForm.get('medicalRecordId')?.errors?.['required']">Medical record is required</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="consultationType">Consultation Type:</label>
+      <select id="consultationType" formControlName="consultationType" class="sub-record-form-input-field">
+        <option value="">Select consultation type</option>
+        <option *ngFor="let type of consultationTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+      <div *ngIf="appointmentForm.get('consultationType')?.invalid && appointmentForm.get('consultationType')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="appointmentForm.get('consultationType')?.errors?.['required']">Consultation type is required</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="date">Date & Time:</label>
+      <input type="datetime-local" id="date" formControlName="date" class="sub-record-form-input-field">
+      <div *ngIf="appointmentForm.get('date')?.invalid && appointmentForm.get('date')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="appointmentForm.get('date')?.errors?.['required']">Date and time are required</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-field-row">
+    <div class="sub-record-form-field-group">
+      <label for="reason">Reason:</label>
+      <textarea id="reason" formControlName="reason" class="sub-record-form-input-field" rows="3"></textarea>
+      <div *ngIf="appointmentForm.get('reason')?.invalid && appointmentForm.get('reason')?.touched" class="sub-record-form-error-text">
+        <span *ngIf="appointmentForm.get('reason')?.errors?.['required']">Reason is required</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-record-form-action-buttons">
+    <button type="button" (click)="onCancel()" class="sub-record-form-cancel-button">Cancel</button>
+    <button type="submit" [disabled]="appointmentForm.invalid" class="sub-record-form-submit-button">
+      {{ isEditMode ? 'Update Appointment' : 'Create Appointment' }}
+    </button>
+  </div>
+</form>

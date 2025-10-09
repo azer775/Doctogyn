@@ -29,6 +29,7 @@ import { SpermAnalysis } from '../../Models/SpermAnalysis';
 })
 export class ConsultationFormComponent  implements OnInit {
   @Input() consultationId: number | null = null;
+  @Input() medicalRecordId: number | null = null;
   @Input() obstetricsRecordId: number | null = null;
   @Input() fertilityRecordId: number | null = null;
   @Input() gynecologyRecordId: number | null = null;
@@ -43,12 +44,13 @@ export class ConsultationFormComponent  implements OnInit {
   Status = Object.values(Status);
   content: string = '<p>Default content</p>';
   showEchographyForm: boolean = false;
-  isEchographyCollapsed: boolean = false;
+  isEchographyCollapsed: boolean = true;
   echographies: Echographie[] = [];
   selectedEchography: Echographie | null = null;
   
   // New properties for analyses dropdown and collected data
   showAnalysesDropdown: boolean = false;
+  isAnalysesCollapsed: boolean = true;
   collectedAnalysesData: ExtractionResponse | null = null;
 
   constructor(
@@ -64,6 +66,7 @@ export class ConsultationFormComponent  implements OnInit {
       bmi: [null, [Validators.required, Validators.min(0)]],
       breasts: [Status.Normal, Validators.required],
       examination: [''],
+      prescription: [''],
       vagina: [Status.Normal, Validators.required],
       consultationType: [''],
       gynecologySubRecordId: [null],
@@ -110,6 +113,7 @@ export class ConsultationFormComponent  implements OnInit {
             examination: consultation.examination,
             vagina: consultation.vagina,
             consultationType: consultation.consultationType,
+            prescription: consultation.prescription,
             gynecologySubRecordId: consultation.gynecologySubRecordId,
             fertilitySubRecordId: consultation.fertilitySubRecordId,
             obstetricsRecordId: consultation.obstetricsRecordId
@@ -257,7 +261,45 @@ export class ConsultationFormComponent  implements OnInit {
     this.formSubmitted.emit();
   }
 
+  /**
+   * Collects all consultation data without submitting
+   * Used for preview or AI processing
+   */
+  collectConsultationData(): Consultation {
+    console.log('=== COLLECTING CONSULTATION DATA ===');
+    
+    // Get current analyses data from the AnalysesListComponent
+    const currentAnalysesData = this.getCurrentAnalysesData();
+    console.log('Medical Record ID:', this.medicalRecordId);
+    console.log('Form values:', this.consultationForm.value);
+    console.log('Echographies:', this.echographies);
+    console.log('Current analyses data:', currentAnalysesData);
+    
+    const consultation: Consultation = {
+      ...this.consultationForm.value,
+      date: this.consultationForm.value.date ? new Date(this.consultationForm.value.date) : new Date(),
+      examination: this.consultationForm.get('examination')?.value,
+      prescription: this.consultationForm.get('prescription')?.value,
+      echographies: this.echographies,
+      extractionAnalyses: currentAnalysesData || null
+    };
+
+    console.log('Collected consultation object:', consultation);
+    
+    return consultation;
+  }
+
   // ===== ANALYSES METHODS =====
+
+  /**
+   * Toggles the analyses collapse state
+   */
+  toggleAnalysesCollapse(): void {
+    this.isAnalysesCollapsed = !this.isAnalysesCollapsed;
+    if (this.isAnalysesCollapsed) {
+      this.showAnalysesDropdown = false;
+    }
+  }
 
   /**
    * Toggles the analyses dropdown menu

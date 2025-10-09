@@ -107,6 +107,7 @@ public class ConsultationService {
                 .breasts(consultation.getBreasts())
                 .vagina(consultation.getVagina())
                 .examination(consultation.getExamination())
+                .prescription(consultation.getPrescription())
                 .echographies(consultation.getEchographies().stream().map(echographieService::mapToDTO).toList())
                 .consultationType(consultation.getConsultationType())
                 .gynecologySubRecordId(consultation.getGynecologySubRecord() != null ? consultation.getGynecologySubRecord().getId() : null)
@@ -125,6 +126,7 @@ public class ConsultationService {
                 .breasts(dto.getBreasts())
                 .vagina(dto.getVagina())
                 .examination(dto.getExamination())
+                .prescription(dto.getPrescription())
                 .consultationType(dto.getConsultationType())
                 .echographies(dto.getEchographies().stream().map(echographieService::mapToEntity).toList())
                 .build();
@@ -192,6 +194,10 @@ public class ConsultationService {
             html.append("<p>No analyses available</p>");
         }
         html.append("<br>");
+        // Prescription Section
+        html.append("<h4>Prescription</h4>");
+        html.append("<br>");
+        html.append("<div>").append(consultation.getPrescription() != null ? consultation.getPrescription() : "N/A").append("</div>");
 
         html.append("</div>");
 

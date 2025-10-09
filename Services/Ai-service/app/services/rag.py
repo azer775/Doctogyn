@@ -9,7 +9,8 @@ import unicodedata
 import tempfile
 from app.core.ChromaClient import ChromaClient
 from app.services.ChunkingService import ChunkingService
-
+from app.models.alert_request import AlertRequest
+from bs4 import BeautifulSoup
 
 class RagService:
     def __init__(self, collection_name: str = "rag_collection"):
@@ -30,25 +31,44 @@ class RagService:
         )
         
         # Set up RAG prompt
-        prompt_template = """You are a medical assistant expert.
+        prompt_template = """You are an AI assistant specialized in medical analysis. You will receive:
 
-                            Based on the following context and the provided summary of a patient's medical record, generate a concise list of **clinical alerts or recommended actions** the doctor should consider.
+1. A resume of a medical record for a patient, summarizing the current consultation (including patient details, symptoms, diagnoses, prescriptions, tests ordered, and doctor's notes/actions).
+2. The last consultation details.
+3. Relevant scientific data (e.g., excerpts from guidelines, studies, or evidence-based recommendations from sources like WHO, ACOG, or peer-reviewed papers). Use this data only if it is directly relevant and evidence-based to identify omissions or mistakes—do not invent or assume information beyond what's provided.
 
-                            - Answer in the summary's language.
-                            - Focus on actionable insights that can be derived from the medical record.
-                            - Present your recommendations as clear, actionable bullet points.
-                            - Be specific and medically sound.
+Your task: Analyze the medical record resume in the context of the current consultation only. Generate alerts that highlight any potential omissions or mistakes in the doctor's approach, such as missing prescriptions, screenings, monitorings, or follow-ups based on standard medical practices inferred from the provided scientific data (if applicable). Alerts must be concise, factual, and tied directly to the consultation details. If no issues are found, return an empty list.
 
-                            Context:
-                            {context}
+Focus solely on the current consultation—ignore past history unless it directly impacts the present.
+Only use scientific data if it efficiently supports identifying a gap (e.g., cite briefly in the alert if it strengthens the point, like "per WHO guidelines").
+Do not add alerts for non-omissions (e.g., no positive feedback, only potential issues).
 
-                            Summary of the medical record:
-                            {question}
+Examples of alerts (for illustration; generate based on input):
+- "No iron supplementation prescribed for a pregnant woman"
+- "No folic acid prescribed in early pregnancy"
+- "Missing screening or monitoring for diabetes or hypertension"
 
-                            Recommended actions:"""
+Relevant scientific data (Context):
+{context}
+
+Resume of the medical record:
+{resume}
+
+Last consultation:
+{consultation}
+
+Output strictly in JSON format conforming to this schema (no additional text, explanations, or fields):
+{{
+    "alerts": [
+        "string describing the alert 1",
+        "string describing the alert 2"
+    ]
+}}
+
+Generate alerts:"""
         
         self.prompt = PromptTemplate(
-            template=prompt_template, input_variables=["context", "question"]
+            template=prompt_template, input_variables=["context", "resume", "consultation"]
         )
         
         # Initialize RAG pipeline
@@ -94,6 +114,7 @@ class RagService:
                             doc.page_content = unicodedata.normalize('NFKD', doc.page_content)
                             doc.page_content = ''.join(c if ord(c) < 128 else ' ' for c in doc.page_content)
                             doc.page_content = doc.page_content.replace("\\", "\\\\")
+                            print(doc.page_content)
                             # Set metadata
                             doc.metadata = {"url": url}
                             documents.append(doc)
@@ -109,14 +130,32 @@ class RagService:
         except Exception as e:
             raise ValueError(f"Failed to load and store documents: {e}")
 
-    def query_rag(self, question: str) -> dict:
+    def query_rag(self, alert_request: AlertRequest) -> dict:
         """Query the RAG pipeline and return answer with source documents."""
         try:
-            result = self.qa_chain.invoke({"query": question})
+            # Retrieve relevant documents based on the resume and consultation
+            query_text = f"{alert_request.resume}\n\n{alert_request.consultation}"
+            relevant_docs = self.vector_store.as_retriever(search_kwargs={"k": 5}).get_relevant_documents(query_text)
+            
+            # Build context from retrieved documents
+            context = "\n\n".join([doc.page_content for doc in relevant_docs])
+            
+            # Format the prompt with all required variables
+            formatted_prompt = self.prompt.format(
+                context=context,
+                resume=alert_request.resume,
+                consultation=alert_request.consultation
+            )
+            
+            # Invoke the LLM
+            result = self.llm.invoke(formatted_prompt)
+            
+            # Extract source metadata
             sources = [
                 {"content": doc.page_content[:500], "metadata": doc.metadata}
-                for doc in result.get("source_documents", [])
+                for doc in relevant_docs
             ]
-            return {"answer": result["result"], "sources": sources}
+            
+            return {"answer": result.content, "sources": sources}
         except Exception as e:
             raise ValueError(f"Error querying RAG pipeline: {e}")

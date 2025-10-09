@@ -1,0 +1,120 @@
+<div class="scheduler-container">
+  <!-- Header -->
+  <div class="scheduler-header">
+    <h1 class="scheduler-title">🗓️ Appointment</h1>
+    
+    <div class="flex gap-2">
+      <button 
+        class="scheduler-btn-success"
+        (click)="openAddAppointmentDialog()">
+        + Add Appointment
+      </button>
+      <button 
+        [ngClass]="viewMode === 'week' ? 'scheduler-btn-primary-active' : 'scheduler-btn-secondary-inactive'"
+        (click)="switchView('week')">
+        Week View
+      </button>
+      <button 
+        [ngClass]="viewMode === 'day' ? 'scheduler-btn-primary-active' : 'scheduler-btn-secondary-inactive'"
+        (click)="switchView('day')">
+        Day View
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="scheduler-nav-section">
+    <button 
+      class="scheduler-btn-secondary"
+      (click)="previousWeek()">
+      ◀ {{ viewMode === 'week' ? 'Previous Week' : 'Previous Day' }}
+    </button>
+    
+    <h2 class="scheduler-period-title">
+      {{ getCurrentPeriod() }}
+    </h2>
+    
+    <button 
+      class="scheduler-btn-secondary"
+      (click)="nextWeek()">
+      {{ viewMode === 'week' ? 'Next Week' : 'Next Day' }} ▶
+    </button>
+    
+    <button 
+      class="scheduler-btn-primary"
+      (click)="goToToday()">
+      📅 Today
+    </button>
+  </div>
+
+  <!-- Schedule Grid -->
+  <div class="bg-white rounded-lg shadow-sm overflow-x-auto mb-6 border border-gray-200">
+    <div class="grid min-w-[900px]" [ngClass]="viewMode === 'day' ? 'grid-cols-[100px_1fr] max-w-[600px] mx-auto' : 'grid-cols-[100px_repeat(7,1fr)]'">
+      <!-- Time column -->
+      <div class="bg-gradient-to-b from-gray-50 to-gray-100 border-r-2 border-gray-300 sticky left-0 z-10">
+        <div class="p-3 font-semibold text-center border-b-2 border-gray-300 bg-gradient-to-br from-[#6fdcdc] to-[#58b0b0] text-sm text-white h-[70px] flex items-center justify-center uppercase tracking-wider">
+          Time
+        </div>
+        <div *ngFor="let hour of hours" class="p-2.5 text-center border-b border-gray-300 text-xs text-gray-600 font-medium h-20 flex items-center justify-center">
+          {{ formatHour(hour) }}
+        </div>
+      </div>
+
+      <!-- Day columns -->
+      <div *ngFor="let day of weekDays" class="border-r border-gray-300 transition-colors duration-150 hover:bg-gray-50">
+        <div class="p-3.5 text-center border-b-2 border-gray-300 h-[70px] flex flex-col justify-center items-center gap-1" 
+             [ngClass]="day.isToday ? 'bg-gradient-to-br from-[#6fdcdc] to-[#58b0b0] text-white' : 'bg-white'">
+          <div class="text-sm font-semibold uppercase tracking-wide" 
+               [ngClass]="day.isToday ? 'text-white' : 'text-gray-700'">
+            {{ day.dayName }}
+          </div>
+          <div class="text-xl font-bold" 
+               [ngClass]="day.isToday ? 'text-white' : 'text-gray-900'">
+            {{ day.dayNumber }}
+          </div>
+        </div>
+
+        <div *ngFor="let slot of day.timeSlots" class="p-1.5 border-b border-gray-300 min-h-[80px] flex flex-col gap-1.5 transition-colors duration-150 hover:bg-green-50">
+          <div 
+            *ngFor="let appointment of slot.appointments"
+            class="rounded-md p-2 cursor-pointer transition-all duration-200 text-white text-xs shadow-md border-l-4 hover:-translate-y-1 hover:shadow-lg"
+            [style.background-color]="getConsultationTypeColor(appointment.consultationType)"
+            [style.border-left-color]="getConsultationTypeColor(appointment.consultationType)"
+            [title]="'Click to view details'"
+            (click)="viewAppointment(appointment)">
+            <div class="font-bold mb-1 text-[13px] flex items-center gap-1">
+              🕐 {{ appointment.date | date:'HH:mm' }}
+            </div>
+            <div class="font-semibold text-[11px] uppercase tracking-wide mb-1 opacity-95">
+              {{ appointment.consultationType }}
+            </div>
+            <div class="text-[10px] opacity-90 italic overflow-hidden text-ellipsis whitespace-nowrap" *ngIf="appointment.reason">
+              {{ appointment.reason | slice:0:30 }}...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="p-5 bg-white rounded-lg shadow-sm border border-gray-200">
+    <h3 class="m-0 mb-4 text-base font-semibold text-gray-900">📋 Consultation Types</h3>
+    <div class="flex gap-6 flex-wrap">
+      <div class="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
+        <span class="w-6 h-6 rounded inline-block shadow-sm border border-black/10 bg-[#e91e63]"></span>
+        <span>Gynecology</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
+        <span class="w-6 h-6 rounded inline-block shadow-sm border border-black/10 bg-[#9c27b0]"></span>
+        <span>Fertility</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
+        <span class="w-6 h-6 rounded inline-block shadow-sm border border-black/10 bg-[#2196f3]"></span>
+        <span>Obstetrics</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+

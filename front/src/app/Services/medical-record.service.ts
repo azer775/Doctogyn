@@ -30,6 +30,11 @@ private apiUrl = 'http://localhost:8080/medical-records';
       catchError(this.handleError)
     );
   }
+  getCabinetMedicalRecords(): Observable<MedicalRecord[]> {
+    return this.http.get<MedicalRecord[]>(`${this.apiUrl}/NamesByCabinet`).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   updateMedicalRecord(id: number, dto: MedicalRecord): Observable<MedicalRecord> {
     return this.http.put<MedicalRecord>(`${this.apiUrl}/update/${id}`, dto).pipe(

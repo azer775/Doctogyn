@@ -80,8 +80,14 @@ public class MedicalRecordController {
     public ResponseEntity<List<AbbreviationDefinition>> addAbbreviations(@RequestHeader (value = "Authorization", required = false) String auth, @RequestBody List<AbbreviationDefinition> definitions) {
         return userService.add(auth, definitions);
     }
-    @GetMapping("/doctorsbycabinet" )
-    public List<MedicalRecordDTO> getbycabinet(@RequestHeader (value = "Authorization", required = false) String auth) {
+    @GetMapping("/doctorsByCabinet" )
+    public List<MedicalRecordDTO> getByCabinet(@RequestHeader (value = "Authorization", required = false) String auth) {
         return medicalRecordService.getMedicalRecordsByIds(auth);
     }
+    @GetMapping("/NamesByCabinet" )
+    public List<MedicalRecordDTO> getNamesByCabinet(@RequestHeader (value = "Authorization", required = false) String auth) {
+        return medicalRecordService.getMedicalRecordsNameAndSurname(auth);
+    }
+
+
 }

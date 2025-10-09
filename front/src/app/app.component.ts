@@ -55,11 +55,12 @@ import { CrewFormComponent } from "./Components/crew-form/crew-form.component";
 import { CrewTabComponent } from "./Components/crew-tab/crew-tab.component";
 import { SettingsComponent } from "./Components/settings/settings.component";
 import { Scheduler2Component } from "./Components/scheduler2/scheduler2.component";
+import { AppointmentFormComponent } from "./Components/appointment-form/appointment-form.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component, AppointmentFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

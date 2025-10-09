@@ -12,6 +12,7 @@ export class Consultation {
   public breasts!: Status;
   public examination!: string;
   public vagina!: Status;
+  public prescription!: string;
   public consultationType!: ConsultationType;
   public gynecologySubRecordId!: number | null;
   public fertilitySubRecordId!: number | null;

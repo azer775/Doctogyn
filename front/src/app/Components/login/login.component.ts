@@ -68,8 +68,8 @@ export class LoginComponent {
         }
         console.log("User roles:", this.tokenService.userRoles);
         console.log("User cabinet:", this.tokenService.cabinet);
-        // Navigate to home or dashboard
-        this.router.navigate(['/']);
+        // Navigate to dashboard
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.isLoading = false;
