@@ -187,11 +187,21 @@ public class ConsultationService {
 
         // Analyses Section
         html.append("<h4>Analyses</h4>");
-        String analyses = analyseService.getHtmlAnalyses(consultation.getId());
-        if (!Objects.equals(analyses, "<div></div>")) {
-            html.append(analyses);
-        } else {
-            html.append("<p>No analyses available</p>");
+        if(consultation.getId()!=null){
+            String analyses = analyseService.getHtmlAnalyses(consultation.getId());
+            if (!Objects.equals(analyses, "<div></div>")) {
+                html.append(analyses);
+            } else {
+                html.append("<p>No analyses available</p>");
+            }
+        }else {
+            System.out.println("Consultation ID is null, cannot fetch analyses."+ consultation.getExtractionAnalyses());
+            String analyses = analyseService.getDocAnalyses(consultation.getExtractionAnalyses());
+            if (!Objects.equals(analyses, "<div></div>")) {
+                html.append(analyses);
+            } else {
+                html.append("<p>No analyses available</p>");
+            }
         }
         html.append("<br>");
         // Prescription Section

@@ -19,6 +19,7 @@ import { BloodGroup } from '../../Models/BloodGroup';
 import { Radiology } from '../../Models/Radiology';
 import { Serology } from '../../Models/Serology';
 import { SpermAnalysis } from '../../Models/SpermAnalysis';
+import { AlertService } from '../../Services/alert.service';
 
 @Component({
   selector: 'app-consultation-form',
@@ -52,11 +53,17 @@ export class ConsultationFormComponent  implements OnInit {
   showAnalysesDropdown: boolean = false;
   isAnalysesCollapsed: boolean = true;
   collectedAnalysesData: ExtractionResponse | null = null;
+  
+  // Alert popup properties
+  showAlertPopup: boolean = false;
+  alertMessages: string[] = [];
+  isLoadingAlerts: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private consultationService: ConsultationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private alertService: AlertService
   ) {
     this.consultationForm = this.fb.group({
       date: ['', Validators.required],
@@ -265,7 +272,7 @@ export class ConsultationFormComponent  implements OnInit {
    * Collects all consultation data without submitting
    * Used for preview or AI processing
    */
-  collectConsultationData(): Consultation {
+  collectConsultationData(): void {
     console.log('=== COLLECTING CONSULTATION DATA ===');
     
     // Get current analyses data from the AnalysesListComponent
@@ -277,6 +284,7 @@ export class ConsultationFormComponent  implements OnInit {
     
     const consultation: Consultation = {
       ...this.consultationForm.value,
+      //id: this.consultationId || undefined,
       date: this.consultationForm.value.date ? new Date(this.consultationForm.value.date) : new Date(),
       examination: this.consultationForm.get('examination')?.value,
       prescription: this.consultationForm.get('prescription')?.value,
@@ -286,7 +294,32 @@ export class ConsultationFormComponent  implements OnInit {
 
     console.log('Collected consultation object:', consultation);
     
-    return consultation;
+    // Show loading state
+    this.isLoadingAlerts = true;
+    this.showAlertPopup = false;
+    
+    this.alertService.getAlerts(consultation, this.medicalRecordId!).subscribe({
+      next: (response) => {
+        console.log('Alert response received:', response);
+        this.alertMessages = response.alerts || [];
+        this.showAlertPopup = true;
+        this.isLoadingAlerts = false;
+      },
+      error: (error) => {
+        console.error('Error getting alert response:', error);
+        this.alertMessages = ['Error: Failed to fetch alerts'];
+        this.showAlertPopup = true;
+        this.isLoadingAlerts = false;
+      }
+    });
+  }
+
+  /**
+   * Closes the alert popup
+   */
+  closeAlertPopup(): void {
+    this.showAlertPopup = false;
+    this.alertMessages = [];
   }
 
   // ===== ANALYSES METHODS =====

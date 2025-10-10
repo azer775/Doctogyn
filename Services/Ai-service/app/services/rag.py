@@ -1,4 +1,5 @@
 import os
+import json
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
@@ -10,6 +11,7 @@ import tempfile
 from app.core.ChromaClient import ChromaClient
 from app.services.ChunkingService import ChunkingService
 from app.models.alert_request import AlertRequest
+from app.models.alert_response import AlertResponse
 from bs4 import BeautifulSoup
 
 class RagService:
@@ -130,8 +132,8 @@ Generate alerts:"""
         except Exception as e:
             raise ValueError(f"Failed to load and store documents: {e}")
 
-    def query_rag(self, alert_request: AlertRequest) -> dict:
-        """Query the RAG pipeline and return answer with source documents."""
+    def query_rag(self, alert_request: AlertRequest) -> AlertResponse:
+        """Query the RAG pipeline and return AlertResponse object."""
         try:
             # Retrieve relevant documents based on the resume and consultation
             query_text = f"{alert_request.resume}\n\n{alert_request.consultation}"
@@ -150,12 +152,31 @@ Generate alerts:"""
             # Invoke the LLM
             result = self.llm.invoke(formatted_prompt)
             
-            # Extract source metadata
-            sources = [
-                {"content": doc.page_content[:500], "metadata": doc.metadata}
-                for doc in relevant_docs
-            ]
-            
-            return {"answer": result.content, "sources": sources}
+            # Parse the JSON response from the LLM
+            try:
+                # Clean the response to extract JSON
+                response_text = result.content.strip()
+                
+                # Remove markdown code blocks if present
+                if response_text.startswith("```json"):
+                    response_text = response_text[7:]
+                if response_text.startswith("```"):
+                    response_text = response_text[3:]
+                if response_text.endswith("```"):
+                    response_text = response_text[:-3]
+                
+                response_text = response_text.strip()
+                
+                # Parse JSON
+                parsed_response = json.loads(response_text)
+                
+                # Create and return AlertResponse object
+                return AlertResponse(alerts=parsed_response.get("alerts", []))
+            except json.JSONDecodeError as e:
+                # If JSON parsing fails, return empty alerts
+                print(f"Failed to parse LLM response as JSON: {e}")
+                print(f"Raw response: {result.content}")
+                return AlertResponse(alerts=[])
+                
         except Exception as e:
             raise ValueError(f"Error querying RAG pipeline: {e}")

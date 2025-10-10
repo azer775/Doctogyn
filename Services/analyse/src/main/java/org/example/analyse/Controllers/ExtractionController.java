@@ -29,4 +29,8 @@ public class ExtractionController {
     public String getHtmlAnalyses(@PathVariable long id) {
         return extractionService.toHtml(id);
     }
+    @PostMapping("/getHtmlDoc")
+    public String getDocAnalyses(@RequestBody ExtractionResponse response) {
+        return extractionService.toHtml(response);
+    }
 }

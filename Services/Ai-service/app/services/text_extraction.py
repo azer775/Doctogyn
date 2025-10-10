@@ -52,7 +52,7 @@ class TextExtractionService:
             i+=1
             if not text.strip():
                 print(f"Falling back to OCR for file: {file.filename}")
-                ocr_text = self.perform_ocr_on_pdf(file, content)
+                ocr_text = self.perform_ocr_on_pdf(file, content, file.filename)
                 all_text += f"\nDOCUMENT{i}\n{ocr_text}\nEND\n"
             else: 
                 all_text += f"\nDOCUMENT{i}\n{text}\nEND\n"
@@ -60,9 +60,9 @@ class TextExtractionService:
         print("all_text",all_text)
         return "\n".join(all_text) + "\nDOCUMENT END\n"
 
-    def perform_ocr_on_pdf(file: UploadFile, content: bytes, dpi: int = 300) -> str:
+    def perform_ocr_on_pdf(file: UploadFile, content: bytes, dpi: int = 300, filename: str = None) -> str:
         """OCR logic: for PDFs convert pages to images; for images, OCR directly."""
-        ext = file.filename.lower().split('.')[-1]
+        ext = filename.lower().split('.')[-1]
         ocr_text_parts = [] 
         print("ext: ",ext)
         try: 
@@ -80,9 +80,9 @@ class TextExtractionService:
                 ocr_text_parts.append(text)
                 print("ocr_text_parts",text)    
             else:
-                return f"[ERROR: Unsupported file type for OCR: {file.filename}]"
+                return f"[ERROR: Unsupported file type for OCR: {filename}]"
         except Exception as e:
-            return f"[ERROR: OCR failed for {file.filename}: {e}]"
+            return f"[ERROR: OCR failed for {filename}: {e}]"
         return "\n".join(redact_with_spacy(text) for text in ocr_text_parts).strip()
 nlp = spacy.load("en_core_web_md")     
 def redact_with_spacy(text: str) -> str:

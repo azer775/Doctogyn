@@ -209,14 +209,64 @@
       <div class="consultation-form-field-group full-width">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
           <label for="prescription" class="consultation-form-label" style="margin-bottom: 0;">Prescription</label>
-          <button type="button" 
-                  (click)="collectConsultationData()" 
-                  class="px-3 py-1.5 text-sm bg-[#6fdcdc] text-white rounded-md hover:bg-[#5cc5c5] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-2 transition-colors flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Collect Data
-          </button>
+          <div style="position: relative;">
+            <button type="button" 
+                    (click)="collectConsultationData()" 
+                    [disabled]="isLoadingAlerts"
+                    class="px-3 py-1.5 text-sm bg-[#6fdcdc] text-white rounded-md hover:bg-[#5cc5c5] focus:outline-none focus:ring-2 focus:ring-[#6fdcdc] focus:ring-offset-2 transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg *ngIf="!isLoadingAlerts" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <svg *ngIf="isLoadingAlerts" class="animate-spin h-4 w-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {{ isLoadingAlerts ? 'Checking...' : 'Check Alerts' }}
+            </button>
+            
+            <!-- Alert Popup -->
+            <div *ngIf="showAlertPopup" 
+                 class="absolute right-0 top-full mt-2 w-96 max-h-96 overflow-y-auto bg-white rounded-lg shadow-2xl border-2 border-[#6fdcdc] z-50"
+                 (click)="$event.stopPropagation()">
+              <div class="sticky top-0 bg-[#6fdcdc] text-white px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                  </svg>
+                  <h4 class="font-semibold">Alerts ({{ alertMessages.length }})</h4>
+                </div>
+                <button type="button" 
+                        (click)="closeAlertPopup()" 
+                        class="text-white hover:text-gray-200 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div class="p-4">
+                <div *ngIf="alertMessages.length === 0" class="text-center py-8 text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p class="font-medium">No alerts found</p>
+                  <p class="text-sm mt-1">Everything looks good!</p>
+                </div>
+                
+                <ul *ngIf="alertMessages.length > 0" class="space-y-2">
+                  <li *ngFor="let alert of alertMessages; let i = index" 
+                      class="flex items-start p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-3 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <div class="flex-1">
+                      <span class="text-sm text-gray-800">{{ alert }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         <app-editor formControlName="prescription" [config]="defaultConfig" class="consultation-form-editor"></app-editor>
       </div>

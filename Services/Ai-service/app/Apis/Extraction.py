@@ -5,6 +5,7 @@ from traitlets import This
 
 from app.models.summaryClasses import FinalResponse, SummaryRequest
 from app.models.alert_request import AlertRequest
+from app.models.alert_response import AlertResponse
 from app.services.analysis_extraction import BloodExtractionService
 from app.services.summary import SummaryService
 from app.services.rag import RagService
@@ -23,10 +24,10 @@ async def extract_blood_data_embedding(files: List[UploadFile] = File(...)):
 async def to_markdown(html_content: SummaryRequest) -> FinalResponse:
     summary = summary_service.analyze_medical_record(html_content.text, html_content.abbreviations)
     return summary
-@router.post("/testvector")
-async def test_vector(alert_request: AlertRequest):
+@router.post("/testvector", response_model=AlertResponse)
+async def test_vector(alert_request: AlertRequest) -> AlertResponse:
     result = rag_service.query_rag(alert_request)
-    return {"message": "Test vector endpoint", "result": result} 
+    return result 
 @router.post("/scrape-and-query")
 async def scrape_and_query():
     result = rag_service.load_and_store_documents(['https://pmc.ncbi.nlm.nih.gov/articles/PMC7170743/'])

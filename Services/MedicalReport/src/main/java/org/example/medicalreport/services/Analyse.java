@@ -18,4 +18,6 @@ public interface Analyse {
     ExtractionResponse update(ExtractionResponse response);
     @GetMapping("/extraction/getHtml/{id}")
     String getHtmlAnalyses(@PathVariable long id);
+    @PostMapping("/extraction/getHtmlDoc")
+    String getDocAnalyses(@RequestBody ExtractionResponse response);
 }
