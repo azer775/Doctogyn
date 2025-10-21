@@ -27,17 +27,109 @@ export class EditorComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
-  
+  private defaultEditorCss: string = `
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 40px;
+      font-size: 12pt;
+      color: #333333;
+      line-height: 1.4;
+    }
+    h2 {
+      font-size: 18pt;
+      color: #1a3c6d;
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #1a3c6d;
+      padding-bottom: 5px;
+    }
+    h3 {
+      font-size: 14pt;
+      color: #2e5a8a;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    h4 {
+      font-size: 12pt;
+      color: #4a4a4a;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    p {
+      margin: 5px 0;
+      font-size: 11pt;
+    }
+    strong {
+      font-weight: bold;
+      color: #333333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #999999;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f0fa;
+      font-weight: bold;
+      color: #1a3c6d;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    ul {
+      list-style-type: disc;
+      margin: 10px 0 10px 20px;
+      font-size: 11pt;
+    }
+    .custom-table {
+      width: auto;
+      min-width: 50%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .custom-table th, .custom-table td {
+      border: 1px solid #999999;
+      padding: 8px;
+    }
+    .custom-table th {
+      background-color: #e6f0fa;
+    }
+    div {
+      margin-bottom: 15px;
+    }
+    p p {
+      margin: 0;
+      display: inline;
+    }
+    h3, h2 {
+      page-break-after: avoid;
+    }
+    table {
+      page-break-inside: auto;
+    }
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+  ;`
   defaultConfig: any = {
     height: 200,
     width: '50%',
     focus: true,
-    tableClassName: 'custom-table',
+    //tableClassName: 'custom-table',
     toolbar: [
       ['style', ['bold', 'italic', 'underline']],
       ['para', ['ul', 'ol']],
       ['table', ['table']],
-      ['insert', ['link', 'picture']]
+      ['insert', ['link', 'picture']],
+      ['para', ['style0', 'ul', 'ol', 'paragraph', 'height']]
     ],
     popover: {
       table: [
@@ -50,7 +142,7 @@ export class EditorComponent implements OnInit, OnChanges, ControlValueAccessor 
     tableStyles: {
       'table-striped': 'Striped',
       'table-bordered': 'Bordered',
-      'custom-table': 'Custom Style'
+     // 'custom-table': 'Custom Style'
     },
     callbacks: {
       onChange: (contents: string) => {

@@ -12,7 +12,7 @@ app-root {
 
 /* Main content area (adjusted for sidebar) */
 .main-content {
-  margin-left: 64px;
+  margin-left: 30px;
   height: 100vh;
   padding: 0;
   overflow: auto;
@@ -259,22 +259,115 @@ app-root {
   width: 100%;
 }
 
-.note-editable table.custom-table {
-  border-collapse: collapse;
+.note-editable {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+  color: #333333;
+  line-height: 1.4;
+}
+
+.note-editable h2 {
+  font-size: 18pt;
+  color: #1a3c6d;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #1a3c6d;
+  padding-bottom: 5px;
+}
+
+.note-editable h3 {
+  font-size: 14pt;
+  color: #2e5a8a;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.note-editable h4 {
+  font-size: 12pt;
+  color: #4a4a4a;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.note-editable p {
+  margin: 5px 0;
+  font-size: 11pt;
+}
+
+.note-editable strong {
+  font-weight: bold;
+  color: #333333;
+}
+
+.note-editable table {
   width: 100%;
-  border: 2px solid #6fdcdc;
-  background-color: #e8e8e8;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 11pt;
 }
 
-.note-editable table.custom-table th,
-.note-editable table.custom-table td {
-  border: 1px solid #6fdcdc;
-  padding: 12px;
+.note-editable th,
+.note-editable td {
+  border: 1px solid #999999;
+  padding: 8px;
+  text-align: left;
 }
 
-.note-editable table.custom-table th {
-  background-color: #6fdcdc;
-  color: #030c08;
+.note-editable th {
+  background-color: #e6f0fa;
+  font-weight: bold;
+  color: #1a3c6d;
+}
+
+.note-editable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.note-editable ul {
+  list-style-type: disc;
+  margin: 10px 0 10px 20px;
+  font-size: 11pt;
+}
+
+.note-editable .table {
+  width: auto;
+  min-width: 50%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.note-editable .table th,
+.note-editable .table td {
+  border: 1px solid #999999;
+  padding: 8px;
+}
+
+.note-editable .table th {
+  background-color: #e6f0fa;
+}
+
+.note-editable div {
+  margin-bottom: 15px;
+}
+
+.note-editable p p {
+  margin: 0;
+  display: inline;
+}
+
+.note-editable h3,
+.note-editable h2 {
+  page-break-after: avoid;
+}
+
+.note-editable table {
+  page-break-inside: auto;
+}
+
+.note-editable tr {
+  page-break-inside: avoid;
+  page-break-after: auto;
 }
 
 /* Tabs Component Styles */

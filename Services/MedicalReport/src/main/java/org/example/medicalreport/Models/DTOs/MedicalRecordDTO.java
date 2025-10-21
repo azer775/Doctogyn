@@ -24,6 +24,7 @@ public class MedicalRecordDTO {
     private CivilState civilState;
     private String email;
     private String comment;
+    private int doctorId;
     private List<MedicalBackgroundDTO> medicalBackgrounds;
     private List<GynecologySubRecordDTO> gynecologySubRecords;
     private List<FertilitySubRecordDTO> fertilitySubRecords;

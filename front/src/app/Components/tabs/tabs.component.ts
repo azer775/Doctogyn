@@ -22,7 +22,7 @@ import { ObstetricsRecordFormComponent } from '../obstetrics-record-form/obstetr
 export class TabsComponent implements OnInit {
   tabs: { title: string; isPreview?: boolean; subRecordId?: number; type?: 'gynecology' | 'fertility' | 'obstetrics' }[] = [];
   activeTab = 0;
-  medicalRecordId = 1; // Replace with dynamic ID (e.g., from route params)
+  medicalRecordId!: number; // Replace with dynamic ID (e.g., from route params)
   medicalRecord: MedicalRecord | null = null;
   isDropdownOpen = false;
   @ViewChild('addButton') addButton!: ElementRef;
@@ -159,6 +159,7 @@ export class TabsComponent implements OnInit {
   }
 
   openObstetricsForm() {
+    console.log("id:", this.medicalRecordId);
     this.closeDropdown();
     const dialogRef = this.dialog.open(ObstetricsRecordFormComponent, {
       data: { medicalRecordId: this.medicalRecordId },

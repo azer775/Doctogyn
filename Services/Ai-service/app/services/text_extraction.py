@@ -9,7 +9,11 @@ import pdfplumber
 import pytesseract
 from traitlets import This
 from PIL import Image
+import os
+
+# Set Tesseract executable and tessdata path
 pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe"
+os.environ['TESSDATA_PREFIX'] = r"C:/Program Files/Tesseract-OCR/tessdata"
 
 
 class TextExtractionService:
@@ -60,22 +64,31 @@ class TextExtractionService:
         print("all_text",all_text)
         return "\n".join(all_text) + "\nDOCUMENT END\n"
 
-    def perform_ocr_on_pdf(file: UploadFile, content: bytes, dpi: int = 300, filename: str = None) -> str:
+    def perform_ocr_on_pdf(self, file: UploadFile, content: bytes, filename: str = None, dpi: int = 300) -> str:
         """OCR logic: for PDFs convert pages to images; for images, OCR directly."""
         ext = filename.lower().split('.')[-1]
         ocr_text_parts = [] 
         print("ext: ",ext)
         try: 
+            # Try French first, fallback to English if not available
+            try:
+                lang = "fra"
+                # Test if French is available
+                pytesseract.get_languages()
+            except:
+                lang = "eng"
+                print(f"Warning: French language not available, using English for {filename}")
+            
             if ext == "pdf":
                 doc = fitz.open(stream=content, filetype="pdf")
                 for page in doc:
                     pix = page.get_pixmap(dpi=dpi)
                     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                    text = pytesseract.image_to_string(img, lang="fr")
+                    text = pytesseract.image_to_string(img, lang=lang)
                     ocr_text_parts.append(text)
             elif ext in ["png", "jpg", "jpeg", "bmp", "tiff"]:
                 img = Image.open(BytesIO(content))
-                text = pytesseract.image_to_string(img)
+                text = pytesseract.image_to_string(img, lang=lang) 
                 print("ocr_text_parts",text)
                 ocr_text_parts.append(text)
                 print("ocr_text_parts",text)    

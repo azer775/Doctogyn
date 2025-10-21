@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CivilState } from '../../Models/enums';
 import { FertilitySubRecord } from '../../Models/FertilitySubRecord';
 import { FertilityfubrecordService } from '../../Services/fertilityfubrecord.service';
 import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-fertility-sub-record-form',
@@ -13,14 +14,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './fertility-sub-record-form.component.css'
 })
 export class FertilitySubRecordFormComponent implements OnInit {
-  @Input() data: { medicalRecordId: number } = { medicalRecordId: 1 };
+ // @Input() data: { medicalRecordId: number } = { medicalRecordId: 1 };
   @Output() formSubmitted = new EventEmitter<void>();
   fertilityForm: FormGroup;
   CivilStates = Object.values(CivilState);
 
   constructor(
     private fb: FormBuilder,
-    private fertilitySubRecordService: FertilityfubrecordService
+    private fertilitySubRecordService: FertilityfubrecordService,
+    @Inject(MAT_DIALOG_DATA) public data: { medicalRecordId: number }
   ) {
     this.fertilityForm = this.fb.group({
       age: [0, [Validators.required, Validators.min(0)]],

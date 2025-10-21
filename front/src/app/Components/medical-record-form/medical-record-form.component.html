@@ -1,38 +1,165 @@
- <div>
-      <h2>Add Medical Record</h2>
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" [(ngModel)]="medicalRecord.name" type="text" required>
+<div class="medical-record-dialog">
+  <!-- Dialog Header -->
+  <div class="medical-record-dialog-header">
+    <h2 class="medical-record-dialog-title">
+      <svg xmlns="http://www.w3.org/2000/svg" class="dialog-title-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add Medical Record
+    </h2>
+    <button class="medical-record-dialog-close" (click)="onCancel()" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" class="close-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Dialog Content -->
+  <div class="medical-record-dialog-content">
+    <form (ngSubmit)="addMedicalRecord()">
+      <!-- Personal Information Section -->
+      <div class="form-section-block">
+        <h3 class="form-section-title">Personal Information</h3>
+        
+        <div class="form-field-row">
+          <div class="form-field-group">
+            <label for="name">Name <span class="required">*</span></label>
+            <input 
+              id="name" 
+              [(ngModel)]="medicalRecord.name" 
+              name="name"
+              type="text" 
+              class="form-input-field"
+              placeholder="Enter name"
+              required
+            >
+          </div>
+          
+          <div class="form-field-group">
+            <label for="surname">Surname <span class="required">*</span></label>
+            <input 
+              id="surname" 
+              [(ngModel)]="medicalRecord.surname" 
+              name="surname"
+              type="text" 
+              class="form-input-field"
+              placeholder="Enter surname"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-field-row">
+          <div class="form-field-group">
+            <label for="birthDate">Birth Date <span class="required">*</span></label>
+            <input 
+              id="birthDate" 
+              [(ngModel)]="medicalRecord.birthDate" 
+              name="birthDate"
+              type="date" 
+              class="form-input-field"
+              required
+            >
+          </div>
+          
+          <div class="form-field-group">
+            <label for="sex">Sex <span class="required">*</span></label>
+            <select 
+              id="sex" 
+              [(ngModel)]="medicalRecord.sex" 
+              name="sex"
+              class="form-select-field"
+              required
+            >
+              <option *ngFor="let sex of Sex" [value]="sex">{{ sex }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field-row">
+          <div class="form-field-group">
+            <label for="civilState">Civil State <span class="required">*</span></label>
+            <select 
+              id="civilState" 
+              [(ngModel)]="medicalRecord.civilState" 
+              name="civilState"
+              class="form-select-field"
+              required
+            >
+              <option *ngFor="let state of CivilState" [value]="state">{{ state }}</option>
+            </select>
+          </div>
+          
+          <div class="form-field-group">
+            <label for="email">Email</label>
+            <input 
+              id="email" 
+              [(ngModel)]="medicalRecord.email" 
+              name="email"
+              type="email" 
+              class="form-input-field"
+              placeholder="Enter email address"
+            >
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="surname">Surname:</label>
-        <input id="surname" [(ngModel)]="medicalRecord.surname" type="text" required>
+
+      <!-- Additional Information Section -->
+      <div class="form-section-block">
+        <h3 class="form-section-title">Additional Information</h3>
+        
+        <div class="form-field-row">
+          <div class="form-field-group" style="flex: 1 1 100%;">
+            <label for="comment">Comment</label>
+            <textarea 
+              id="comment" 
+              [(ngModel)]="medicalRecord.comment"
+              name="comment"
+              class="form-textarea-field"
+              placeholder="Add any additional notes or comments..."
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="birthDate">Birth Date:</label>
-        <input id="birthDate" [(ngModel)]="medicalRecord.birthDate" type="date" required>
+
+      <!-- Success/Error Messages -->
+      <div *ngIf="successMessage" class="success-message">
+        <svg xmlns="http://www.w3.org/2000/svg" class="message-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ successMessage }}
       </div>
-      <div>
-        <label for="sex">Sex:</label>
-        <select id="sex" [(ngModel)]="medicalRecord.sex" required>
-            <option *ngFor="let sex of Sex" [value]="sex">{{ sex }}</option>
-        </select>
+      
+      <div *ngIf="errorMessage" class="error-message">
+        <svg xmlns="http://www.w3.org/2000/svg" class="message-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ errorMessage }}
       </div>
-      <div>
-        <label for="civilState">Civil State:</label>
-        <select id="civilState" [(ngModel)]="medicalRecord.civilState" required>
-            <option *ngFor="let state of CivilState" [value]="state">{{ state }}</option>
-        </select>
+
+      <!-- Action Buttons -->
+      <div class="medical-record-dialog-actions">
+        <button 
+          type="button" 
+          (click)="onCancel()" 
+          class="medical-record-cancel-button"
+          [disabled]="isSubmitting"
+        >
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="medical-record-submit-button"
+          [disabled]="isSubmitting"
+        >
+          <svg *ngIf="!isSubmitting" xmlns="http://www.w3.org/2000/svg" class="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span *ngIf="!isSubmitting">Add Medical Record</span>
+          <span *ngIf="isSubmitting">Adding...</span>
+        </button>
       </div>
-      <div>
-        <label for="email">Email:</label>
-        <input id="email" [(ngModel)]="medicalRecord.email" type="email" >
-      </div>
-      <div>
-        <label for="comment">Comment:</label>
-        <textarea id="comment" [(ngModel)]="medicalRecord.comment"></textarea>
-      </div>
-      <button (click)="addMedicalRecord()">Add Record</button>
-      <p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
-      <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
-    </div>
+    </form>
+  </div>
+</div>

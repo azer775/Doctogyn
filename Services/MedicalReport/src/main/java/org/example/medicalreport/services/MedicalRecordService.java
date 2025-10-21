@@ -37,8 +37,11 @@ public class MedicalRecordService {
     @Autowired
     private ConsultationService consultationService;
 
-    public MedicalRecordDTO createMedicalRecord(MedicalRecordDTO dto) {
+    public MedicalRecordDTO createMedicalRecord(MedicalRecordDTO dto,String auth) {
+        String jwtToken = auth.replace("Bearer ", "");
+        int doctorId = userService.getCurrentUser(jwtToken);
         MedicalRecord medicalRecord = mapToEntity(dto);
+        medicalRecord.setDoctorId(doctorId);
         MedicalRecord saved = medicalRecordRepository.save(medicalRecord);
         return mapToDTO(saved);
     }
@@ -264,6 +267,7 @@ public class MedicalRecordService {
                 .sex(medicalRecord.getSex())
                 .civilState(medicalRecord.getCivilState())
                 .email(medicalRecord.getEmail())
+                .doctorId(medicalRecord.getDoctorId())
                 .comment(medicalRecord.getComment())
                 .build();
     }
@@ -276,6 +280,7 @@ public class MedicalRecordService {
                 .sex(dto.getSex())
                 .civilState(dto.getCivilState())
                 .email(dto.getEmail())
+                .doctorId(dto.getDoctorId())
                 .medicalBackgrounds(dto.getMedicalBackgrounds().stream().map(medicalBackgroundService::mapToEntity).toList())
                 .comment(dto.getComment())
                 .build();

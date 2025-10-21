@@ -22,8 +22,8 @@ public class MedicalRecordController {
     private User userService;
 
     @PostMapping("/add")
-    public ResponseEntity<MedicalRecordDTO> createMedicalRecord(@RequestBody MedicalRecordDTO dto) {
-        MedicalRecordDTO created = medicalRecordService.createMedicalRecord(dto);
+    public ResponseEntity<MedicalRecordDTO> createMedicalRecord(@RequestBody MedicalRecordDTO dto,@RequestHeader (value = "Authorization", required = false) String auth) {
+        MedicalRecordDTO created = medicalRecordService.createMedicalRecord(dto,auth);
         return ResponseEntity.ok(created);
     }
 

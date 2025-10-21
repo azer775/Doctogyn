@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MedicalRecordService } from '../../Services/medical-record.service';
 import { MedicalRecord } from '../../Models/MedicalRecord';
 import { TokenService } from '../../Services/token.service';
+import { MedicalRecordFormComponent } from '../medical-record-form/medical-record-form.component';
 
 @Component({
   selector: 'app-medical-records-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './medical-records-list.component.html',
   styleUrl: './medical-records-list.component.css'
 })
@@ -19,7 +21,8 @@ export class MedicalRecordsListComponent implements OnInit {
   constructor(
     private medicalRecordService: MedicalRecordService,
     private router: Router,
-    private token: TokenService
+    private token: TokenService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +40,21 @@ export class MedicalRecordsListComponent implements OnInit {
       error: (error) => {
         console.error('Error loading medical records:', error);
         this.isLoading = false;
+      }
+    });
+  }
+
+  openAddMedicalRecordDialog(): void {
+    const dialogRef = this.dialog.open(MedicalRecordFormComponent, {
+      width: '800px',
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog-container',
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'success') {
+        this.loadMedicalRecords();
       }
     });
   }

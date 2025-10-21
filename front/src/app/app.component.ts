@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { JsonPipe } from '@angular/common';
 import { MedicalBackgroundFormComponent } from './Components/medical-background-form/medical-background-form.component';
 import { MedicalBackgroundListComponent } from "./Components/medical-background-list/medical-background-list.component";
 import { MedicalRecordFormComponent } from "./Components/medical-record-form/medical-record-form.component";
@@ -56,16 +57,24 @@ import { CrewTabComponent } from "./Components/crew-tab/crew-tab.component";
 import { SettingsComponent } from "./Components/settings/settings.component";
 import { Scheduler2Component } from "./Components/scheduler2/scheduler2.component";
 import { AppointmentFormComponent } from "./Components/appointment-form/appointment-form.component";
+import { DashboardComponent } from "./Components/dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component, AppointmentFormComponent],
+  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component, AppointmentFormComponent, EditorComponent, DashboardComponent, ReactiveFormsModule, JsonPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'front';
+  editorForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.editorForm = this.fb.group({
+      content: ['<h2>Test Medical Report</h2><h3>Patient Information</h3><p><strong>Name:</strong> John Doe</p><p><strong>Date:</strong> October 11, 2025</p><h3>Examination Results</h3><table><thead><tr><th>Test</th><th>Result</th><th>Reference Range</th></tr></thead><tbody><tr><td>Hemoglobin</td><td>14.5 g/dL</td><td>13.5-17.5 g/dL</td></tr><tr><td>White Blood Cells</td><td>7,500 /µL</td><td>4,500-11,000 /µL</td></tr><tr><td>Platelets</td><td>250,000 /µL</td><td>150,000-400,000 /µL</td></tr></tbody></table><h3>Notes</h3><ul><li>All results within normal range</li><li>Patient appears healthy</li><li>Follow-up in 6 months</li></ul><h4>Recommendations</h4><p>Continue current medication and maintain a healthy lifestyle.</p>']
+    });
+  }
   
   // Sample ExtractionResponse to test analyses-list component
   sampleExtractionResponse: ExtractionResponse = {
