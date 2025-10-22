@@ -58,17 +58,126 @@ import { SettingsComponent } from "./Components/settings/settings.component";
 import { Scheduler2Component } from "./Components/scheduler2/scheduler2.component";
 import { AppointmentFormComponent } from "./Components/appointment-form/appointment-form.component";
 import { DashboardComponent } from "./Components/dashboard/dashboard.component";
+import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import { GridComponent, TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+import { EChartsOption } from 'echarts';
+
+// Register ECharts components
+echarts.use([BarChart, LineChart, PieChart, GridComponent, TooltipComponent, LegendComponent, TitleComponent, CanvasRenderer]);
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component, AppointmentFormComponent, EditorComponent, DashboardComponent, ReactiveFormsModule, JsonPipe],
+  imports: [NgxEchartsDirective, AnalysesListComponent, EmailsComponent, LoginOauthComponent, EchographieFormComponent, EmailAnalysesListComponent, TabsComponent, ConsultationFormComponent, SummaryComponent, LoginComponent, NavbarComponent, MedicalRecordFormComponent, MedicalRecordsListComponent, RouterOutlet, CrewFormComponent, CrewTabComponent, SettingsComponent, Scheduler2Component, AppointmentFormComponent, EditorComponent, DashboardComponent, ReactiveFormsModule, JsonPipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  providers: [
+    provideEchartsCore({
+      echarts: () => import('echarts'),
+    }),
+  ],
 })
 export class AppComponent {
   title = 'front';
   editorForm: FormGroup;
+
+  // ECharts Options
+  barChartOption: EChartsOption = {
+    title: {
+      text: 'Patient Visits by Month'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: 'Visits',
+        type: 'bar',
+        data: [120, 200, 150, 80, 70, 110],
+        itemStyle: {
+          color: '#5470c6'
+        }
+      }
+    ]
+  };
+
+  lineChartOption: EChartsOption = {
+    title: {
+      text: 'Blood Pressure Trend'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['Systolic', 'Diastolic']
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
+    },
+    yAxis: {
+      type: 'value',
+      name: 'mmHg'
+    },
+    series: [
+      {
+        name: 'Systolic',
+        type: 'line',
+        data: [120, 118, 125, 122, 119],
+        smooth: true
+      },
+      {
+        name: 'Diastolic',
+        type: 'line',
+        data: [80, 78, 82, 81, 79],
+        smooth: true
+      }
+    ]
+  };
+
+  pieChartOption: EChartsOption = {
+    title: {
+      text: 'Consultation Types Distribution',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: 'Consultation Type',
+        type: 'pie',
+        radius: '50%',
+        data: [
+          { value: 335, name: 'Gynecology' },
+          { value: 234, name: 'Obstetrics' },
+          { value: 156, name: 'Fertility' },
+          { value: 123, name: 'General' }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  };
 
   constructor(private fb: FormBuilder) {
     this.editorForm = this.fb.group({

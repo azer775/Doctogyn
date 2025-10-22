@@ -69,6 +69,135 @@
           </div>
         </div>
       </div>
+      <!-- Report Configuration Section -->
+        <div class="report-config-container">
+          <h3 class="report-config-header">Report Configuration</h3>
+          
+          <div class="report-config-grid">
+            <!-- Subrecords Selection Dropdown -->
+            <div class="report-config-section">
+              <div class="dropdown-header" (click)="toggleSubrecordsDropdown()">
+                <span class="dropdown-title">Select Subrecords</span>
+                <svg 
+                  class="dropdown-icon" 
+                  [class.dropdown-icon-open]="isSubrecordsDropdownOpen"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+              
+              <div class="dropdown-content" [class.dropdown-content-open]="isSubrecordsDropdownOpen">
+                <button 
+                  class="select-all-btn-dropdown"
+                  (click)="selectAllSubrecords()"
+                  title="Select All Subrecords">
+                  Select All
+                </button>
+                
+                <div class="multi-select-list">
+                  <!-- Fertility Subrecords -->
+                  <div class="subrecord-category" *ngIf="medicalRecord.fertilitySubRecords && medicalRecord.fertilitySubRecords.length > 0">
+                    <div class="subrecord-category-title">Fertility Subrecords</div>
+                    <label 
+                      *ngFor="let record of medicalRecord.fertilitySubRecords" 
+                      class="checkbox-item">
+                      <input 
+                        type="checkbox"
+                        [checked]="isSubrecordSelected('fertility', record)"
+                        (change)="toggleSubrecordSelection('fertility', record)">
+                      <span>Fertility Record {{ record.date | date: 'yyyy-MM' }}</span>
+                    </label>
+                  </div>
+
+                  <!-- Gynecology Subrecords -->
+                  <div class="subrecord-category" *ngIf="medicalRecord.gynecologySubRecords && medicalRecord.gynecologySubRecords.length > 0">
+                    <div class="subrecord-category-title">Gynecology Subrecords</div>
+                    <label 
+                      *ngFor="let record of medicalRecord.gynecologySubRecords" 
+                      class="checkbox-item">
+                      <input 
+                        type="checkbox"
+                        [checked]="isSubrecordSelected('gynecology', record)"
+                        (change)="toggleSubrecordSelection('gynecology', record)">
+                      <span>Gynecology Record {{ record.date | date: 'yyyy-MM' }}</span>
+                    </label>
+                  </div>
+
+                  <!-- Obstetrics Records -->
+                  <div class="subrecord-category" *ngIf="medicalRecord.obstetricsRecords && medicalRecord.obstetricsRecords.length > 0">
+                    <div class="subrecord-category-title">Obstetrics Records</div>
+                    <label 
+                      *ngFor="let record of medicalRecord.obstetricsRecords" 
+                      class="checkbox-item">
+                      <input 
+                        type="checkbox"
+                        [checked]="isSubrecordSelected('obstetrics', record)"
+                        (change)="toggleSubrecordSelection('obstetrics', record)">
+                      <span>Obstetrics Record {{ record.date | date: 'yyyy-MM' }}</span>
+                    </label>
+                  </div>
+
+                  <div class="empty-message" *ngIf="!medicalRecord.fertilitySubRecords?.length && 
+                                                      !medicalRecord.gynecologySubRecords?.length && 
+                                                      !medicalRecord.obstetricsRecords?.length">
+                    No subrecords available
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Boolean Attributes Selection Dropdown -->
+            <div class="report-config-section">
+              <div class="dropdown-header" (click)="toggleBooleanAttributesDropdown()">
+                <span class="dropdown-title">Select Report Attributes</span>
+                <svg 
+                  class="dropdown-icon" 
+                  [class.dropdown-icon-open]="isBooleanAttributesDropdownOpen"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+              
+              <div class="dropdown-content" [class.dropdown-content-open]="isBooleanAttributesDropdownOpen">
+                <button 
+                  class="select-all-btn-dropdown"
+                  (click)="selectAllBooleanAttributes()"
+                  title="Select All Attributes">
+                  Select All
+                </button>
+                
+                <div class="multi-select-list">
+                  <label 
+                    *ngFor="let attr of booleanAttributes" 
+                    class="checkbox-item">
+                    <input 
+                      type="checkbox"
+                      [checked]="attr.value"
+                      (change)="toggleBooleanAttribute(attr)">
+                    <span>{{ attr.label }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Generate Report Button -->
+          <div class="report-config-actions">
+            <button 
+              class="generate-report-btn"
+              (click)="generateReportRequest()"
+              title="Generate Report Request">
+              <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              Generate Report
+            </button>
+          </div>
+        </div>
     </div>
     
     <!-- Medical Background Table Section (1/3) -->

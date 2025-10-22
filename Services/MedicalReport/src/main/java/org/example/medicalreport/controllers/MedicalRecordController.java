@@ -1,6 +1,8 @@
 package org.example.medicalreport.controllers;
 
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
+import org.example.medicalreport.Models.DTOs.Report;
+import org.example.medicalreport.Models.DTOs.ReportRequestDTO;
 import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
 import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
 import org.example.medicalreport.Models.entities.MedicalRecord;
@@ -87,6 +89,13 @@ public class MedicalRecordController {
     @GetMapping("/NamesByCabinet" )
     public List<MedicalRecordDTO> getNamesByCabinet(@RequestHeader (value = "Authorization", required = false) String auth) {
         return medicalRecordService.getMedicalRecordsNameAndSurname(auth);
+    }
+    @PostMapping("/getReport/{id}" )
+    public ResponseEntity<Report> getMedicalRecordReport(@PathVariable Long id, @RequestBody ReportRequestDTO requestDTO) {
+        String report = medicalRecordService.toHtmlReport(id, requestDTO);
+        System.out.println(report);
+
+        return ResponseEntity.ok(Report.builder().html(report).build());
     }
 
 

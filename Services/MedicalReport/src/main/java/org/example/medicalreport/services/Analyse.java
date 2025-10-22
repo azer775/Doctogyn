@@ -2,6 +2,7 @@ package org.example.medicalreport.services;
 
 import org.example.medicalreport.Configurations.FeignConfig;
 import org.example.medicalreport.Models.AnalyseDTOs.ExtractionResponse;
+import org.example.medicalreport.Models.DTOs.AnalyseReportDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -20,4 +21,6 @@ public interface Analyse {
     String getHtmlAnalyses(@PathVariable long id);
     @PostMapping("/extraction/getHtmlDoc")
     String getDocAnalyses(@RequestBody ExtractionResponse response);
+    @PostMapping("getHtmlReport/{id}")
+    public String getHtmlReport(@RequestBody AnalyseReportDTO reportDTO, @PathVariable(value = "id") long id);
 }

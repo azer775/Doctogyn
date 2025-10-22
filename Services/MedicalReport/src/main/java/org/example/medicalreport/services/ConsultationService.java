@@ -2,6 +2,7 @@ package org.example.medicalreport.services;
 
 import org.example.medicalreport.Models.DTOs.ConsultationDTO;
 import org.example.medicalreport.Models.DTOs.EchographieDTO;
+import org.example.medicalreport.Models.DTOs.ReportRequestDTO;
 import org.example.medicalreport.Models.entities.Consultation;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.GynecologySubRecord;
@@ -213,5 +214,79 @@ public class ConsultationService {
 
         return html.toString();
     }
+    public String toHtmlReport(ConsultationDTO consultation, ReportRequestDTO reportRequestDTO) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
 
+        // Main heading with date and type
+        html.append("<h3>Consultation - ")
+                .append(consultation.getDate() != null ? consultation.getDate() : "N/A")
+                .append(" (")
+                .append(consultation.getConsultationType() != null ? consultation.getConsultationType() : "N/A")
+                .append(")</h3>");
+
+        // General Section
+        html.append("<h4>General</h4>");
+        html.append("<p><strong>Signs Negated:</strong> ").append(consultation.getSignsNegates() != null ? consultation.getSignsNegates() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Physical Examination Section
+        html.append("<h4>Physical Examination</h4>");
+        html.append("<p><strong>Weight (kg):</strong> ").append(consultation.getWeight()).append("</p>");
+        html.append("<p><strong>Length (cm):</strong> ").append(consultation.getLength()).append("</p>");
+        html.append("<p><strong>BMI:</strong> ").append(consultation.getBmi()).append("</p>");
+        html.append("<br>");
+
+        // Gynecology Section
+        html.append("<h4>Gynecology</h4>");
+        html.append("<p><strong>Breasts:</strong> ").append(consultation.getBreasts() != null ? consultation.getBreasts() : "N/A").append("</p>");
+        html.append("<p><strong>Vagina:</strong> ").append(consultation.getVagina() != null ? consultation.getVagina() : "N/A").append("</p>");
+        html.append("<p><strong>Examination:</strong> ").append(consultation.getExamination() != null ? consultation.getExamination() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Echographies Section
+        if(reportRequestDTO.isEchography()) {
+            html.append("<h4>Echographies</h4>");
+            if (consultation.getEchographies() != null && !consultation.getEchographies().isEmpty()) {
+                for (EchographieDTO echographie : consultation.getEchographies()) {
+                    html.append(echographie.toHtmlStructured());
+                }
+            } else {
+                html.append("<p>No echographies available</p>");
+            }
+            html.append("<br>");
+        }
+
+
+        // Analyses Section
+
+        if(reportRequestDTO.getAnalyseReport().isBiology() || reportRequestDTO.getAnalyseReport().isBacteriology() || reportRequestDTO.getAnalyseReport().isSerology() || reportRequestDTO.getAnalyseReport().isBloodGroup() || reportRequestDTO.getAnalyseReport().isSpermAnalysis() || reportRequestDTO.getAnalyseReport().isRadiology()) {
+            html.append("<h4>Analyses</h4>");
+            if (consultation.getId() != null) {
+                String analyses = analyseService.getHtmlAnalyses(consultation.getId());
+                if (!Objects.equals(analyses, "<div></div>")) {
+                    html.append(analyses);
+                } else {
+                    html.append("<p>No analyses available</p>");
+                }
+            } else {
+                System.out.println("Consultation ID is null, cannot fetch analyses." + consultation.getExtractionAnalyses());
+                String analyses = analyseService.getDocAnalyses(consultation.getExtractionAnalyses());
+                if (!Objects.equals(analyses, "<div></div>")) {
+                    html.append(analyses);
+                } else {
+                    html.append("<p>No analyses available</p>");
+                }
+            }
+            html.append("<br>");
+        }
+        // Prescription Section
+        html.append("<h4>Prescription</h4>");
+        html.append("<br>");
+        html.append("<div>").append(consultation.getPrescription() != null ? consultation.getPrescription() : "N/A").append("</div>");
+
+        html.append("</div>");
+
+        return html.toString();
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.analyse.Services;
 
+import org.example.analyse.Models.dtos.AnalyseReportDTO;
 import org.example.analyse.Models.dtos.Document;
 import org.example.analyse.Models.dtos.ExtractionResponse;
 import org.example.analyse.repositories.*;
@@ -203,5 +204,66 @@ public class ExtractionService {
         });
         extractedResponse.getDocuments().add(document);
         return extractedResponse;
+    }
+    public String toHtmlReport(long id, AnalyseReportDTO reportDTO) {
+        ExtractionResponse response = getByConsultation(id);
+        Document doc = response.getDocuments().getFirst();
+        StringBuilder html = new StringBuilder();
+
+        // Wrap content in a container div
+        html.append("<div>");
+        if(reportDTO.isBiology()) {
+            // Biology table
+            if (!doc.getBiologies().isEmpty()) {
+                html.append("<h2>Biology Results</h2>");
+                html.append(this.biologyService.toHtmlTable(doc.getBiologies()));
+                html.append("<br>");
+            }
+        }
+        // Bacteriology table
+        if(reportDTO.isBacteriology()) {
+            if (!doc.getBacteriologies().isEmpty()) {
+                html.append("<h2>Bacteriology Results</h2>");
+                html.append(this.bacteriologyService.toHtmlTable(doc.getBacteriologies()));
+                html.append("<br>");
+            }
+        }
+        if(reportDTO.isBloodGroup()) {
+            // Blood Group table
+            if (!doc.getBloodgroups().isEmpty()) {
+                html.append("<h2>Blood Group Results</h2>");
+                html.append(this.bloodGroupService.toHtmlTable(doc.getBloodgroups()));
+                html.append("<br>");
+            }
+        }
+
+        // Radiology table
+        if(reportDTO.isRadiology()) {
+            if (!doc.getRadiologies().isEmpty()) {
+                html.append("<h2>Radiology Results</h2>");
+                html.append(this.radiologyService.toHtmlTable(doc.getRadiologies()));
+                html.append("<br>");
+            }
+        }
+
+        // Serology table
+        if(reportDTO.isSerology()) {
+            if (!doc.getSerologies().isEmpty()) {
+                html.append("<h2>Serology Results</h2>");
+                html.append(this.serologyService.toHtmlTable(doc.getSerologies()));
+                html.append("<br>");
+            }
+        }
+        // Sperm Analysis table
+        if(reportDTO.isSpermAnalysis()) {
+            if (!doc.getSpermAnalyses().isEmpty()) {
+                html.append("<h2>Sperm Analysis Results</h2>");
+                html.append(this.spermAnalysisService.toHtmlTable(doc.getSpermAnalyses()));
+                html.append("<br>");
+            }
+        }
+        html.append("</div>");
+
+        return html.toString();
     }
 }

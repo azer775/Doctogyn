@@ -1,5 +1,6 @@
 package org.example.analyse.Controllers;
 
+import org.example.analyse.Models.dtos.AnalyseReportDTO;
 import org.example.analyse.Models.dtos.ExtractionResponse;
 import org.example.analyse.Services.ExtractionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,9 @@ public class ExtractionController {
     @PostMapping("/getHtmlDoc")
     public String getDocAnalyses(@RequestBody ExtractionResponse response) {
         return extractionService.toHtml(response);
+    }
+    @PostMapping("getHtmlReport/{id}")
+    public String getHtmlReport(@RequestBody AnalyseReportDTO reportDTO,@PathVariable(value = "id") long id) {
+        return extractionService.toHtmlReport(id, reportDTO);
     }
 }

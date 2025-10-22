@@ -3,6 +3,7 @@ package org.example.medicalreport.services;
 import org.example.medicalreport.Models.DTOs.ConsultationDTO;
 import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
 import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
+import org.example.medicalreport.Models.DTOs.ReportRequestDTO;
 import org.example.medicalreport.Models.entities.FertilitySubRecord;
 import org.example.medicalreport.Models.entities.GynecologySubRecord;
 import org.example.medicalreport.Models.entities.MedicalRecord;
@@ -11,6 +12,7 @@ import org.example.medicalreport.repositories.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class GynecologySubRecordService {
 
     public GynecologySubRecordDTO createGynecologySubRecord(GynecologySubRecordDTO dto) {
         GynecologySubRecord gynecologySubRecord = mapToEntity(dto);
+        gynecologySubRecord.setDate(LocalDate.now());
         GynecologySubRecord saved = gynecologySubRecordRepository.save(gynecologySubRecord);
         return mapToDTO(saved);
     }
@@ -162,6 +165,49 @@ public class GynecologySubRecordService {
         if (gynecologyRecord.getConsultations() != null && !gynecologyRecord.getConsultations().isEmpty()) {
             for (ConsultationDTO consultation : gynecologyRecord.getConsultations()) {
                 html.append(consultationService.toHtmlStructured(consultation));
+            }
+        } else {
+            html.append("<p>No consultations available</p>");
+        }
+        html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
+    }
+    public String toHtmlReport(long id, ReportRequestDTO reportRequestDTO) {
+        GynecologySubRecordDTO gynecologyRecord = this.getGynecologySubRecord(id);
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Main heading with date
+        html.append("<h3>Gynecology Sub-Record - ")
+                .append(gynecologyRecord.getDate() != null ? gynecologyRecord.getDate() : "N/A")
+                .append("</h3>");
+
+        // General Section
+        html.append("<h4>General</h4>");
+        html.append("<p><strong>Work:</strong> ").append(gynecologyRecord.getWork() != null ? gynecologyRecord.getWork() : "N/A").append("</p>");
+        html.append("<p><strong>Civil Status:</strong> ").append(!gynecologyRecord.getCivilState().isEmpty() ? gynecologyRecord.getCivilState() : "N/A").append("</p>");
+        html.append("<p><strong>Hormone Status:</strong> ").append(gynecologyRecord.getHormoneStatus() != null ? gynecologyRecord.getHormoneStatus() : "N/A").append("</p>");
+        html.append("<p><strong>Menopause Date:</strong> ").append(gynecologyRecord.getMenopause() != null ? gynecologyRecord.getMenopause() : "N/A").append("</p>");
+        html.append("<p><strong>Background:</strong> ").append(gynecologyRecord.getBackground() != null ? gynecologyRecord.getBackground() : "N/A").append("</p>");
+        html.append("<br>");
+
+        // Menstrual History Section
+        html.append("<h4>Menstrual History</h4>");
+        html.append("<p><strong>Dysmenorrhea:</strong> ").append(gynecologyRecord.getDysmenorrhea() != null ? gynecologyRecord.getDysmenorrhea() : "N/A").append("</p>");
+        html.append("<p><strong>Menorrhagia:</strong> ").append(gynecologyRecord.getMenorrhagia() != null ? gynecologyRecord.getMenorrhagia() : "N/A").append("</p>");
+        html.append("<p><strong>Metrorrhagia:</strong> ").append(gynecologyRecord.getMetrorrhagia() != null ? gynecologyRecord.getMetrorrhagia() : "N/A").append("</p>");
+        html.append("<p><strong>Period Minimum (days):</strong> ").append(gynecologyRecord.getPeriodMin()).append("</p>");
+        html.append("<p><strong>Period Maximum (days):</strong> ").append(gynecologyRecord.getPeriodMax()).append("</p>");
+        html.append("<br>");
+
+        // Consultations Section
+        html.append("<h4>Consultations</h4>");
+        if (gynecologyRecord.getConsultations() != null && !gynecologyRecord.getConsultations().isEmpty()) {
+            for (ConsultationDTO consultation : gynecologyRecord.getConsultations()) {
+                html.append(consultationService.toHtmlReport(consultation,reportRequestDTO));
             }
         } else {
             html.append("<p>No consultations available</p>");

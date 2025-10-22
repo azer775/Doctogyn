@@ -13,7 +13,7 @@ public class ReportRequestDTO {
     List<ObstetricsRecordDTO> obstetricsRecords;
     boolean familialBackground;
     boolean medicalBackground;
-    boolean surgicalBackground;
+    boolean allergiesBackground;
     boolean chirurgicalBackground;
     boolean echography;
     AnalyseReportDTO analyseReport;

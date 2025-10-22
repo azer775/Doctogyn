@@ -1,9 +1,6 @@
 package org.example.medicalreport.services;
 
-import org.example.medicalreport.Models.DTOs.FertilitySubRecordDTO;
-import org.example.medicalreport.Models.DTOs.GynecologySubRecordDTO;
-import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
-import org.example.medicalreport.Models.DTOs.ObstetricsRecordDTO;
+import org.example.medicalreport.Models.DTOs.*;
 import org.example.medicalreport.Models.SummaryDTOs.*;
 import org.example.medicalreport.Models.entities.*;
 import org.example.medicalreport.repositories.MedicalRecordRepository;
@@ -284,6 +281,62 @@ public class MedicalRecordService {
                 .medicalBackgrounds(dto.getMedicalBackgrounds().stream().map(medicalBackgroundService::mapToEntity).toList())
                 .comment(dto.getComment())
                 .build();
+    }
+    public String toHtmlReport(long id, ReportRequestDTO reportRequestDTO) {
+        //MedicalRecordDTO medicalRecord = this.getMedicalRecord(id);
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Main heading
+        html.append("<h2>Medical Record</h2>");
+
+        // Medical Backgrounds Section
+        if(reportRequestDTO.isAllergiesBackground() || reportRequestDTO.isMedicalBackground() || reportRequestDTO.isFamilialBackground() || reportRequestDTO.isChirurgicalBackground()) {
+            html.append("<h3>Medical Backgrounds</h3>");
+            //if (medicalRecord.getMedicalBackgrounds() != null && !medicalRecord.getMedicalBackgrounds().isEmpty()) {
+                html.append(medicalBackgroundService.toHtmlTablesByBackgroundTypeReport(id, reportRequestDTO));
+            //} else {
+                html.append("<p>No medical backgrounds available</p>");
+            //}
+            html.append("<br>");
+        }
+        // Gynecology Sub-Records Section
+
+        if (reportRequestDTO.getGynecologySubRecords() != null && !reportRequestDTO.getGynecologySubRecords().isEmpty()) {
+            for (GynecologySubRecordDTO gynecologyRecord : reportRequestDTO.getGynecologySubRecords()) {
+                html.append("<h3>Gynecology Sub-Records</h3>");
+                html.append(gynecologySubRecordService.toHtmlReport(gynecologyRecord.getId(),reportRequestDTO));
+            }
+        } else {
+            html.append("<p>No gynecology sub-records available</p>");
+        }
+        html.append("<br>");
+
+        // Fertility Sub-Records Section
+        html.append("<h3>Fertility Sub-Records</h3>");
+        if (reportRequestDTO.getFertilitySubRecords() != null && !reportRequestDTO.getFertilitySubRecords().isEmpty()) {
+            for (FertilitySubRecordDTO fertilityRecord : reportRequestDTO.getFertilitySubRecords()) {
+                html.append(fertilitySubRecordService.toHtmlReport(fertilityRecord.getId(),reportRequestDTO) );
+            }
+        } else {
+            html.append("<p>No fertility sub-records available</p>");
+        }
+        html.append("<br>");
+
+        // Obstetrics Records Section
+        html.append("<h3>Obstetrics Records</h3>");
+        if (reportRequestDTO.getObstetricsRecords() != null && !reportRequestDTO.getObstetricsRecords().isEmpty()) {
+            for (ObstetricsRecordDTO obstetricsRecord : reportRequestDTO.getObstetricsRecords()) {
+                html.append(obstetricsRecordService.toHtmlReport(obstetricsRecord.getId(),reportRequestDTO));
+            }
+        } else {
+            html.append("<p>No obstetrics records available</p>");
+        }
+        html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
     }
 
 }

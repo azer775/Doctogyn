@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { MedicalRecord } from '../Models/MedicalRecord';
 import { FinalResponse } from '../Models/FinalResponse';
+import { ReportRequest } from '../Models/ReportRequest';
+import { Report } from '../Models/Report';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,11 @@ private apiUrl = 'http://localhost:8080/medical-records';
   }
   getResumewithAbbreviation(id: number, abbreviations: any[]): Observable<FinalResponse> {
     return this.http.post<FinalResponse>(`${this.apiUrl}/getresabb/${id}`, abbreviations).pipe(
+      catchError(this.handleError)
+    );
+  }
+  getReport(id: number, requestDTO: ReportRequest): Observable<Report> {
+    return this.http.post<Report>(`${this.apiUrl}/getReport/${id}`, requestDTO ).pipe(
       catchError(this.handleError)
     );
   }

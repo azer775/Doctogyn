@@ -1,6 +1,7 @@
 package org.example.medicalreport.services;
 
 import org.example.medicalreport.Models.DTOs.MedicalBackgroundDTO;
+import org.example.medicalreport.Models.DTOs.ReportRequestDTO;
 import org.example.medicalreport.Models.entities.MedicalBackground;
 import org.example.medicalreport.Models.entities.MedicalRecord;
 import org.example.medicalreport.Models.enums.BackgroundType;
@@ -97,6 +98,10 @@ public class MedicalBackgroundService {
         List<MedicalBackground> list = mbList.stream().map(this::mapToEntity).toList();
         return medicalBackgroundRepository.saveAll(list).stream().map(this::mapToDTO).toList();
     }
+    public List<MedicalBackgroundDTO> getMBsByMedicalRecordId(Long medicalRecordId) {
+        List<MedicalBackground> backgrounds = medicalBackgroundRepository.findByMedicalRecordId(medicalRecordId);
+        return backgrounds.stream().map(this::mapToDTO).toList();
+    }
     public String toHtmlTablesByBackgroundType(List<MedicalBackgroundDTO> backgrounds) {
         StringBuilder html = new StringBuilder();
         html.append("<div>");
@@ -180,6 +185,103 @@ public class MedicalBackgroundService {
             html.append("</table>");
         }
         html.append("<br>");
+
+        html.append("</div>");
+
+        return html.toString();
+    }
+    public String toHtmlTablesByBackgroundTypeReport(long medicalRecordId, ReportRequestDTO reportRequestDTO) {
+        List<MedicalBackgroundDTO> backgrounds = this.getMBsByMedicalRecordId(medicalRecordId);
+        StringBuilder html = new StringBuilder();
+        html.append("<div>");
+
+        // Group by BackgroundType
+        Map<BackgroundType, List<MedicalBackgroundDTO>> groupedByType = backgrounds.stream()
+                .collect(Collectors.groupingBy(MedicalBackgroundDTO::getBackgroundType));
+
+        // Familial Background Table
+        if(reportRequestDTO.isFamilialBackground()) {
+            html.append("<h3>Familial Background</h3>");
+            List<MedicalBackgroundDTO> familialRecords = groupedByType.getOrDefault(BackgroundType.Familial, List.of());
+            if (familialRecords.isEmpty()) {
+                html.append("<table border=\"1\"><tr><td colspan=\"3\">No data available</td></tr></table>");
+            } else {
+                html.append("<table border=\"1\">");
+                html.append("<tr><th>Date</th><th>Familial Pathology</th><th>Comment</th></tr>");
+                for (MedicalBackgroundDTO record : familialRecords) {
+                    html.append("<tr>");
+                    html.append("<td>").append(record.getDate() != null ? record.getDate() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getFamilialPathology() != null ? record.getFamilialPathology() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getComment() != null ? record.getComment() : "N/A").append("</td>");
+                    html.append("</tr>");
+                }
+                html.append("</table>");
+            }
+            html.append("<br>");
+        }
+
+        // Allergies Table
+        if(reportRequestDTO.isAllergiesBackground()) {
+            html.append("<h3>Allergies</h3>");
+            List<MedicalBackgroundDTO> allergyRecords = groupedByType.getOrDefault(BackgroundType.Allergies, List.of());
+            if (allergyRecords.isEmpty()) {
+                html.append("<table border=\"1\"><tr><td colspan=\"3\">No data available</td></tr></table>");
+            } else {
+                html.append("<table border=\"1\">");
+                html.append("<tr><th>Date</th><th>Allergies</th><th>Comment</th></tr>");
+                for (MedicalBackgroundDTO record : allergyRecords) {
+                    html.append("<tr>");
+                    html.append("<td>").append(record.getDate() != null ? record.getDate() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getAllergies() != null ? record.getAllergies() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getComment() != null ? record.getComment() : "N/A").append("</td>");
+                    html.append("</tr>");
+                }
+                html.append("</table>");
+            }
+            html.append("<br>");
+        }
+
+        // Medical Background Table
+        if(reportRequestDTO.isMedicalBackground()) {
+            html.append("<h3>Medical Background</h3>");
+            List<MedicalBackgroundDTO> medicalRecords = groupedByType.getOrDefault(BackgroundType.Medical, List.of());
+            if (medicalRecords.isEmpty()) {
+                html.append("<table border=\"1\"><tr><td colspan=\"3\">No data available</td></tr></table>");
+            } else {
+                html.append("<table border=\"1\">");
+                html.append("<tr><th>Date</th><th>Medical Pathology</th><th>Comment</th></tr>");
+                for (MedicalBackgroundDTO record : medicalRecords) {
+                    html.append("<tr>");
+                    html.append("<td>").append(record.getDate() != null ? record.getDate() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getMedicalPathology() != null ? record.getMedicalPathology() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getComment() != null ? record.getComment() : "N/A").append("</td>");
+                    html.append("</tr>");
+                }
+                html.append("</table>");
+            }
+            html.append("<br>");
+        }
+
+        // Chirurgical Background Table
+        if(reportRequestDTO.isChirurgicalBackground()) {
+            html.append("<h3>Chirurgical Background</h3>");
+            List<MedicalBackgroundDTO> chirurgicalRecords = groupedByType.getOrDefault(BackgroundType.Chirurgical, List.of());
+            if (chirurgicalRecords.isEmpty()) {
+                html.append("<table border=\"1\"><tr><td colspan=\"3\">No data available</td></tr></table>");
+            } else {
+                html.append("<table border=\"1\">");
+                html.append("<tr><th>Date</th><th>Chirurgical Pathology</th><th>Comment</th></tr>");
+                for (MedicalBackgroundDTO record : chirurgicalRecords) {
+                    html.append("<tr>");
+                    html.append("<td>").append(record.getDate() != null ? record.getDate() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getChirurgicalPathology() != null ? record.getChirurgicalPathology() : "N/A").append("</td>");
+                    html.append("<td>").append(record.getComment() != null ? record.getComment() : "N/A").append("</td>");
+                    html.append("</tr>");
+                }
+                html.append("</table>");
+            }
+            html.append("<br>");
+        }
 
         html.append("</div>");
 
