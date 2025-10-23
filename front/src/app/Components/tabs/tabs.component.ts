@@ -184,14 +184,5 @@ export class TabsComponent implements OnInit {
     }
   }
 
-  @HostListener('keydown', ['$event'])
-  handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'ArrowRight') {
-      this.setActiveTab((this.activeTab + 1) % this.tabs.length);
-    } else if (event.key === 'ArrowLeft') {
-      this.setActiveTab((this.activeTab - 1 + this.tabs.length) % this.tabs.length);
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      this.setActiveTab(this.activeTab);
-    }
-  }
+  
 }

@@ -1,7 +1,7 @@
 <div class="settings-container">
   <h1 class="settings-title">Settings</h1>
 <!-- Crew Management Section -->
-  <div class="crew-section">
+  <div class="crew-section" *ngIf="role === 'ADMIN'">
     <app-crew-tab></app-crew-tab>
   </div>
   <!-- Top Section: Cabinet Info and Google Auth (Split Horizontally) -->
@@ -37,19 +37,19 @@
         </div>
         <div class="cabinet-info-item">
           <span class="cabinet-info-label">Fertility</span>
-          <span class="cabinet-info-value">{{ cabinet.fertilityRate }} DH</span>
+          <span class="cabinet-info-value">{{ cabinet.fertilityRate }} TND</span>
         </div>
         <div class="cabinet-info-item">
           <span class="cabinet-info-label">Gynecology</span>
-          <span class="cabinet-info-value">{{ cabinet.gynecologyRate }} DH</span>
+          <span class="cabinet-info-value">{{ cabinet.gynecologyRate }} TND</span>
         </div>
         <div class="cabinet-info-item">
           <span class="cabinet-info-label">Obstetrics</span>
-          <span class="cabinet-info-value">{{ cabinet.obstetricsRate }} DH</span>
+          <span class="cabinet-info-value">{{ cabinet.obstetricsRate }} TND</span>
         </div>
         <div class="cabinet-info-item">
           <span class="cabinet-info-label">Echography</span>
-          <span class="cabinet-info-value">{{ cabinet.echographyRate }} DH</span>
+          <span class="cabinet-info-value">{{ cabinet.echographyRate }} TND</span>
         </div>
       </div>
     </div>

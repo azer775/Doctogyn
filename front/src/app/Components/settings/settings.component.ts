@@ -6,6 +6,7 @@ import { OAuthService } from '../../Services/oauth.service';
 import { Cabinet } from '../../Models/Cabinet';
 import { CrewTabComponent } from '../crew-tab/crew-tab.component';
 import { CabinetFormComponent } from '../cabinet-form/cabinet-form.component';
+import { Role } from '../../Models/enums';
 
 @Component({
   selector: 'app-settings',
@@ -18,6 +19,7 @@ export class SettingsComponent implements OnInit {
   cabinet: Cabinet | null = null;
   isGoogleAuthenticated = false;
   userProfile: any = null;
+  role!: string;
 
   constructor(
     private tokenService: TokenService,
@@ -28,6 +30,8 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.loadCabinet();
     this.checkGoogleAuth();
+    this.role = this.tokenService.userRoles[0];
+    console.log('User role:', this.role);
   }
 
   loadCabinet(): void {

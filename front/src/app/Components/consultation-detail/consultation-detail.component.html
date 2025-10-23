@@ -1,29 +1,388 @@
-<div *ngIf="consultation; else loading">
+<div *ngIf="consultation; else loading" class="consultation-report-container">
     <div class="consultation-detail-header">
-        <h2>Consultation Details</h2>
+        <h2>Consultation Report</h2>
         <button type="button" class="close-button" (click)="onClose()" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" class="close-icon" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
         </button>
     </div>
-    <div class="consultation-detail-content">
-        <p>ID: {{ consultation.id }}</p>
-        <p>Date: {{ consultation.date | date:'yyyy-MM-dd' }}</p>
-        <p>Signs Negates: {{ consultation.signsNegates || 'None' }}</p>
-        <p>Weight: {{ consultation.weight !== null ? consultation.weight + ' kg' : 'None' }}</p>
-        <p>Length: {{ consultation.length }} cm</p>
-        <p>BMI: {{ consultation.bmi }}</p>
-        <p>Breasts: {{ consultation.breasts }}</p>
-        <p>Examination: {{ consultation.examination || 'None' }}</p>
-        <p>Vagina: {{ consultation.vagina }}</p>
-        <p>Consultation Type: {{ consultation.consultationType }}</p>
-        <p>Gynecology Sub-Record ID: {{ consultation.gynecologySubRecordId !== null ? consultation.gynecologySubRecordId : 'None' }}</p>
-        <p>Fertility Sub-Record ID: {{ consultation.fertilitySubRecordId !== null ? consultation.fertilitySubRecordId : 'None' }}</p>
-        <p>Obstetrics Record ID: {{ consultation.obstetricsRecordId !== null ? consultation.obstetricsRecordId : 'None' }}</p>
+
+    <!-- Basic Information Section -->
+    <div class="sub-record-section">
+        <div class="sub-record-section-header">
+            <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Consultation Information
+        </div>
+        <div class="sub-record-detail-grid">
+            <div class="sub-record-detail-item">
+                <span class="sub-record-detail-label">Date</span>
+                <span class="sub-record-detail-value">{{ consultation.date | date:'fullDate' }}</span>
+            </div>
+            <div class="sub-record-detail-item">
+                <span class="sub-record-detail-label">Type</span>
+                <span class="sub-record-detail-value">{{ consultation.consultationType }}</span>
+            </div>
+            <div class="sub-record-detail-item">
+                <span class="sub-record-detail-label">Weight</span>
+                <span class="sub-record-detail-value">{{ consultation.weight !== null ? consultation.weight + ' kg' : 'N/A' }}</span>
+            </div>
+            <div class="sub-record-detail-item">
+                <span class="sub-record-detail-label">BMI</span>
+                <span class="sub-record-detail-value">{{ consultation.bmi || 'N/A' }}</span>
+            </div>
+        </div>
+        
+        <!-- Examination -->
+        <div *ngIf="consultation.examination" class="consultation-html-section">
+            <h5 class="consultation-html-title">Examination</h5>
+            <div class="consultation-html-content" [innerHTML]="consultation.examination"></div>
+        </div>
+        
+        <!-- Prescription -->
+        <div *ngIf="consultation.prescription" class="consultation-html-section">
+            <h5 class="consultation-html-title">Prescription</h5>
+            <div class="consultation-html-content" [innerHTML]="consultation.prescription"></div>
+        </div>
+    </div>
+
+    <!-- Echographies Section -->
+    <div class="sub-record-section" *ngIf="consultation.echographies && consultation.echographies.length > 0">
+        <div class="sub-record-section-header">
+            <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Echography Reports
+        </div>
+
+        <!-- Horizontal Echography Selector -->
+        <div class="echography-selector">
+            <button 
+                *ngFor="let echo of consultation.echographies; let i = index"
+                (click)="selectEchography(i)"
+                [class.active]="selectedEchographyIndex === i"
+                class="echography-selector-button">
+                <div class="echography-button-content">
+                    <span class="echography-button-label">Echography <span class="echography-button-date">{{ echo.date | date:'shortDate' }}</span> </span>
+                    
+                </div>
+            </button>
+        </div>
+
+        <!-- Selected Echography Display -->
+        <div class="echography-report-item" *ngIf="consultation.echographies[selectedEchographyIndex] as echo">
+            <div class="sub-record-detail-compact-grid">
+                <div class="sub-record-detail-item" *ngIf="echo.cycleDay">
+                    <span class="sub-record-detail-label">Cycle Day</span>
+                    <span class="sub-record-detail-value">{{ echo.cycleDay }}</span>
+                </div>
+                <div class="sub-record-detail-item" *ngIf="echo.condition">
+                    <span class="sub-record-detail-label">Condition</span>
+                    <span class="sub-record-detail-value">{{ echo.condition }}</span>
+                </div>
+            </div>
+
+            <!-- Uterus -->
+            <div class="echography-subsection">
+                <h5 class="echography-subsection-title">Uterus</h5>
+                <div class="echography-paragraph">
+                    <span class="echo-detail-inline"><strong>Size:</strong> {{ echo.uterusSize || 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Length:</strong> {{ echo.uterusLength ? echo.uterusLength + ' mm' : 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Width:</strong> {{ echo.uterusWidth ? echo.uterusWidth + ' mm' : 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Myometre:</strong> {{ echo.myometre || 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Myomes Number:</strong> {{ echo.myomesNumber !== null && echo.myomesNumber !== undefined ? echo.myomesNumber : 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Endometrium:</strong> {{ echo.endometriumThickness ? echo.endometriumThickness + ' mm' : 'N/A' }}</span>
+                </div>
+                <div *ngIf="echo.comment" class="echo-comment">
+                    <strong>Comment:</strong> {{ echo.comment }}
+                </div>
+            </div>
+
+            <!-- Right Ovary -->
+            <div class="echography-subsection">
+                <h5 class="echography-subsection-title">Right Ovary</h5>
+                <div class="echography-paragraph">
+                    <span class="echo-detail-inline"><strong>Status:</strong> {{ echo.ovaryR || 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Size:</strong> {{ echo.ovaryRSize ? echo.ovaryRSize + ' mm' : 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Cyst Size:</strong> {{ echo.cystSizeOR ? echo.cystSizeOR + ' mm' : 'N/A' }}</span>
+                    <span *ngIf="echo.diagnosticpresumptionsOR && echo.diagnosticpresumptionsOR.length > 0" class="echo-detail-separator">•</span>
+                    <span *ngIf="echo.diagnosticpresumptionsOR && echo.diagnosticpresumptionsOR.length > 0" class="echo-detail-inline"><strong>Diagnostic Presumptions:</strong> {{ echo.diagnosticpresumptionsOR.join(', ') }}</span>
+                </div>
+                <div *ngIf="echo.ovaryRComment" class="echo-comment">
+                    <strong>Comment:</strong> {{ echo.ovaryRComment }}
+                </div>
+            </div>
+
+            <!-- Left Ovary -->
+            <div class="echography-subsection">
+                <h5 class="echography-subsection-title">Left Ovary</h5>
+                <div class="echography-paragraph">
+                    <span class="echo-detail-inline"><strong>Status:</strong> {{ echo.ovaryL || 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Size:</strong> {{ echo.ovaryLSize ? echo.ovaryLSize + ' mm' : 'N/A' }}</span>
+                    <span class="echo-detail-separator">•</span>
+                    <span class="echo-detail-inline"><strong>Cyst Size:</strong> {{ echo.cystSizeOL ? echo.cystSizeOL + ' mm' : 'N/A' }}</span>
+                    <span *ngIf="echo.diagnosticpresumptionsOL && echo.diagnosticpresumptionsOL.length > 0" class="echo-detail-separator">•</span>
+                    <span *ngIf="echo.diagnosticpresumptionsOL && echo.diagnosticpresumptionsOL.length > 0" class="echo-detail-inline"><strong>Diagnostic Presumptions:</strong> {{ echo.diagnosticpresumptionsOL.join(', ') }}</span>
+                </div>
+                <div *ngIf="echo.ovaryLComment" class="echo-comment">
+                    <strong>Comment:</strong> {{ echo.ovaryLComment }}
+                </div>
+            </div>
+
+            <!-- Pelvic Masses if present -->
+            <div class="echography-subsection" *ngIf="echo.pelvicMR || echo.pelvicML">
+                <h5 class="echography-subsection-title">Pelvic Masses</h5>
+                
+                <div *ngIf="echo.pelvicMR" class="pelvic-mass-section">
+                    <h6 class="pelvic-mass-subtitle">Right Side</h6>
+                    <div class="echography-paragraph">
+                        <span class="echo-detail-inline"><strong>Size:</strong> {{ echo.pmRSize ? echo.pmRSize + ' mm' : 'N/A' }}</span>
+                        <span *ngIf="echo.pelvicdiagnosticpresumptionsR && echo.pelvicdiagnosticpresumptionsR.length > 0" class="echo-detail-separator">•</span>
+                        <span *ngIf="echo.pelvicdiagnosticpresumptionsR && echo.pelvicdiagnosticpresumptionsR.length > 0" class="echo-detail-inline"><strong>Diagnostic Presumptions:</strong> {{ echo.pelvicdiagnosticpresumptionsR.join(', ') }}</span>
+                    </div>
+                    <div *ngIf="echo.pmRComment" class="echo-comment">
+                        <strong>Comment:</strong> {{ echo.pmRComment }}
+                    </div>
+                </div>
+
+                <div *ngIf="echo.pelvicML" class="pelvic-mass-section">
+                    <h6 class="pelvic-mass-subtitle">Left Side</h6>
+                    <div class="echography-paragraph">
+                        <span class="echo-detail-inline"><strong>Size:</strong> {{ echo.pmLSize ? echo.pmLSize + ' mm' : 'N/A' }}</span>
+                        <span *ngIf="echo.pelvicdiagnosticpresumptionsL && echo.pelvicdiagnosticpresumptionsL.length > 0" class="echo-detail-separator">•</span>
+                        <span *ngIf="echo.pelvicdiagnosticpresumptionsL && echo.pelvicdiagnosticpresumptionsL.length > 0" class="echo-detail-inline"><strong>Diagnostic Presumptions:</strong> {{ echo.pelvicdiagnosticpresumptionsL.join(', ') }}</span>
+                    </div>
+                    <div *ngIf="echo.pmLComment" class="echo-comment">
+                        <strong>Comment:</strong> {{ echo.pmLComment }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Report if available -->
+            <div class="echography-full-report" *ngIf="echo.report">
+                <h5 class="echography-subsection-title">Full Report</h5>
+                <div class="echography-report-content" [innerHTML]="echo.report"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Laboratory Analyses Section -->
+    <div class="sub-record-section" *ngIf="hasAnalyses()">
+        <div class="sub-record-section-header">
+            <svg class="sub-record-section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+            Laboratory Analyses
+        </div>
+
+        <!-- Biology -->
+        <div *ngIf="getBiologies().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Biology</h4>
+            <div class="record-table-wrapper">
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th>Interpretation</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bio of getBiologies()">
+                            <td>{{ bio.date | date:'shortDate' }}</td>
+                            <td>{{ bio.type }}</td>
+                            <td>{{ bio.value }}</td>
+                            <td>{{ bio.interpretation || '-' }}</td>
+                            <td>{{ bio.comment || '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Serology -->
+        <div *ngIf="getSerologies().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Serology</h4>
+            <div class="record-table-wrapper">
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th>Interpretation</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sero of getSerologies()">
+                            <td>{{ sero.date | date:'shortDate' }}</td>
+                            <td>{{ sero.type }}</td>
+                            <td>{{ sero.value }}</td>
+                            <td>{{ sero.interpretation || '-' }}</td>
+                            <td>{{ sero.comment || '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bacteriology -->
+        <div *ngIf="getBacteriologies().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Bacteriology</h4>
+            <div class="record-table-wrapper">
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Germs Count</th>
+                            <th>Interpretation</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bact of getBacteriologies()">
+                            <td>{{ bact.date | date:'shortDate' }}</td>
+                            <td>{{ bact.type }}</td>
+                            <td>{{ bact.germs.length || 0 }}</td>
+                            <td>{{ bact.interpretation || '-' }}</td>
+                            <td>{{ bact.comment || '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sperm Analysis -->
+        <div *ngIf="getSpermAnalyses().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Sperm Analysis</h4>
+            <div *ngFor="let sperm of getSpermAnalyses()" class="sperm-analysis-item">
+                <div class="sperm-analysis-header">
+                    <span class="sperm-analysis-date">{{ sperm.date | date:'fullDate' }}</span>
+                    <span class="sperm-analysis-norm" *ngIf="sperm.norm">{{ sperm.norm }}</span>
+                </div>
+                <div class="sub-record-detail-compact-grid">
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Abstinence</span>
+                        <span class="sub-record-detail-value">{{ sperm.abstinence ? sperm.abstinence + ' days' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">pH</span>
+                        <span class="sub-record-detail-value">{{ sperm.ph || 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Volume</span>
+                        <span class="sub-record-detail-value">{{ sperm.volume ? sperm.volume + ' ml' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Concentration</span>
+                        <span class="sub-record-detail-value">{{ sperm.concentration ? sperm.concentration + ' M/ml' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Progressive Mobility</span>
+                        <span class="sub-record-detail-value">{{ sperm.progressivemobility ? sperm.progressivemobility + '%' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Total Motility</span>
+                        <span class="sub-record-detail-value">{{ sperm.totalmotility ? sperm.totalmotility + '%' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Total Count</span>
+                        <span class="sub-record-detail-value">{{ sperm.totalcount ? sperm.totalcount + ' M' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Round Cells</span>
+                        <span class="sub-record-detail-value">{{ sperm.roundcells ? sperm.roundcells + ' M/ml' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Leukocytes</span>
+                        <span class="sub-record-detail-value">{{ sperm.leukocytes ? sperm.leukocytes + ' M/ml' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Morphology</span>
+                        <span class="sub-record-detail-value">{{ sperm.morphology ? sperm.morphology + '%' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">Vitality</span>
+                        <span class="sub-record-detail-value">{{ sperm.vitality ? sperm.vitality + '%' : 'N/A' }}</span>
+                    </div>
+                    <div class="sub-record-detail-item">
+                        <span class="sub-record-detail-label">TMS</span>
+                        <span class="sub-record-detail-value">{{ sperm.tms ? sperm.tms + ' M' : 'N/A' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blood Group -->
+        <div *ngIf="getBloodGroups().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Blood Group</h4>
+            <div class="record-table-wrapper">
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Blood Type</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bg of getBloodGroups()">
+                            <td>{{ bg.date | date:'shortDate' }}</td>
+                            <td>{{ bg.type }}</td>
+                            <td>{{ bg.comment || '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Radiology -->
+        <div *ngIf="getRadiologies().length > 0" class="analysis-category">
+            <h4 class="analysis-category-title">Radiology</h4>
+            <div *ngFor="let radio of getRadiologies()" class="radiology-item">
+                <div class="radiology-header">
+                    <span class="radiology-date">{{ radio.date | date:'fullDate' }}</span>
+                    <span class="radiology-type">{{ radio.type }}</span>
+                </div>
+                <div class="sub-record-detail-item" *ngIf="radio.comment">
+                    <span class="sub-record-detail-label">Comment</span>
+                    <span class="sub-record-detail-value">{{ radio.comment }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state-container" *ngIf="!consultation.echographies?.length && !hasAnalyses()">
+        <svg class="empty-state-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <p class="empty-state-title">No Additional Data</p>
+        <p class="empty-state-subtitle">This consultation has no echographies or laboratory analyses recorded.</p>
     </div>
 </div>
+
 <ng-template #loading>
-    <p>Loading...</p>
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading consultation report...</p>
+    </div>
 </ng-template>
-<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="error" class="error-container">
+    <p class="error-text">{{ error }}</p>
+</div>
