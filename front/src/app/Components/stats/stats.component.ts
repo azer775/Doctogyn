@@ -35,6 +35,7 @@ export class StatsComponent implements OnInit {
   ngOnInit(): void {
     this.cabinet = this.tokenService.cabinet;
     this.loadStats();
+    console.log('Cabinet:', this.tokenService.isTokenValid());
   }
 
   loadStats(): void {
