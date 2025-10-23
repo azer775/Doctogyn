@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { EditorComponent } from '../editor/editor.component';
 import { Report } from '../../Models/Report';
+import { ReportService } from '../../Services/report.service';
 
 @Component({
   selector: 'app-reportviewer',
@@ -34,7 +35,8 @@ export class ReportviewerComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ReportviewerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { report: Report }
+    @Inject(MAT_DIALOG_DATA) public data: { report: Report },
+    private reportService: ReportService
   ) {
     this.reportForm = this.fb.group({
       html: [this.data?.report?.html || '', Validators.required]
@@ -60,7 +62,36 @@ export class ReportviewerComponent implements OnInit, AfterViewInit {
 
   onSave(): void {
     if (this.reportForm.valid) {
-      this.dialogRef.close(this.reportForm.value);
+      const htmlContent = this.reportForm.get('html')?.value;
+      
+      // Call the PDF generation service
+      this.reportService.generatePdf(htmlContent).subscribe({
+        next: (pdfBlob) => {
+          console.log('PDF generated successfully');
+          
+          // Create a URL for the blob
+          const url = window.URL.createObjectURL(pdfBlob);
+          
+          // Open PDF in a new tab
+          window.open(url, '_blank');
+          
+          // Optionally, also trigger download
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `medical-report-${new Date().getTime()}.pdf`;
+          link.click();
+          
+          // Clean up the URL object
+          window.URL.revokeObjectURL(url);
+          
+          // Close the dialog after successful generation
+          this.dialogRef.close({ success: true, html: htmlContent });
+        },
+        error: (error) => {
+          console.error('Error generating PDF:', error);
+          alert('Failed to generate PDF. Please try again.');
+        }
+      });
     }
   }
 }

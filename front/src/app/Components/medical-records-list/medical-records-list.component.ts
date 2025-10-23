@@ -32,7 +32,7 @@ export class MedicalRecordsListComponent implements OnInit {
 
   loadMedicalRecords(): void {
     this.isLoading = true;
-    this.medicalRecordService.getAllMedicalRecords().subscribe({
+    this.medicalRecordService.getCabinetMedicalRecords().subscribe({
       next: (records) => {
         this.medicalRecords = records;
         this.isLoading = false;

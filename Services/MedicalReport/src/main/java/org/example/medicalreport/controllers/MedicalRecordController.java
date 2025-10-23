@@ -3,6 +3,7 @@ package org.example.medicalreport.controllers;
 import org.example.medicalreport.Models.DTOs.MedicalRecordDTO;
 import org.example.medicalreport.Models.DTOs.Report;
 import org.example.medicalreport.Models.DTOs.ReportRequestDTO;
+import org.example.medicalreport.Models.DTOs.Stat;
 import org.example.medicalreport.Models.SummaryDTOs.AbbreviationDefinition;
 import org.example.medicalreport.Models.SummaryDTOs.FinalResponse;
 import org.example.medicalreport.Models.entities.MedicalRecord;
@@ -97,6 +98,9 @@ public class MedicalRecordController {
 
         return ResponseEntity.ok(Report.builder().html(report).build());
     }
-
+    @GetMapping("/stat")
+    public List<Stat> getStatistics(@RequestHeader (value = "Authorization", required = false) String auth) {
+        return medicalRecordService.getStat(auth);
+    }
 
 }

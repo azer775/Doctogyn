@@ -5,6 +5,7 @@ import { MedicalRecord } from '../Models/MedicalRecord';
 import { FinalResponse } from '../Models/FinalResponse';
 import { ReportRequest } from '../Models/ReportRequest';
 import { Report } from '../Models/Report';
+import { Stat } from '../Models/Stat';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,11 @@ private apiUrl = 'http://localhost:8080/medical-records';
   }
   getReport(id: number, requestDTO: ReportRequest): Observable<Report> {
     return this.http.post<Report>(`${this.apiUrl}/getReport/${id}`, requestDTO ).pipe(
+      catchError(this.handleError)
+    );
+  }
+  getStat(): Observable<Stat[]> {
+    return this.http.get<Stat[]>(`${this.apiUrl}/stat`).pipe(
       catchError(this.handleError)
     );
   }

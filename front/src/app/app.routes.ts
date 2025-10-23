@@ -5,6 +5,7 @@ import { MedicalRecordsListComponent } from './Components/medical-records-list/m
 import { Scheduler2Component } from './Components/scheduler2/scheduler2.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { SettingsComponent } from './Components/settings/settings.component';
+import { StatsComponent } from './Components/stats/stats.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
       { path: 'medical-record/:id', component: TabsComponent },
       { path: 'scheduler2', component: Scheduler2Component },
       { path: 'settings', component: SettingsComponent },
+      { path: 'stats', component: StatsComponent },
       { path: '', redirectTo: 'scheduler2', pathMatch: 'full' }
     ]
   },

@@ -239,6 +239,14 @@ public class MedicalRecordService {
         List<Integer> integerIds = userService.getDoctorsByCabinet(jwtToken);
         return medicalRecordRepository.findByDoctorIdIn(integerIds).stream().map(this::mapToDTO).toList();
     }
+    public List<Stat> getStat(String auth){
+        List<MedicalRecordDTO> medicalRecordDTOS=this.getMedicalRecordsNameAndSurname(auth);
+        List<Stat> stats=new ArrayList<>();
+        for(MedicalRecordDTO medicalRecordDTO:medicalRecordDTOS){
+            stats.addAll(this.medicalRecordRepository.findConsultationStats(medicalRecordDTO.getId()));
+        }
+        return stats;
+    }
     public List<MedicalRecordDTO> getMedicalRecordsNameAndSurname(String auth) {
         String jwtToken = auth.replace("Bearer ", "");
         List<Integer> integerIds = userService.getDoctorsByCabinet(jwtToken);
